@@ -67,19 +67,19 @@ module.exports = (env) => {
 		module: {
 			rules,
 		},
-		resolve: {
-			modules: [APP_DIR, NODE_MODULES],
-			extensions: ['.js', '.jsx'],
-			alias: {
-				img: path.resolve(__dirname, 'src/img'),
-				Store: path.resolve(__dirname, 'src/Store'),
-			},
-		},
+		// resolve: {
+		// 	modules: [APP_DIR, NODE_MODULES],
+		// 	extensions: ['.js', '.jsx'],
+		// 	alias: {
+		// 		img: path.resolve(__dirname, 'src/img'),
+		// 		Store: path.resolve(__dirname, 'src/Store'),
+		// 	},
+		// },
 		plugins: [
-			new MiniCssExtractPlugin({
-				filename: '[name].css',
-				chunkFilename: '[id].css',
-			}),
+			// new MiniCssExtractPlugin({
+			// 	filename: '[name].css',
+			// 	chunkFilename: '[id].css',
+			// }),
 			new Dotenv({
 				path: path.resolve(__dirname, '.env'),
 			}),
@@ -94,28 +94,25 @@ module.exports = (env) => {
 	}
 
 	if (env.production) {
-		config.optimization = {
-			minimizer: [
-				new UglifyJsPlugin({
-					cache: true,
-					parallel: true,
-				}),
-				new OptimizeCSSAssetsPlugin({}),
-			],
-		}
+		// config.optimization = {
+		// 	minimizer: [
+		// 		new UglifyJsPlugin({
+		// 			cache: true,
+		// 			parallel: true,
+		// 		}),
+		// 		new OptimizeCSSAssetsPlugin({}),
+		// 	],
+		// }
 		config.plugins.push(
-			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify('production'),
-            }),
 			// new webpack.optimize.AggressiveMergingPlugin(),
-            new CompressionPlugin({
-				filename: '[path].gz[query]',
-				algorithm: 'gzip',
-				test: /\.js$|\.min.js$|\.css$|\.html$/,
-				threshold: 10240,
-				minRatio: 0.8,
-				deleteOriginalAssets: true,
-			}),
+            // new CompressionPlugin({
+			// 	filename: '[path].gz[query]',
+			// 	algorithm: 'gzip',
+			// 	test: /\.js$|\.min.js$|\.css$|\.html$/,
+			// 	threshold: 10240,
+			// 	minRatio: 0.8,
+			// 	deleteOriginalAssets: true,
+			// }),
 			new CleanWebpackPlugin([BUILD_DIR])
 			// new Visualizer(),
 			// new BundleAnalyzerPlugin()
