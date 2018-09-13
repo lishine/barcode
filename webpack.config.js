@@ -114,7 +114,7 @@ module.exports = (env) => {
 				test: /\.js$|\.min.js$|\.css$|\.html$/,
 				threshold: 10240,
 				minRatio: 0.8,
-				deleteOriginalAssets: true,
+				// deleteOriginalAssets: true,
 			}),
 			new CleanWebpackPlugin([BUILD_DIR])
 			// new Visualizer(),
