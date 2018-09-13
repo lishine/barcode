@@ -94,28 +94,28 @@ module.exports = (env) => {
 	}
 
 	if (env.production) {
-		config.optimization = {
-			minimizer: [
-				new UglifyJsPlugin({
-					cache: true,
-					parallel: true,
-				}),
-				new OptimizeCSSAssetsPlugin({}),
-			],
-		}
+		// config.optimization = {
+		// 	minimizer: [
+		// 		new UglifyJsPlugin({
+		// 			cache: true,
+		// 			parallel: true,
+		// 		}),
+		// 		new OptimizeCSSAssetsPlugin({}),
+		// 	],
+		// }
 		config.plugins.push(
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify('production'),
             }),
-			new webpack.optimize.AggressiveMergingPlugin(),
-            new CompressionPlugin({
-				filename: '[path].gz[query]',
-				algorithm: 'gzip',
-				test: /\.js$|\.min.js$|\.css$|\.html$/,
-				threshold: 10240,
-				minRatio: 0.8,
-				// deleteOriginalAssets: true,
-			}),
+			// new webpack.optimize.AggressiveMergingPlugin(),
+            // new CompressionPlugin({
+			// 	filename: '[path].gz[query]',
+			// 	algorithm: 'gzip',
+			// 	test: /\.js$|\.min.js$|\.css$|\.html$/,
+			// 	threshold: 10240,
+			// 	minRatio: 0.8,
+			// 	// deleteOriginalAssets: true,
+			// }),
 			new CleanWebpackPlugin([BUILD_DIR])
 			// new Visualizer(),
 			// new BundleAnalyzerPlugin()
