@@ -99,7 +99,6 @@ module.exports = (env) => {
 				new UglifyJsPlugin({
 					cache: true,
 					parallel: true,
-					exclude: [/\.min\.js$/gi], // skip pre-minified libs
 				}),
 				new OptimizeCSSAssetsPlugin({}),
 			],
@@ -107,16 +106,14 @@ module.exports = (env) => {
 		config.plugins.push(
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify('production'),
-			}),
-			// new webpack.optimize.AggressiveMergingPlugin(),
-			// new webpack.optimize.OccurrenceOrderPlugin(),
-			// new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-			new CompressionPlugin({
+            }),
+			new webpack.optimize.AggressiveMergingPlugin(),
+            new CompressionPlugin({
 				filename: '[path].gz[query]',
 				algorithm: 'gzip',
-				test: /\.js$|\.css$|\.html$/,
+				test: /\.js$|\.min.js$|\.css$|\.html$/,
 				threshold: 10240,
-				minRatio: 0,
+				minRatio: 0.8,
 				deleteOriginalAssets: true,
 			}),
 			new CleanWebpackPlugin([BUILD_DIR])
