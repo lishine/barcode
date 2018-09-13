@@ -11,3 +11,4 @@ log
 yarn-error.log
 .env
 stats.html
+/**/.DS_Store
