@@ -108,14 +108,14 @@ module.exports = (env) => {
 				'process.env.NODE_ENV': JSON.stringify('production'),
             }),
 			// new webpack.optimize.AggressiveMergingPlugin(),
-            // new CompressionPlugin({
-			// 	filename: '[path].gz[query]',
-			// 	algorithm: 'gzip',
-			// 	test: /\.js$|\.min.js$|\.css$|\.html$/,
-			// 	threshold: 10240,
-			// 	minRatio: 0.8,
-			// 	// deleteOriginalAssets: true,
-			// }),
+            new CompressionPlugin({
+				filename: '[path].gz[query]',
+				algorithm: 'gzip',
+				test: /\.js$|\.min.js$|\.css$|\.html$/,
+				threshold: 10240,
+				minRatio: 0.8,
+				// deleteOriginalAssets: true,
+			}),
 			new CleanWebpackPlugin([BUILD_DIR])
 			// new Visualizer(),
 			// new BundleAnalyzerPlugin()
