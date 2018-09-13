@@ -94,15 +94,15 @@ module.exports = (env) => {
 	}
 
 	if (env.production) {
-		// config.optimization = {
-		// 	minimizer: [
-		// 		new UglifyJsPlugin({
-		// 			cache: true,
-		// 			parallel: true,
-		// 		}),
-		// 		new OptimizeCSSAssetsPlugin({}),
-		// 	],
-		// }
+		config.optimization = {
+			minimizer: [
+				new UglifyJsPlugin({
+					cache: true,
+					parallel: true,
+				}),
+				new OptimizeCSSAssetsPlugin({}),
+			],
+		}
 		config.plugins.push(
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify('production'),
