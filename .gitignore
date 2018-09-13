@@ -1,6 +1,5 @@
 .vscode
 /node_modules
-dist
 *.log
 yarn.lock
 /.history/**/*
@@ -10,3 +9,4 @@ package-lock.json
 .vscode
 log
 yarn-error.log
+.env

@@ -1,13 +1,52 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["airbnb"],
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "rules": {
-    "no-console": "off",
-    "comma-dangle": "off",
-    "react/jsx-filename-extension": "off"
-  }
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "extends": [
+        "standard",
+        "standard-react",
+        "prettier"
+    ],
+    "plugins": [
+        "prettier",
+        "standard"
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+        "camelcase": 0,
+        "arrow-parens": [
+            "warn",
+            "always"
+        ],
+        "no-return-await": 0,
+        "no-constant-condition": 0,
+        "no-unused-vars": 1,
+        "curly": [
+            "error",
+            "all"
+        ],
+        "prettier/prettier": [
+            "warn",
+            {
+                "parser": "babylon",
+                "arrowParens": "always",
+                "singleQuote": true,
+                "semi": false,
+                "tabWidth": 4,
+                "printWidth": 115,
+                "useTabs": true,
+                "trailingComma": "es5",
+                "jsxBracketSameLine": true
+            }
+        ],
+        "react/jsx-indent": [
+            0,
+            0
+        ],
+        "react/jsx-indent-props": [
+            0,
+            0
+        ]
+    }
 }
