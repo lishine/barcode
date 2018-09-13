@@ -94,31 +94,31 @@ module.exports = (env) => {
 	}
 
 	if (env.production) {
-		config.optimization = {
-			minimizer: [
-				new UglifyJsPlugin({
-					cache: true,
-					parallel: true,
-					exclude: [/\.min\.js$/gi], // skip pre-minified libs
-				}),
-				new OptimizeCSSAssetsPlugin({}),
-			],
-		}
+		// config.optimization = {
+		// 	minimizer: [
+		// 		new UglifyJsPlugin({
+		// 			cache: true,
+		// 			parallel: true,
+		// 			exclude: [/\.min\.js$/gi], // skip pre-minified libs
+		// 		}),
+		// 		new OptimizeCSSAssetsPlugin({}),
+		// 	],
+		// }
 		config.plugins.push(
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify('production'),
 			}),
-			new webpack.optimize.AggressiveMergingPlugin(),
-			new webpack.optimize.OccurrenceOrderPlugin(),
-			new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-			new CompressionPlugin({
-				filename: '[path].gz[query]',
-				algorithm: 'gzip',
-				test: /\.js$|\.css$|\.html$/,
-				threshold: 10240,
-				minRatio: 0,
-				deleteOriginalAssets: true,
-			}),
+			// new webpack.optimize.AggressiveMergingPlugin(),
+			// new webpack.optimize.OccurrenceOrderPlugin(),
+			// new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+			// new CompressionPlugin({
+			// 	filename: '[path].gz[query]',
+			// 	algorithm: 'gzip',
+			// 	test: /\.js$|\.css$|\.html$/,
+			// 	threshold: 10240,
+			// 	minRatio: 0,
+			// 	deleteOriginalAssets: true,
+			// }),
 			new CleanWebpackPlugin([BUILD_DIR])
 			// new Visualizer(),
 			// new BundleAnalyzerPlugin()
