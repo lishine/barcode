@@ -7,7 +7,7 @@ const os = require('os')
 const app = express()
 
 const dist = path.resolve(__dirname, '../../dist')
-app.use(expressStaticGzip('dist'))
+app.use(express.static('dist'))
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }))
 app.get('*.js', function(req, res, next) {
     req.url = req.url + '.gz';
