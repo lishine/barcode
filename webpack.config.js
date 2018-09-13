@@ -9,7 +9,7 @@ module.exports = (env) => {
 	const CompressionPlugin = require('compression-webpack-plugin')
 	const Visualizer = require('webpack-visualizer-plugin')
 	const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-	const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+	// const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 	const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 	const PUBLIC_DIR = path.resolve(__dirname, 'public')
@@ -76,10 +76,10 @@ module.exports = (env) => {
 		// 	},
 		// },
 		plugins: [
-			// new MiniCssExtractPlugin({
-			// 	filename: '[name].css',
-			// 	chunkFilename: '[id].css',
-			// }),
+			new MiniCssExtractPlugin({
+				filename: '[name].css',
+				chunkFilename: '[id].css',
+			}),
 			new Dotenv({
 				path: path.resolve(__dirname, '.env'),
 			}),
