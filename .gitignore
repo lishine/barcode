@@ -10,3 +10,4 @@ package-lock.json
 log
 yarn-error.log
 .env
+stats.html
