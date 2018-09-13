@@ -62,7 +62,7 @@ module.exports = (env) => {
 	}
 
 	if (env.production) {
-		config.publicPath = BUILD_DIR
+		config.output.publicPath = BUILD_DIR
 		// config.plugins.push(
 		// 	new webpack.optimize.UglifyJsPlugin({
 		// 		compress: { warnings: false },
