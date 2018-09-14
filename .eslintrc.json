@@ -44,6 +44,10 @@
             0,
             0
         ],
+        "react/prop-types": [
+            0,
+            0
+        ],
         "react/jsx-indent-props": [
             0,
             0
