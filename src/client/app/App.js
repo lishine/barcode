@@ -1,8 +1,20 @@
 import React, { Component } from 'react'
 import Link from 'redux-first-router-link'
 import { connect } from 'react-redux'
+import styled, { injectGlobal } from 'styled-components'
 
-import './app.css'
+import { LinkButton, Button } from '../styled'
+
+injectGlobal`
+  h1 {
+    color: green;
+  }
+  
+  body {
+    text-align: center;
+    margin: auto;
+  }
+`
 
 const mapStateToProps = ({ userId }) => ({ userId })
 const mapDispatchToProps = (dispatch) => ({
@@ -15,8 +27,11 @@ const App = ({ userId, onClick }) => (
 			<div>
 				<h1>HOME</h1>
 
-				<Link to="/user/123">User 123</Link>
-				<Link to={{ type: 'USER', payload: { id: 456 } }}>User 456</Link>
+				<LinkButton to="/user/123">123</LinkButton>
+
+				<Link to={{ type: 'USER', payload: { id: 456 } }}>
+					<Button>456</Button>
+				</Link>
 				<span onClick={onClick}>User 5</span>
 			</div>
 		) : (
