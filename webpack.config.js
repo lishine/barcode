@@ -67,14 +67,13 @@ module.exports = (env) => {
 		module: {
 			rules,
 		},
-		// resolve: {
-		// 	modules: [APP_DIR, NODE_MODULES],
-		// 	extensions: ['.js', '.jsx'],
-		// 	alias: {
-		// 		img: path.resolve(__dirname, 'src/img'),
-		// 		Store: path.resolve(__dirname, 'src/Store'),
-		// 	},
-		// },
+		resolve: {
+			modules: [APP_DIR],
+			extensions: ['.js'],
+			alias: {
+				styled: path.resolve(__dirname, 'styled'),
+			},
+		},
 		plugins: [
 			new MiniCssExtractPlugin({
 				filename: '[name].css',

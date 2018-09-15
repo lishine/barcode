@@ -3,10 +3,10 @@ import Link from 'redux-first-router-link'
 import styled from 'styled-components'
 
 import Modal from './Modal'
-import Form from './Form'
+import SignUp from './form/sign-up/SignUp'
 
 export default ({ children }) => (
 	<Modal isOpen>
-		<Form />
+		<SignUp />
 	</Modal>
 )
