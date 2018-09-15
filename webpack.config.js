@@ -68,8 +68,8 @@ module.exports = (env) => {
 			rules,
 		},
 		resolve: {
-			modules: [APP_DIR],
-			extensions: ['.js'],
+			modules: [APP_DIR, NODE_MODULES],
+			extensions: ['.js', '.jsx'],
 			alias: {
 				styled: path.resolve(__dirname, 'styled'),
 			},
