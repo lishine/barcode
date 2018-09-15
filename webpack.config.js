@@ -71,7 +71,7 @@ module.exports = (env) => {
 			modules: [APP_DIR, NODE_MODULES],
 			extensions: ['.js', '.jsx'],
 			alias: {
-				styled: path.resolve(__dirname, 'styled'),
+				styled: path.resolve(APP_DIR, 'styled'),
 			},
 		},
 		plugins: [

@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react'
-import Link from 'redux-first-router-link'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import Login from '../login/Login'

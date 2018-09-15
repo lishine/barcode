@@ -9,7 +9,10 @@ export function schema(values) {
 			.required('E-mail is required!'),
 		password: yup
 			.string()
-			.min(MIN_PASSWORD_LENGTH, `Password has to be longer than ${MIN_PASSWORD_LENGTH} characters!`)
+			.min(
+				MIN_PASSWORD_LENGTH,
+				`Password has to be longer than ${MIN_PASSWORD_LENGTH} characters!`
+			)
 			.required('Password is required!'),
 		passwordConfirmation: yup
 			.string()
@@ -17,7 +20,11 @@ export function schema(values) {
 			.required('Password confirmation is required!'),
 		consent: yup
 			.bool()
-			.test('consent', 'You have to agree with our Terms and Conditions!', (value) => value === true)
+			.test(
+				'consent',
+				'You have to agree with our Terms and Conditions!',
+				(value) => value === true
+			)
 			.required('You have to agree with our Terms and Conditions!'),
 	})
 }
