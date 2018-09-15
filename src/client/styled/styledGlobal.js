@@ -6,6 +6,7 @@ export default injectGlobal`
     }
 
     body {
+        background-color: #997722;
         text-align: center;
         margin: auto;
     }

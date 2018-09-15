@@ -2,9 +2,9 @@ import { connectRoutes } from 'redux-first-router'
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import createHistory from 'history/createBrowserHistory'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { routesMap } from './routes'
+import { routesMap } from '../../router/routes'
 
-import { userIdReducer } from './app/model/reducers'
+import { userIdReducer } from '../app/model/reducer'
 
 const history = createHistory()
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import store from './configureStore'
+import store from './store/configureStore'
 import App from './app/App'
-import './styledGlobal'
+import './styled/styledGlobal'
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -11,3 +11,5 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root')
 )
+
+module.hot.accept()

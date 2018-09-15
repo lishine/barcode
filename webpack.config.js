@@ -90,6 +90,7 @@ module.exports = (env) => {
 				template: path.resolve(PUBLIC_DIR, 'index.html'),
 				favicon: path.resolve(PUBLIC_DIR, 'favicon.ico'),
 			}),
+			new webpack.HotModuleReplacementPlugin(),
 		],
 	}
 
@@ -105,7 +106,7 @@ module.exports = (env) => {
 		// }
 		config.plugins.push(
 			// new webpack.optimize.AggressiveMergingPlugin(),
-            // new CompressionPlugin({
+			// new CompressionPlugin({
 			// 	filename: '[path].gz[query]',
 			// 	algorithm: 'gzip',
 			// 	test: /\.js$|\.min.js$|\.css$|\.html$/,
@@ -125,6 +126,7 @@ module.exports = (env) => {
 		)
 		config.devtool = 'inline-source-map'
 		config.devServer = {
+			hot: true,
 			contentBase: BUILD_DIR,
 			historyApiFallback: true,
 			port: 3000,
