@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { Formik, Field } from 'formik'
-
 import { Button, Form, Title } from 'styled'
 
+import Modal from 'login/form/Modal'
 import EmailInput from 'login/form/inputs/EmailInput'
 import PasswordInput from 'login/form/inputs/PasswordInput'
 
@@ -10,7 +10,7 @@ import { validate } from 'login/form/validate'
 import { schema } from './schema'
 
 export default () => (
-	<Fragment>
+	<Modal isOpen>
 		<Title>Sign In</Title>
 		<Formik
 			initialValues={{
@@ -40,5 +40,5 @@ export default () => (
 				</Form>
 			)}
 		/>
-	</Fragment>
+	</Modal>
 )

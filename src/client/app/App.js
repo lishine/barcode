@@ -1,8 +1,11 @@
-import React from 'react'
-
+import React, { Fragment } from 'react'
 import Login from '../login/Login'
 
-export default () => <Login />
+export default () => (
+	<Fragment>
+		<Login />
+	</Fragment>
+)
 
 // {!userId ? (
 //     <div>
