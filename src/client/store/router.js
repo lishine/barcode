@@ -5,7 +5,6 @@ const routesMap = {
 	HOME: '/',
 	SIGN_IN: '/sign-in',
 	SIGN_UP: '/sign-up',
-	GOTO: { path: ':path' },
 }
 
 const history = createHistory()
@@ -24,8 +23,6 @@ const pages = {
 
 export const pageReducer = (state = 'HOME', action = {}) =>
 	pages[action.type] || state
-
-export const goto = (path) => ({ type: 'GOTO', payload: { path } })
 
 export const page = (state) => state.page
 export const location = (state) => state.location

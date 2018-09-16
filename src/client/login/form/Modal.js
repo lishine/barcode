@@ -21,7 +21,9 @@ const style = {
 		WebkitOverflowScrolling: 'touch',
 		borderRadius: '4px',
 		outline: 'none',
-		padding: '20px',
+		padding: '0px',
+		width: 320,
+		height: 300,
 	},
 }
 

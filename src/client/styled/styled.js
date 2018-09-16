@@ -12,10 +12,11 @@ export const Label = styled.label`
 `
 
 export const Form = styled.form`
-	width: 300px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	justify-content: space-around;
+	align-items: space-between;
+	align-content: space-between;
 `
 
 export const StyledField = styled(Field)`
