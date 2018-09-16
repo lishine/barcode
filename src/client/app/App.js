@@ -1,19 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import Login from '../login/Login'
 
-const mapStateToProps = ({ userId }) => ({ userId })
-const mapDispatchToProps = (dispatch) => ({
-	onClick: () => dispatch({ type: 'USER', payload: { id: 5 } }),
-})
-
-const App = ({ userId, onClick }) => <Login />
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(App)
+export default () => <Login />
 
 // {!userId ? (
 //     <div>

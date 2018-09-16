@@ -1,15 +1,10 @@
-import { connectRoutes } from 'redux-first-router'
-import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-import createHistory from 'history/createBrowserHistory'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { routesMap } from '../../router/routes'
 
-import { userIdReducer } from '../app/model/reducer'
+import rootReducer from './rootReducer'
+import { routerMiddleware, routerEnhancer } from './router'
 
-const history = createHistory()
-
-const { reducer, middleware, enhancer } = connectRoutes(history, routesMap) // yes, 3 redux aspects
-const rootReducer = combineReducers({ location: reducer, userId: userIdReducer })
-const middlewares = applyMiddleware(middleware)
-
-export default createStore(rootReducer, composeWithDevTools(enhancer, middlewares))
+export default createStore(
+	combineReducers(rootReducer),
+	composeWithDevTools(routerEnhancer, applyMiddleware(routerMiddleware))
+)

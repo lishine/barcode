@@ -8,8 +8,6 @@ export default ({
 	form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
 	...props
 }) => {
-	console.log('props', props)
-	console.log('field', field)
 	return (
 		<div>
 			<StyledInput
@@ -17,7 +15,8 @@ export default ({
 				{...field}
 				{...props}
 			/>
-			{touched[field.name] && errors[field.name] && <ErrorText>{errors[field.name]}</ErrorText>}
+			{touched[field.name] &&
+				errors[field.name] && <ErrorText>{errors[field.name]}</ErrorText>}
 		</div>
 	)
 }
