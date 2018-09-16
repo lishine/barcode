@@ -70,9 +70,9 @@ module.exports = (env) => {
 		resolve: {
 			modules: [APP_DIR, NODE_MODULES],
 			extensions: ['.js', '.jsx'],
-			alias: {
-				styled: path.resolve(APP_DIR, 'styled'),
-			},
+			// alias: {
+			// 	styled: path.resolve(APP_DIR, 'styled'),
+			// },
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
