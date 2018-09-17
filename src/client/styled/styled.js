@@ -13,8 +13,10 @@ export const Label = styled.label`
 
 export const Form = styled.form`
 	display: flex;
+	width: 100%;
+	height: 100%;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: space-between;
 	align-content: space-between;
 `

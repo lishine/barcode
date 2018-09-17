@@ -3,32 +3,33 @@ import Link from 'redux-first-router-link'
 import { Formik, Field } from 'formik'
 import { Button, Form, Title } from 'styled'
 
-import EmailInput from '../inputs/EmailInput'
-import PasswordInput from '../inputs/PasswordInput'
-import PasswordConfirmationInput from '../inputs/PasswordConfirmationInput'
+import EmailInput from 'login/form/inputs/EmailInput'
+import PasswordInput from 'login/form/inputs/PasswordInput'
+import PasswordConfirmationInput from 'login/form/inputs/PasswordConfirmationInput'
 
 import { LoginContext } from 'login/LoginContainer'
 
 import { validate } from 'login/form/validate'
-import forms from './forms'
+import * as forms from './forms'
+
+const onSubmit = (values, actions) => {
+	console.log('values', values)
+	console.log('actions', actions)
+}
 
 export default () => (
 	<LoginContext.Consumer>
-		{({ page, email, onEmailChange, onSubmit }) => {
+		{({ page, email, onEmailChange }) => {
 			const { initialValues, schema, title } = forms[page]
-			let showEmail = false
+			const showEmail = initialValues.email !== undefined
 			const showPassword = initialValues.password !== undefined
 			const showPasswordConfirmation =
 				initialValues.passwordConfirmation !== undefined
-			if (initialValues.email) {
-				initialValues.email = email
-				showEmail = true
-			}
 			return (
 				<Fragment>
 					<Title>{title}</Title>
 					<Formik
-						initialValues={initialValues}
+						initialValues={Object.assign({}, initialValues, { email })}
 						validate={validate(schema)}
 						onSubmit={onSubmit}
 						render={({
@@ -38,26 +39,31 @@ export default () => (
 							handleChange,
 							handleBlur,
 							handleSubmit,
-						}) => (
-							<Form onSubmit={handleSubmit}>
-								{showEmail && (
-									<Field name="email" component={EmailInput} />
-								)}
-								{showPassword && (
-									<Field
-										name="password"
-										component={PasswordInput}
-									/>
-								)}
-								{showPasswordConfirmation && (
-									<Field
-										name="passwordConfirmation"
-										component={PasswordConfirmationInput}
-									/>
-								)}
-								<Button type="submit">Submit</Button>
-							</Form>
-						)}
+							...bag
+						}) => {
+							console.log('bag', bag)
+
+							return (
+								<Form onSubmit={handleSubmit}>
+									{showEmail && (
+										<Field name="email" component={EmailInput} />
+									)}
+									{showPassword && (
+										<Field
+											name="password"
+											component={PasswordInput}
+										/>
+									)}
+									{showPasswordConfirmation && (
+										<Field
+											name="passwordConfirmation"
+											component={PasswordConfirmationInput}
+										/>
+									)}
+									<Button type="submit">Submit</Button>
+								</Form>
+							)
+						}}
 					/>
 				</Fragment>
 			)

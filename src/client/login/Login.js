@@ -12,10 +12,19 @@ export default LoginContainer(
 		{({ page }) => {
 			const isOpen = ['SignUp', 'SignIn'].some((val) => val === page)
 			return (
-				<Modal isOpen={isOpen}>
-					<NavLinks />
-					<Form />
-				</Modal>
+				<div>
+					<Modal isOpen={isOpen}>
+						<Grid columns={1}>
+							<Cell>
+								{' '}
+								<NavLinks />
+							</Cell>
+							<Cell>
+								<Form />
+							</Cell>
+						</Grid>
+					</Modal>
+				</div>
 			)
 		}}
 	</LoginContext.Consumer>

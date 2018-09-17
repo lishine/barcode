@@ -3,11 +3,12 @@ import * as yup from 'yup'
 const MIN_PASSWORD_LENGTH = 6
 
 export default {
-	title: 'Sign In',
+	title: 'Sign Up',
 
 	initialValues: {
 		email: '',
 		password: '',
+		passwordConfirmation: '',
 	},
 
 	schema: function schema(values) {
@@ -23,6 +24,10 @@ export default {
 					`Password has to be longer than ${MIN_PASSWORD_LENGTH} characters!`
 				)
 				.required('Password is required!'),
+			passwordConfirmation: yup
+				.string()
+				.oneOf([values.password], 'Passwords are not the same!')
+				.required('Password confirmation is required!'),
 		})
 	},
 }

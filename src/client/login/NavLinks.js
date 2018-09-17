@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { NavLink } from 'redux-first-router-link'
 import { Grid, Cell } from 'styled-css-grid'
 
-export default (
+export default () => (
 	<Grid columns={2}>
 		<Cell>
 			<NavLink
