@@ -1,36 +1,56 @@
+import massive from 'massive'
 import express from 'express'
-const path = require('path')
+import path from 'path'
 
-const os = require('os')
+import * as users from './data/users'
+require('dotenv').config()
 
 const app = express()
-
 app.use(express.static('dist'))
-app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }))
 
+app.get('/api/create', (req, res) => {
+	console.log('creating')
+	users
+		.create()
+		.then(() => res.json({ success: true }))
+		.catch((err) => res.json({ error: err }))
+})
 
-app.use('*', (req, resp) => resp.sendFile(path.resolve(__dirname, '../../dist/index.html')))
+app.get('/api/drop', (req, res) => {
+	users
+		.drop()
+		.then(() => res.json({ success: true }))
+		.catch((err) => res.json({ error: err }))
+	console.log('droping')
+})
+
+app.get('/api/insert', (req, res) => {
+	console.log('req', req.headers)
+	console.log('req', req.rawHeaders)
+	console.log('inserting')
+	app.get('db')
+		.users.insert({ name: 1, email: 2 * Math.random() * 10, password: 3 })
+		.then((user) => res.json({ user, success: true }))
+		.catch((err) => res.json({ error: err }))
+})
+
+app.use('*', (req, resp) =>
+	resp.sendFile(path.resolve(__dirname, '../../dist/index.html'))
+)
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => console.log('Listening on port', PORT))
 
-
-
-
-
-
-
-
-// app.get('*.js', function(req, res, next) {
-//     req.url = req.url + '.gz';
-//     res.set('Content-Encoding', 'gzip');
-//     res.set('Content-Type', 'text/javascript');
-//     next();
-//   });
-
-//   app.get('*.css', function(req, res, next) {
-//     req.url = req.url + '.gz';
-//     res.set('Content-Encoding', 'gzip');
-//     res.set('Content-Type', 'text/css');
-//     next();
-//   });
-  
+massive({
+	host: 'localhost',
+	port: 5432,
+	database: 'barcode',
+	user: 'admin',
+	password: '',
+	ssl: false,
+	poolSize: 10,
+})
+	.then((instance) => {
+		app.set('db', instance)
+		const c = app.get('db').listTables()
+	})
+	.catch((err) => console.log('err', err))
