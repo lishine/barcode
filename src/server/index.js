@@ -25,25 +25,25 @@ app.get('/api/check', (req, res) =>
 app.get('/api1/create', (req, res) => {
 	const db = req.app.get('db')
 	db.query(createQuery)
-		.then(() => db.reload((instance) => req.app.set('db', instance)))
+		.then(() => db.reload(instance => req.app.set('db', instance)))
 		.then(() => res.json({ message: 'db created and reloaded', success: true }))
-		.catch((err) => res.status(500).json({ error: err }))
+		.catch(err => res.status(500).json({ error: err }))
 })
 
 app.get('/api1/drop', (req, res) => {
 	const db = req.app.get('db')
 	db.query(dropQuery)
-		.then(() => db.reload((instance) => req.app.set('db', instance)))
+		.then(() => db.reload(instance => req.app.set('db', instance)))
 		.then(() => res.json({ message: 'db dropped and reloaded', success: true }))
-		.catch((err) => res.status(500).json({ error: err }))
+		.catch(err => res.status(500).json({ error: err }))
 })
 
 app.get('/api1/insert', (req, res) => {
 	const db = req.app.get('db')
 	db.users
 		.insert({ name: 1, email: 2 * Math.random() * 10, password: 3 })
-		.then((user) => res.json({ user, success: true }))
-		.catch((err) => res.status(500).json({ error: err }))
+		.then(user => res.json({ user, success: true }))
+		.catch(err => res.status(500).json({ error: err }))
 })
 
 app.use(function(err, req, res, next) {
@@ -55,7 +55,9 @@ app.use((req, res) => res.sendFile(path.resolve(__dirname, '../../dist/index.htm
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => console.log('Listening on port', PORT))
 
-massive({
+console.log('process.env.DATABASE_URL', process.env.DATABASE_URL)
+
+const config = process.env.DATABASE_URL || {
 	host: 'localhost',
 	port: 5432,
 	database: 'barcode',
@@ -63,9 +65,11 @@ massive({
 	password: '',
 	ssl: false,
 	poolSize: 10,
-})
-	.then((instance) => {
+}
+
+massive()
+	.then(instance => {
 		app.set('db', instance)
 		const c = app.get('db').listTables()
 	})
-	.catch((err) => console.log('err', err))
+	.catch(err => console.log('err', err))
