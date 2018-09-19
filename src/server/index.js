@@ -18,7 +18,7 @@ app.post('/api/signin', signIn)
 app.post('/api/signup', signUp)
 app.use('/api/*', validateTokenMid)
 
-app.get('/api/check', (req, res) =>
+app.get('/api1/check', (req, res) =>
 	res.json({ sucess: true, check: true, secret: process.env.JWT_SECRET })
 )
 
