@@ -75,7 +75,7 @@ export function validateTokenMid(req, res, next) {
 	const { app, body, headers, path, baseUrl } = req
 	const fullPath = `${baseUrl}${path}`
 	console.log('fullPath', fullPath)
-	if (fullPath === '/api/signin' || fullPath === '/api/signup') {
+	if (fullPath === '/api/signin/' || fullPath === '/api/signup/') {
 		return
 	}
 	console.log('validating')
@@ -85,6 +85,7 @@ export function validateTokenMid(req, res, next) {
 
 	if (!token) {
 		res.status(500).json({ sucess: false, err: 'no token, not authorized' })
+		return
 	}
 
 	const userId = userIdForToken(token)
