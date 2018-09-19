@@ -7,7 +7,7 @@ import AppContainer, { AppContext } from 'app/AppContainer'
 export default AppContainer(
 	<Fragment>
 		<AppContext.Consumer>
-			{({ page, token, go, email, setToken, setEmail }) => {
+			{({ page, token, email, setToken, setEmail }) => {
 				return (
 					<Fragment>
 						<Link

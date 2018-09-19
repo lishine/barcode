@@ -1,6 +1,7 @@
 import React from 'react'
 import memoize from 'memoize-state'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 export function miniConnect({ selectors, actions, render }) {
 	connect(
@@ -9,22 +10,30 @@ export function miniConnect({ selectors, actions, render }) {
 	)(render)
 }
 
-const mem = (o) => {
-	return memoize((s, p) =>
+const mem = o =>
+	memoize((s, p) =>
 		Object.entries(o).reduce(
 			(acc, [key, func]) => Object.assign(acc, { [key]: func(s, p) }),
 			{}
 		)
 	)
-}
 
-export const withContext = ({ selectors, actions, ContextProvider }) => (
-	component
-) =>
+const wrapInDispatch = (o, dispatch) =>
+	Object.entries(o).reduce(
+		(acc, [key, func]) => Object.assign(acc, { [key]: dispatch(func) }),
+		{}
+	)
+
+export const withContext = ({
+	selectors,
+	actions,
+	calls,
+	ContextProvider,
+}) => component =>
 	connect(
 		mem(selectors),
-		actions
-	)((props) => {
+		dispatch => Object.assign(bindActionCreators(actions, dispatch), calls)
+	)(props => {
 		const el = React.createElement(
 			ContextProvider['Provider'],
 			{ value: { ...props } },

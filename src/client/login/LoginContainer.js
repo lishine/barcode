@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { getPage, go } from 'store/router'
+import { getPage, redirect } from 'store/router'
 import { setEmail, isAuth, setToken } from 'store/auth'
 import { withContext } from 'utils/with-context'
 
@@ -11,6 +11,6 @@ export default component =>
 			page: getPage,
 			isAuth,
 		},
-		actions: { setEmail, setToken, go },
+		actions: { setEmail, setToken, redirect },
 		ContextProvider: LoginContext,
 	})(component)

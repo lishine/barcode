@@ -14,7 +14,7 @@ import { LoginContext } from 'login/LoginContainer'
 import { validate } from 'login/form/validate'
 import * as forms from './forms'
 
-const onSubmit = (values, actions, page, setToken, go, setEmail) => {
+const onSubmit = (values, actions, page, setToken, redirect, setEmail) => {
 	console.log('values', values)
 	console.log('actions', actions)
 	const { email, password } = values
@@ -24,7 +24,7 @@ const onSubmit = (values, actions, page, setToken, go, setEmail) => {
 		.then(function(response) {
 			setToken(response.data.token)
 			setEmail(email)
-			go('HOME')
+			redirect('HOME')
 		})
 		.catch(function(err) {
 			console.log('err', JSON.stringify(err))
@@ -33,19 +33,27 @@ const onSubmit = (values, actions, page, setToken, go, setEmail) => {
 
 export default () => (
 	<LoginContext.Consumer>
-		{({ page, setToken, go, setEmail }) => {
+		{({ page, setToken, redirect, setEmail }) => {
 			const { initialValues, show, schema, title } = forms[page]
 			const Show = createMask(show)
-			// go('HOME')
+
 			return (
 				<Fragment>
 					<Link to="/">home</Link>
+
 					<Title>{title}</Title>
 					<Formik
 						initialValues={initialValues}
 						validate={validate(schema)}
 						onSubmit={(values, actions) =>
-							onSubmit(values, actions, page, setToken, go, setEmail)
+							onSubmit(
+								values,
+								actions,
+								page,
+								setToken,
+								redirect,
+								setEmail
+							)
 						}
 						render={({
 							touched,

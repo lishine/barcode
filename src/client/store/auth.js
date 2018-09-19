@@ -18,7 +18,7 @@ export default (state = { email: '', token: '' }, action) => {
 
 export const getEmail = state => state[DOMAIN].email
 export const getToken = state => state[DOMAIN].token
-export const isAuth = state => state[DOMAIN].token
+export const isAuth = state => !!state[DOMAIN].token
 
 export const setEmail = email => ({
 	type: SET_EMAIL,
