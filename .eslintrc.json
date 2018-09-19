@@ -15,10 +15,6 @@
     "parser": "babel-eslint",
     "rules": {
         "camelcase": 0,
-        "arrow-parens": [
-            "warn",
-            "always"
-        ],
         "no-return-await": 0,
         "no-constant-condition": 0,
         "no-unused-vars": 1,
@@ -30,7 +26,6 @@
             "warn",
             {
                 "parser": "babylon",
-                "arrowParens": "always",
                 "singleQuote": true,
                 "semi": false,
                 "tabWidth": 4,

@@ -10,6 +10,11 @@ export default {
 		password: '',
 	},
 
+	show: {
+		email: true,
+		password: true,
+	},
+
 	schema: function schema(values) {
 		return yup.object().shape({
 			email: yup

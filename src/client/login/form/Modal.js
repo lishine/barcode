@@ -23,13 +23,13 @@ const style = {
 		outline: 'none',
 		padding: '0px',
 		width: 320,
-		height: 300,
+		height: 360,
 	},
 }
 
 Modal.setAppElement('#root')
 
-export default (props) => (
+export default props => (
 	<Modal {...props} style={style}>
 		{props.children}
 	</Modal>

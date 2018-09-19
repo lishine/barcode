@@ -15,13 +15,17 @@ export const {
 } = connectRoutes(history, routesMap)
 
 const pages = {
-	HOME: '',
+	HOME: 'Home',
 	SIGN_UP: 'SignUp',
 	SIGN_IN: 'SignIn',
-	[NOT_FOUND]: 'NotFound',
+	[NOT_FOUND]: '',
 }
 
 export const pageReducer = (state = 'HOME', action = {}) =>
 	pages[action.type] || state
+
+export const go = (to) => ({
+	type: to,
+})
 
 export const getPage = (state) => state.page

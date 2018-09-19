@@ -1,16 +1,16 @@
 import { createContext } from 'react'
-import { getPage } from 'store/router'
-import { getEmail, onEmailChange } from 'login/model'
+import { getPage, go } from 'store/router'
+import { setEmail, isAuth, setToken } from 'store/auth'
 import { withContext } from 'utils/with-context'
 
 export const LoginContext = createContext({})
 
-export default (component) =>
+export default component =>
 	withContext({
 		selectors: {
 			page: getPage,
-			email: getEmail,
+			isAuth,
 		},
-		actions: { onEmailChange },
+		actions: { setEmail, setToken, go },
 		ContextProvider: LoginContext,
 	})(component)

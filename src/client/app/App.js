@@ -1,9 +1,31 @@
 import React, { Fragment } from 'react'
 import Login from '../login/Login'
+import Link from 'redux-first-router-link'
 
-export default () => (
+import AppContainer, { AppContext } from 'app/AppContainer'
+
+export default AppContainer(
 	<Fragment>
-		<Login />
+		<AppContext.Consumer>
+			{({ page, token, go, email, setToken, setEmail }) => {
+				return (
+					<Fragment>
+						<Link
+							to="/sign-in"
+							onClick={() => {
+								setToken('')
+								setEmail('')
+							}}>
+							logout
+						</Link>
+						<div>page: {page}</div>
+						<div>token: {token}</div>
+						<div>email: {email}</div>
+						<Login />
+					</Fragment>
+				)
+			}}
+		</AppContext.Consumer>
 	</Fragment>
 )
 

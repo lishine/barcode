@@ -11,6 +11,12 @@ export default {
 		passwordConfirmation: '',
 	},
 
+	show: {
+		email: true,
+		password: true,
+		passwordConfirmation: true,
+	},
+
 	schema: function schema(values) {
 		return yup.object().shape({
 			email: yup
