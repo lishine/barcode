@@ -67,7 +67,7 @@ const config = process.env.DATABASE_URL || {
 	poolSize: 10,
 }
 
-massive()
+massive(config)
 	.then(instance => {
 		app.set('db', instance)
 		const c = app.get('db').listTables()
