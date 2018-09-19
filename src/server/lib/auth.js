@@ -73,7 +73,6 @@ export function signIn(req, res, next) {
 
 export function validateTokenMid(req, res, next) {
 	const { app, body, headers } = req
-	console.log('req', req)
 	const { token } = headers
 	const db = app.get('db')
 

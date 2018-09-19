@@ -24,5 +24,4 @@ const pages = {
 export const pageReducer = (state = 'HOME', action = {}) =>
 	pages[action.type] || state
 
-export const page = (state) => state.page
-export const location = (state) => state.location
+export const getPage = (state) => state.page

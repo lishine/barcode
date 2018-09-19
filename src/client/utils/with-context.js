@@ -2,6 +2,13 @@ import React from 'react'
 import memoize from 'memoize-state'
 import { connect } from 'react-redux'
 
+export function miniConnect({ selectors, actions, render }) {
+	connect(
+		mem(selectors),
+		actions
+	)(render)
+}
+
 const mem = (o) => {
 	return memoize((s, p) =>
 		Object.entries(o).reduce(
