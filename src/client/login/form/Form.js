@@ -1,15 +1,10 @@
-import map from 'lodash/fp/map'
-import React, { Fragment } from 'react'
+import React from 'react'
 import Link from 'redux-first-router-link'
 import { Formik, Field } from 'formik'
 import { Button, Form, Title } from 'styled'
 import axios from 'axios'
-import { When } from 'react-if'
 
-import EmailInput from 'login/form/inputs/Email'
-import PasswordInput from 'login/form/inputs/PasswordConfirmation'
-import PasswordConfirmationInput from 'login/form/inputs/Password'
-
+import { Map } from 'utils'
 import { LoginContext } from 'login/LoginContainer'
 
 import { validate } from 'login/form/validate'
@@ -45,26 +40,16 @@ export default () => (
 						initialValues={initialValues}
 						validate={validate(schema)}
 						onSubmit={(values, actions) =>
-							onSubmit(
-								values,
-								actions,
-								page,
-								setToken,
-								redirect,
-								setEmail
-							)
+							onSubmit(values, actions, page, setToken, redirect, setEmail)
 						}
 						render={({ handleSubmit }) => {
 							return (
 								<Form onSubmit={handleSubmit}>
-									{map(
-										(component, name) => (
-											<When name={name}>
-												<Field {...{ name, component }} />
-											</When>
-										),
-										show
-									)}
+									<Map collection={show}>
+										{([name, component]) => (
+											<Field {...{ key: name, name, component }} />
+										)}
+									</Map>
 									<Button type="submit">Submit</Button>
 								</Form>
 							)

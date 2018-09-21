@@ -1,6 +1,8 @@
 import { encode, decode } from 'jwt-simple'
 import bcrypt from 'bcrypt'
 
+import * as emailUtils from './email'
+
 function tokenForUser(user) {
 	const timestamp = new Date().getTime()
 	return encode({ sub: user.id, iat: timestamp }, process.env.JWT_SECRET)
@@ -26,12 +28,23 @@ export function signUp(req, res, next) {
 			return db.users
 				.insert({ name, email, password: hash })
 				.then(user => {
-					res.status(200).json({ sucess: true, token: tokenForUser(user) })
+					let token
+					try {
+						token = tokenForUser(user)
+					} catch (err) {
+						return res.status(500).json({ error: 'token generation failure', err })
+					}
+					emailUtils
+						.sendRegistrationEmail({
+							name,
+							email: 'vim55k@gmail.com',
+							link: 'link replaced',
+						})
+						.then(info => res.status(200).json({ info, token }))
+						.catch(err => res.status(500).json({ error: 'email not sent', err }))
 				})
 				.catch(err =>
-					res
-						.status(500)
-						.json({ sucess: false, err, error: 'error saving user' })
+					res.status(500).json({ sucess: false, err, error: 'error saving user' })
 				)
 		})
 		.catch(err => {
@@ -62,14 +75,10 @@ export function signIn(req, res, next) {
 					}
 				})
 				.catch(err =>
-					res
-						.status(401)
-						.json({ sucess: false, err, error: 'Unauthorized Access' })
+					res.status(401).json({ sucess: false, err, error: 'Unauthorized Access' })
 				)
 		})
-		.catch(err =>
-			res.status(500).json({ sucess: false, err, error: 'user not found' })
-		)
+		.catch(err => res.status(500).json({ sucess: false, err, error: 'user not found' }))
 }
 
 export function validateTokenMid(req, res, next) {
@@ -99,8 +108,6 @@ export function validateTokenMid(req, res, next) {
 			next()
 		})
 		.catch(err =>
-			res
-				.status(500)
-				.json({ sucess: false, err, error: 'no user, not authorized' })
+			res.status(500).json({ sucess: false, err, error: 'no user, not authorized' })
 		)
 }

@@ -23,7 +23,7 @@ const style = {
 		outline: 'none',
 		padding: '0px',
 		width: 320,
-		height: 360,
+		height: 420,
 	},
 }
 

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import FormikInput from 'login/form/inputs/parts/FormikInput'
+import FormikInput from './parts/FormikInput'
 
-export default (props) => (
+export default props => (
 	<FormikInput
 		{...props}
 		autoComplete="new-password"

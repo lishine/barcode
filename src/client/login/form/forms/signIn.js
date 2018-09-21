@@ -10,10 +10,7 @@ export default {
 		password: '',
 	},
 
-	show: {
-		email: inputs.Email,
-		password: inputs.Password,
-	},
+	show: [['email', inputs.Email], ['password', inputs.Password]],
 
 	schema: function schema(values) {
 		return yup.object().shape({

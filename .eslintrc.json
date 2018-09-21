@@ -29,7 +29,7 @@
                 "singleQuote": true,
                 "semi": false,
                 "tabWidth": 4,
-                "printWidth": 85,
+                "printWidth": 95,
                 "useTabs": true,
                 "trailingComma": "es5",
                 "jsxBracketSameLine": true

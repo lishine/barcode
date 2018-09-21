@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
-import StyledInput from 'login/form/inputs/parts/StyledInput'
-import ErrorText from 'login/form/inputs/parts/ErrorText'
+import StyledInput from './StyledInput'
+import ErrorText from './ErrorText'
 
 export default ({
 	field, // { name, value, onChange, onBlur }

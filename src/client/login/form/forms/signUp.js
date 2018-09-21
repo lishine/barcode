@@ -12,12 +12,12 @@ export default {
 		passwordConfirmation: '',
 	},
 
-	show: {
-		email: inputs.Email,
-		password: inputs.Password,
-		passwordConfirmation: inputs.PasswordConfirmation,
-		name: inputs.name,
-	},
+	show: [
+		['name', inputs.Name],
+		['email', inputs.Email],
+		['password', inputs.Password],
+		['passwordConfirmation', inputs.PasswordConfirmation],
+	],
 
 	schema: function schema(values) {
 		return yup.object().shape({

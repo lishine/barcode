@@ -6,7 +6,7 @@ import './config'
 
 import { dropQuery, createQuery } from './data/users'
 import { validateTokenMid, signIn, signUp } from './lib/auth'
-import { sendEmail } from './lib/email'
+import * as email from './lib/email'
 
 const app = express()
 app.use(express.static('dist'))
@@ -46,9 +46,12 @@ app.get('/api1/insert', (req, res) => {
 		.catch(err => res.status(500).json({ error: err }))
 })
 
-app.get('/api1/send-email', (req, res) => {
-	sendEmail(res)
-})
+// app.get('/api1/send-email', (req, res) => {
+// 	email
+// 		.sendRegistrationEmail(res)
+// 		.then(info => res.status(200).json({ info }))
+// 		.catch(err => res.status(500).json({ error: 'email not sent', err }))
+// })
 
 app.use(function(err, req, res, next) {
 	res.status(500).json({ sucess: false, err })

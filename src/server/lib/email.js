@@ -10,41 +10,23 @@ const transporter = nodemailer.createTransport({
 	},
 })
 
-const email = new Email({
+const emailTransport = new Email({
 	message: {
 		from: 'qflyit@gmail.com',
 	},
-	// uncomment below to send emails in development/test env:
-	// send: true
+	send: true,
+	preview: false,
 	transport: transporter,
 })
-export function sendEmail(res) {
-	email
-		.send({
-			template: 'register-confirmation',
-			message: {
-				to: 'vim55k@gmail.com',
-			},
-			locals: {
-				name: 'PVRV',
-			},
-		})
-		.then(console.log)
-		.catch(console.error)
 
-	// const mailOptions = {
-	// 	from: 'qflyit@gmail.com', // sender address
-	// 	to: 'vim55k@gmail.com', // list of receivers
-	// 	subject: 'Subject of your email', // Subject line
-	// 	html: '<p>Your html here</p>', // plain text body
-	// }
-	// transporter.sendMail(mailOptions, function(err, info) {
-	// 	if (err) {
-	// 		res.status(500).json({ err })
-	// 		console.log(err)
-	// 	} else {
-	// 		res.status(200).json({ info })
-	// 		console.log(info)
-	// 	}
-	// })
-}
+export const sendRegistrationEmail = ({ email, name, link }) =>
+	emailTransport.send({
+		template: 'register-confirmation',
+		message: {
+			to: email,
+		},
+		locals: {
+			name,
+			link,
+		},
+	})
