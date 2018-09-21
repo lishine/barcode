@@ -1,6 +1,6 @@
 import * as yup from 'yup'
-
-const MIN_PASSWORD_LENGTH = 6
+import * as inputs from './inputs'
+import { MIN_PASSWORD_LENGTH } from 'fixed'
 
 export default {
 	title: 'Sign In',
@@ -11,8 +11,8 @@ export default {
 	},
 
 	show: {
-		email: true,
-		password: true,
+		email: inputs.Email,
+		password: inputs.Password,
 	},
 
 	schema: function schema(values) {

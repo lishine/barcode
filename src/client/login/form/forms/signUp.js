@@ -1,24 +1,27 @@
 import * as yup from 'yup'
-
-const MIN_PASSWORD_LENGTH = 6
+import * as inputs from './inputs'
+import { MIN_PASSWORD_LENGTH } from 'fixed'
 
 export default {
 	title: 'Sign Up',
 
 	initialValues: {
+		name: '',
 		email: '',
 		password: '',
 		passwordConfirmation: '',
 	},
 
 	show: {
-		email: true,
-		password: true,
-		passwordConfirmation: true,
+		email: inputs.Email,
+		password: inputs.Password,
+		passwordConfirmation: inputs.PasswordConfirmation,
+		name: inputs.name,
 	},
 
 	schema: function schema(values) {
 		return yup.object().shape({
+			name: yup.string().required('Name is required!'),
 			email: yup
 				.string()
 				.email('E-mail is not valid!')

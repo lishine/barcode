@@ -16,9 +16,10 @@ export function signUp(req, res, next) {
 	const db = app.get('db')
 	const saltRounds = 12
 
-	if (!email || !password) {
-		res.status(500).json({ error: 'Provide password or email' })
+	if (!email || !password || !name) {
+		res.status(500).json({ error: 'Provide password or email or name' })
 	}
+
 	bcrypt
 		.hash(password, saltRounds)
 		.then(hash => {

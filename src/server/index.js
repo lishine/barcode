@@ -2,11 +2,11 @@ import massive from 'massive'
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
+import './config'
 
 import { dropQuery, createQuery } from './data/users'
 import { validateTokenMid, signIn, signUp } from './lib/auth'
-
-require('dotenv').config()
+import { sendEmail } from './lib/email'
 
 const app = express()
 app.use(express.static('dist'))
@@ -44,6 +44,10 @@ app.get('/api1/insert', (req, res) => {
 		.insert({ name: 1, email: 2 * Math.random() * 10, password: 3 })
 		.then(user => res.json({ user, success: true }))
 		.catch(err => res.status(500).json({ error: err }))
+})
+
+app.get('/api1/send-email', (req, res) => {
+	sendEmail(res)
 })
 
 app.use(function(err, req, res, next) {
