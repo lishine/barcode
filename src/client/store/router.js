@@ -1,10 +1,8 @@
-import {
-	NOT_FOUND,
-	connectRoutes,
-	redirect as redirectRouter,
-} from 'redux-first-router'
+import { NOT_FOUND, connectRoutes, redirect as redirectRouter } from 'redux-first-router'
 import createHistory from 'history/createBrowserHistory'
-import { isAuth } from 'store/auth'
+import axios from 'axios'
+import { isAuth, setToken } from 'store/auth'
+import queryString from 'query-string'
 
 const ROLE_OPEN = 'open'
 const ROLE_ONLY_OPEN = 'only-open'
@@ -13,15 +11,42 @@ const routesMap = {
 	HOME: { path: '/', role: '' },
 	SIGN_UP: { path: '/sign-up', role: ROLE_ONLY_OPEN },
 	SIGN_IN: { path: '/sign-in', role: ROLE_ONLY_OPEN },
+	REGISTRATION_CONFIRM: {
+		path: '/register-confirm',
+		role: ROLE_ONLY_OPEN,
+		thunk: (dispatch, getState) => {
+			console.log('getState().location', getState().location)
+			const { token: confirmToken } = getState().location.query
+			console.log('confirmToken', confirmToken)
+			axios
+				.post(`/auth/registerconfirm`, { token: confirmToken })
+				.then(function(response) {
+					console.log('response', response)
+					const { token: newToken } = response.data
+					console.log('newToken', newToken)
+					if (newToken) {
+						dispatch(setToken(newToken))
+						dispatch(redirectRouter({ type: 'HOME' }))
+					} else {
+						dispatch(redirectRouter({ type: 'SIGN_IN' }))
+					}
+				})
+				.catch(function(err) {
+					console.log('err', JSON.stringify(err))
+				})
+		},
+	},
 }
 
 const options = {
+	querySerializer: queryString,
 	onBeforeChange: (dispatch, getState, action) => {
 		const state = getState()
 		const actionType = action.action.type
 
 		const role = routesMap[actionType] && routesMap[actionType].role
 		const loggedIn = isAuth(state)
+		console.log('action.action', action.action)
 		console.log('actionType', actionType)
 		console.log('role', role)
 		console.log('loggedIn', loggedIn)
@@ -50,8 +75,7 @@ const pages = {
 	[NOT_FOUND]: 'Home',
 }
 
-export const pageReducer = (state = 'HOME', action = {}) =>
-	pages[action.type] || state
+export const pageReducer = (state = 'HOME', action = {}) => pages[action.type] || state
 
 export const go = to => ({
 	type: to,

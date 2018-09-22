@@ -5,24 +5,30 @@ import bodyParser from 'body-parser'
 import './config'
 
 import { dropQuery, createQuery } from './data/users'
-import { validateTokenMid, signIn, signUp } from './lib/auth'
+import * as auth from './lib/auth'
 import * as email from './lib/email'
 
 const app = express()
-app.use(express.static('dist'))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.post('/api/signin', signIn)
-app.post('/api/signup', signUp)
-app.use('/api/*', validateTokenMid)
+app.post('/auth/signin', auth.signIn)
+app.post('/auth/signup', auth.signUp)
+app.post('/auth/registerconfirm', (req, res, next) => {
+	console.log('registrationConfirm')
+	// const { a, b, c } = req.params
+	// const token = `${a}.${b}.${c}`
+	auth.registrationConfirm(req, res, next)
+})
+app.use('/api/*', auth.validateTokenMid)
 
 app.get('/api1/check', (req, res) =>
 	res.json({ sucess: true, check: true, secret: process.env.JWT_SECRET })
 )
 
 app.get('/api1/create', (req, res) => {
+	console.log('here')
 	const db = req.app.get('db')
 	db.query(createQuery)
 		.then(() => db.reload(instance => req.app.set('db', instance)))
@@ -53,11 +59,21 @@ app.get('/api1/insert', (req, res) => {
 // 		.catch(err => res.status(500).json({ error: 'email not sent', err }))
 // })
 
+app.use(express.static('dist'))
+
+app.use((req, res) => {
+	// console.log('req.session', req.session)
+	// if (req.session) {
+	// 	console.log('req.session', req.session)
+	// 	res.set({ token: req.session.token })
+	// }
+	// console.log('redirected')
+	res.sendFile(path.resolve(__dirname, '../../dist/index.html'))
+})
+
 app.use(function(err, req, res, next) {
 	res.status(500).json({ sucess: false, err })
 })
-
-app.use((req, res) => res.sendFile(path.resolve(__dirname, '../../dist/index.html')))
 
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => console.log('Listening on port', PORT))

@@ -1,4 +1,4 @@
-module.exports = (env) => {
+module.exports = env => {
 	const path = require('path')
 	const webpack = require('webpack')
 	const Dotenv = require('dotenv-webpack')
@@ -130,9 +130,12 @@ module.exports = (env) => {
 			historyApiFallback: true,
 			port: 3000,
 			open: false,
-			proxy: {
-				'/api': 'http://localhost:8080',
-			},
+			proxy: [
+				{
+					context: ['/auth', '/api', '/api1'],
+					target: 'http://localhost:8080',
+				},
+			],
 		}
 	}
 

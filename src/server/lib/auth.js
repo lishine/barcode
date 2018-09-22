@@ -5,11 +5,14 @@ import * as emailUtils from './email'
 
 function tokenForUser(user) {
 	const timestamp = new Date().getTime()
-	return encode({ sub: user.id, iat: timestamp }, process.env.JWT_SECRET)
+	return encode({ userId: user.id, iat: timestamp }, process.env.JWT_SECRET)
 }
 
 function userIdForToken(token) {
-	decode(token, process.env.JWT_SECRET)
+	const decoded = decode(token, process.env.JWT_SECRET)
+	console.log('decoded', decoded)
+	const userId = decoded && decoded.userId
+	return userId
 }
 
 export function signUp(req, res, next) {
@@ -26,7 +29,7 @@ export function signUp(req, res, next) {
 		.hash(password, saltRounds)
 		.then(hash => {
 			return db.users
-				.insert({ name, email, password: hash })
+				.insert({ name, email, password: hash, confirmed: false })
 				.then(user => {
 					let token
 					try {
@@ -34,11 +37,19 @@ export function signUp(req, res, next) {
 					} catch (err) {
 						return res.status(500).json({ error: 'token generation failure', err })
 					}
+
+					const host = req.headers.host
+					const path = 'register-confirm'
+					// const replacedToken = token.replace(/\./g, '/')
+					console.log('token', token)
+					// console.log('replacedToken', replacedToken)
+					const link = `http://${host}/${path}?token=${token}`
+
 					emailUtils
 						.sendRegistrationEmail({
 							name,
 							email: 'vim55k@gmail.com',
-							link: 'link replaced',
+							link,
 						})
 						.then(info => res.status(200).json({ info, token }))
 						.catch(err => res.status(500).json({ error: 'email not sent', err }))
@@ -53,6 +64,7 @@ export function signUp(req, res, next) {
 }
 
 export function signIn(req, res, next) {
+	console.log('aaaaa')
 	const { app, body } = req
 	const { email, password } = body
 	const db = app.get('db')
@@ -64,6 +76,11 @@ export function signIn(req, res, next) {
 	return db.users
 		.findOne({ email })
 		.then(validUser => {
+			const confirmed = validUser && validUser.confirmed
+			if (!confirmed) {
+				res.status(402).json({ error: 'user not confirmed' })
+			}
+
 			bcrypt
 				.compare(password, validUser.password)
 				.then(validPassword => {
@@ -81,20 +98,59 @@ export function signIn(req, res, next) {
 		.catch(err => res.status(500).json({ sucess: false, err, error: 'user not found' }))
 }
 
+export function registrationConfirm(req, res, next) {
+	const { app, body } = req
+	const { token } = body
+	const db = app.get('db')
+
+	if (!token) {
+		return res.status(500).json({ error: 'no token, not authorized' })
+	}
+
+	let userId
+	try {
+		userId = userIdForToken(token)
+	} catch (err) {
+		return res.status(500).json({ error: 'token decode failure', err })
+	}
+	console.log('confirmToken', token)
+	console.log('userId', userId)
+	return db.users
+		.findOne({ id: userId })
+		.then(validUser => {
+			console.log('validUser', validUser)
+			if (!validUser) {
+				return res.status(500).json({ error: 'no user' })
+			}
+			const { confirmed } = validUser
+			if (confirmed) {
+				return res.status(500).json({ error: 'account already confirmed' })
+			} else {
+				db.users
+					.update({ id: userId }, { confirmed: true })
+					.then(user => {
+						console.log('user', user)
+						return res.status(200).json({ token })
+					})
+					.catch(err => {
+						return res
+							.status(500)
+							.json({ error: 'error updating confirmed in db', err })
+					})
+			}
+		})
+		.catch(err => {
+			return res.status(500).json({ err, error: 'no user, not authorized' })
+		})
+}
+
 export function validateTokenMid(req, res, next) {
 	const { app, body, headers, path, baseUrl } = req
-	const fullPath = `${baseUrl}${path}`
-	console.log('fullPath', fullPath)
-	if (fullPath === '/api/signin/' || fullPath === '/api/signup/') {
-		return
-	}
-	console.log('validating')
-
 	const { token } = headers
 	const db = app.get('db')
 
 	if (!token) {
-		res.status(500).json({ sucess: false, err: 'no token, not authorized' })
+		res.status(500).json({ error: 'no token, not authorized' })
 		return
 	}
 
@@ -103,11 +159,21 @@ export function validateTokenMid(req, res, next) {
 	return db.users
 		.findOne({ id: userId })
 		.then(validUser => {
-			req.user = validUser
 			console.log('validUser', validUser)
-			next()
+			const confirmed = validUser && validUser.confirmed
+			if (confirmed) {
+				req.user = validUser
+				next()
+			} else {
+				res.status(401).json({ error: 'no user, not authorized' })
+			}
 		})
-		.catch(err =>
-			res.status(500).json({ sucess: false, err, error: 'no user, not authorized' })
-		)
+		.catch(err => res.status(401).json({ err, error: 'no user, not authorized' }))
 }
+
+// const fullPath = `${baseUrl}${path}`
+// console.log('fullPath', fullPath)
+// if (fullPath === '/api/signin/' || fullPath === '/api/signup/') {
+// 	return
+// }
+// console.log('validating')

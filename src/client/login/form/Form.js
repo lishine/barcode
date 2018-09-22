@@ -16,7 +16,7 @@ const onSubmit = (values, actions, page, setToken, redirect, setEmail) => {
 	const { email, password } = values
 
 	axios
-		.post(`/api/${page}`, { email, password })
+		.post(`/auth/${page}`, { email, password })
 		.then(function(response) {
 			setToken(response.data.token)
 			setEmail(email)
