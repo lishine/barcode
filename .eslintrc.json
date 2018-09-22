@@ -1,11 +1,9 @@
 {
     "globals": {
-        "Map": true,
-        "When": true,
+        "get": true,
+        "React": true,
         "map": true,
-        "reduce": true,
-        "Link": true,
-        "NavLink": true
+        "reduce": true
     },
     "env": {
         "browser": true,

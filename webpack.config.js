@@ -92,6 +92,7 @@ module.exports = env => {
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.ProvidePlugin({
 				React: 'react',
+				get: 'lodash/fp/get',
 				map: 'lodash/fp/map',
 				reduce: 'lodash/fp/reduce',
 			}),

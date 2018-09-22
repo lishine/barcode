@@ -9,32 +9,28 @@ import * as domains from './constants/domains'
 import * as roles from './constants/roles'
 
 const routesMap = {
-	[routes.HOME]: { path: '/', page: routes.HOME, role: '' },
+	[routes.HOME]: { path: '/', role: '' },
 	[routes.SIGN_UP]: {
-		path: '/sign-up',
-		page: routes.SIGN_UP,
+		path: '/sign-up/:alert',
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
 	[routes.SIGN_IN]: {
 		path: '/sign-in',
-		page: routes.SIGN_IN,
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
 	[routes.FORGOT_PASSWORD]: {
 		path: '/forgot-password',
-		page: routes.FORGOT_PASSWORD,
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
 	[routes.NEW_PASSWORD]: {
 		path: '/new-password',
-		page: routes.NEW_PASSWORD,
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
-	[routes.REGISTRATION_CONFIRM]: {
+	[routes.REGISTER_CONFIRM]: {
 		path: '/register-confirm',
 		role: roles.ONLY_OPEN,
 		thunk: (dispatch, getState) => {
@@ -96,11 +92,12 @@ export const go = to => ({
 	type: to,
 })
 
-export const redirect = to =>
+export const redirect = (to, payload) =>
 	redirectRouter({
 		type: to,
+		payload,
 	})
 
-export const getPage = state => routesMap[state.location.type].page
+export const getPage = state => state.location.type
 
 export const getDomain = state => routesMap[state.location.type].domain

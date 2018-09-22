@@ -16,6 +16,8 @@ export default (state = { email: '', token: '' }, action) => {
 	}
 }
 
+export const getAlert = state => state.location.payload.alert
+
 export const getEmail = state => state[DOMAIN].email
 export const getToken = state => state[DOMAIN].token
 export const isAuth = state => !!state[DOMAIN].token

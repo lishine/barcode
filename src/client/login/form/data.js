@@ -17,7 +17,7 @@ const titles = {
 	NewPassword: 'New password',
 }
 
-export default page => {
+export const formData = page => {
 	const fields = allFields[page]
 	console.log('fields', fields)
 	const title = titles[page]
@@ -37,4 +37,19 @@ export default page => {
 			return yup.object().shape(mapToObject(field => ({ [field]: sch[field] }))(fields))
 		},
 	}
+}
+
+export const alerts = {
+	success: {
+		SignUp: { message: 'Sign Up success', btnContinueToSite: true },
+		SignIn: { message: 'Sign In success', btnContinueToSite: true },
+		ForgotPassword: { message: 'Forgot password success' },
+		NewPassword: { message: 'New password success', btnContinueToSite: true },
+	},
+	failure: {
+		SignUp: { message: 'Sign Up failure' },
+		SignIn: { message: 'Sign In failure' },
+		ForgotPassword: { message: 'Forgot password failure' },
+		NewPassword: { message: 'New password failure' },
+	},
 }
