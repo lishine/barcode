@@ -1,7 +1,11 @@
 {
     "globals": {
+        "Map": true,
+        "When": true,
         "map": true,
-        "reduce": true
+        "reduce": true,
+        "Link": true,
+        "NavLink": true
     },
     "env": {
         "browser": true,
@@ -18,6 +22,7 @@
     ],
     "parser": "babel-eslint",
     "rules": {
+        "react/react-jsx-no-undef": 0,
         "react/react-in-jsx-scope": 0,
         "camelcase": 0,
         "no-return-await": 0,

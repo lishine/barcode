@@ -1,4 +1,3 @@
-import React, { Fragment } from 'react'
 import nodemailer from 'nodemailer'
 import Email from 'email-templates'
 

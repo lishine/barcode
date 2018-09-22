@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react'
 import { NavLink } from 'redux-first-router-link'
-import { Grid, Cell } from 'styled-css-grid'
+import { Flex, Box } from 'reflexbox'
 
 export default () => (
-	<Grid columns={2}>
-		<Cell>
+	<Flex w={1}>
+		<Box w={1 / 2}>
 			<NavLink
 				to="/sign-up"
 				style={{
@@ -22,8 +21,8 @@ export default () => (
 				}}>
 				sign up
 			</NavLink>
-		</Cell>
-		<Cell>
+		</Box>
+		<Box w={1 / 2}>
 			<NavLink
 				to="/sign-in"
 				style={{
@@ -41,6 +40,6 @@ export default () => (
 				}}>
 				sign in
 			</NavLink>
-		</Cell>
-	</Grid>
+		</Box>
+	</Flex>
 )

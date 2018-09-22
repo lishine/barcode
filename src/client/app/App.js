@@ -1,12 +1,14 @@
 import Login from '../login/Login'
 import Link from 'redux-first-router-link'
+import { When } from 'react-if'
 
 import AppContainer, { AppContext } from 'app/AppContainer'
+import * as domains from 'store/constants/domains'
 
 export default AppContainer(
 	<>
 		<AppContext.Consumer>
-			{({ page, token, email, setToken, setEmail }) => {
+			{({ domain, page, token, email, setToken, setEmail }) => {
 				return (
 					<>
 						<Link
@@ -17,10 +19,13 @@ export default AppContainer(
 							}}>
 							logout
 						</Link>
+						<div>domain: {domain}</div>
 						<div>page: {page}</div>
 						<div>token: {token}</div>
 						<div>email: {email}</div>
-						<Login />
+						<When condition={domain === domains.LOGIN}>
+							<Login />
+						</When>
 					</>
 				)
 			}}

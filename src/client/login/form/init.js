@@ -1,28 +1,40 @@
 import * as yup from 'yup'
 import * as inputs from './inputs'
 import schema from './schema'
+import { mapToObject } from 'utils'
 
-const fields = {
-	signUp: ['name', 'email', 'password', 'passwordConfirmation'],
-	signIn: ['email', 'password'],
-	forgotPassword: ['email'],
-	newPassword: ['password', 'passwordConfirmation'],
+const allFields = {
+	SignUp: ['Name', 'Email', 'Password', 'PasswordConfirmation'],
+	SignIn: ['Email', 'Password'],
+	ForgotPassword: ['Email'],
+	NewPassword: ['Password', 'PasswordConfirmation'],
 }
 
 const titles = {
-	signUp: 'Sign Up',
-	signIn: 'Sign In',
-	forgotPassword: 'Forgot password',
-	newPassword: 'New password',
+	SignUp: 'Sign Up',
+	SignIn: 'Sign In',
+	ForgotPassword: 'Forgot password',
+	NewPassword: 'New password',
 }
 
-export default page => ({
-	title: titles[page],
+export default page => {
+	const fields = allFields[page]
+	console.log('fields', fields)
+	const title = titles[page]
+	console.log(
+		'mapToObject(field => ({ [field]: schema[field] }))(fields)',
+		mapToObject(field => ({ [field]: schema[field] }))(fields)
+	)
+	return {
+		title,
 
-	initialValues: reduce((acc, field) => ({ [field]: '' }), {})(fields),
+		initialValues: mapToObject(field => ({ [field]: '' }))(fields),
 
-	show: map(name => ({ name, component: inputs[name.toUpperCase()] }))(fields),
+		show: map(field => ({ name: field, component: inputs[field] }))(fields),
 
-	schema: values =>
-		yup.object().shape(reduce((acc, field) => ({ [field]: schema[field] }), {})(fields)),
-})
+		schema: values => {
+			const sch = schema(values)
+			return yup.object().shape(mapToObject(field => ({ [field]: sch[field] }))(fields))
+		},
+	}
+}

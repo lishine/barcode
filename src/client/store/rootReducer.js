@@ -1,4 +1,7 @@
-import { routerReducer, pageReducer } from './router'
+import { routerReducer } from './router'
 import authReducer from './auth'
 
-export default { location: routerReducer, page: pageReducer, auth: authReducer }
+export default {
+	location: routerReducer,
+	auth: authReducer,
+}

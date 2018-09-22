@@ -1,4 +1,3 @@
-import React, { Component, Fragment } from 'react'
 import Link from 'redux-first-router-link'
 import Modal from 'react-modal'
 import styled from 'styled-components'

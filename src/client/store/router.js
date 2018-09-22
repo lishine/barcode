@@ -4,16 +4,39 @@ import axios from 'axios'
 import { isAuth, setToken } from 'store/auth'
 import queryString from 'query-string'
 
-const ROLE_OPEN = 'open'
-const ROLE_ONLY_OPEN = 'only-open'
+import * as routes from './constants/routes'
+import * as domains from './constants/domains'
+import * as roles from './constants/roles'
 
 const routesMap = {
-	HOME: { path: '/', role: '' },
-	SIGN_UP: { path: '/sign-up', role: ROLE_ONLY_OPEN },
-	SIGN_IN: { path: '/sign-in', role: ROLE_ONLY_OPEN },
-	REGISTRATION_CONFIRM: {
+	[routes.HOME]: { path: '/', page: routes.HOME, role: '' },
+	[routes.SIGN_UP]: {
+		path: '/sign-up',
+		page: routes.SIGN_UP,
+		domain: domains.LOGIN,
+		role: roles.ONLY_OPEN,
+	},
+	[routes.SIGN_IN]: {
+		path: '/sign-in',
+		page: routes.SIGN_IN,
+		domain: domains.LOGIN,
+		role: roles.ONLY_OPEN,
+	},
+	[routes.FORGOT_PASSWORD]: {
+		path: '/forgot-password',
+		page: routes.FORGOT_PASSWORD,
+		domain: domains.LOGIN,
+		role: roles.ONLY_OPEN,
+	},
+	[routes.NEW_PASSWORD]: {
+		path: '/new-password',
+		page: routes.NEW_PASSWORD,
+		domain: domains.LOGIN,
+		role: roles.ONLY_OPEN,
+	},
+	[routes.REGISTRATION_CONFIRM]: {
 		path: '/register-confirm',
-		role: ROLE_ONLY_OPEN,
+		role: roles.ONLY_OPEN,
 		thunk: (dispatch, getState) => {
 			console.log('getState().location', getState().location)
 			const { token: confirmToken } = getState().location.query
@@ -26,9 +49,9 @@ const routesMap = {
 					console.log('newToken', newToken)
 					if (newToken) {
 						dispatch(setToken(newToken))
-						dispatch(redirectRouter({ type: 'HOME' }))
+						dispatch(redirectRouter({ type: routes.HOME }))
 					} else {
-						dispatch(redirectRouter({ type: 'SIGN_IN' }))
+						dispatch(redirectRouter({ type: routes.SIGN_IN }))
 					}
 				})
 				.catch(function(err) {
@@ -42,6 +65,7 @@ const options = {
 	querySerializer: queryString,
 	onBeforeChange: (dispatch, getState, action) => {
 		const state = getState()
+		console.log('getState().location', getState().location)
 		const actionType = action.action.type
 
 		const role = routesMap[actionType] && routesMap[actionType].role
@@ -51,11 +75,11 @@ const options = {
 		console.log('role', role)
 		console.log('loggedIn', loggedIn)
 		console.log('dispatch', dispatch)
-		if (role === ROLE_ONLY_OPEN && loggedIn) {
-			const action = redirectRouter({ type: 'HOME' })
+		if (role === roles.ONLY_OPEN && loggedIn) {
+			const action = redirectRouter({ type: routes.HOME })
 			dispatch(action)
-		} else if (role !== ROLE_ONLY_OPEN && !loggedIn) {
-			const action = redirectRouter({ type: 'SIGN_IN' })
+		} else if (role !== roles.ONLY_OPEN && !loggedIn) {
+			const action = redirectRouter({ type: routes.SIGN_IN })
 			dispatch(action)
 		}
 	},
@@ -68,15 +92,6 @@ export const {
 	enhancer: routerEnhancer,
 } = connectRoutes(history, routesMap, options)
 
-const pages = {
-	HOME: 'Home',
-	SIGN_UP: 'SignUp',
-	SIGN_IN: 'SignIn',
-	[NOT_FOUND]: 'Home',
-}
-
-export const pageReducer = (state = 'HOME', action = {}) => pages[action.type] || state
-
 export const go = to => ({
 	type: to,
 })
@@ -86,4 +101,6 @@ export const redirect = to =>
 		type: to,
 	})
 
-export const getPage = state => state.page
+export const getPage = state => routesMap[state.location.type].page
+
+export const getDomain = state => routesMap[state.location.type].domain

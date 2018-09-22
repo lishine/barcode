@@ -1,5 +1,3 @@
-import React, { Component, Fragment } from 'react'
-
 import StyledInput from './StyledInput'
 import ErrorText from './ErrorText'
 

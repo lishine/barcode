@@ -1,5 +1,3 @@
-import React from 'react'
-
 import FormikInput from './parts/FormikInput'
 
 export default props => (
