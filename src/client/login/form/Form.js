@@ -7,8 +7,8 @@ import axios from 'axios'
 import { Map } from 'utils'
 import { LoginContext } from 'login/LoginContainer'
 
-import { validate } from 'login/form/validate'
-import * as forms from './forms'
+import { validate } from './validate'
+import init from './init'
 
 const onSubmit = (values, actions, page, setToken, redirect, setEmail) => {
 	console.log('values', values)
@@ -30,7 +30,7 @@ const onSubmit = (values, actions, page, setToken, redirect, setEmail) => {
 export default () => (
 	<LoginContext.Consumer>
 		{({ page, setToken, redirect, setEmail }) => {
-			const { initialValues, show, schema, title } = forms[page]
+			const { initialValues, show, schema, title } = init(page)
 
 			return (
 				<>
@@ -46,7 +46,7 @@ export default () => (
 							return (
 								<Form onSubmit={handleSubmit}>
 									<Map collection={show}>
-										{([name, component]) => (
+										{({ name, component }) => (
 											<Field {...{ key: name, name, component }} />
 										)}
 									</Map>

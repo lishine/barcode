@@ -5,7 +5,7 @@ import { When } from 'react-if'
 
 import Form from './form/Form'
 import LoginContainer, { LoginContext } from './LoginContainer'
-import Modal from 'login/form/Modal'
+import Modal from './Modal'
 import NavLinks from './NavLinks'
 
 import { some } from 'utils'

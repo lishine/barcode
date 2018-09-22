@@ -90,6 +90,11 @@ module.exports = env => {
 				favicon: path.resolve(PUBLIC_DIR, 'favicon.ico'),
 			}),
 			new webpack.HotModuleReplacementPlugin(),
+			new webpack.ProvidePlugin({
+				React: 'react',
+				map: 'lodash/fp/map',
+				reduce: 'lodash/fp/reduce',
+			}),
 		],
 	}
 
