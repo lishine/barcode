@@ -1,12 +1,13 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import ReduxThunk from 'redux-thunk'
 
 import rootReducer from './rootReducer'
 import { routerMiddleware, routerEnhancer } from './router'
 
 const store = createStore(
 	combineReducers(rootReducer),
-	composeWithDevTools(routerEnhancer, applyMiddleware(routerMiddleware))
+	composeWithDevTools(routerEnhancer, applyMiddleware(ReduxThunk, routerMiddleware))
 )
 
 // if (module.hot) {

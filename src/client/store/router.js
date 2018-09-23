@@ -91,7 +91,16 @@ const options = {
 		const payload = action.action.payload
 
 		const role = routesMap[actionType] && routesMap[actionType].role
-		const loggedIn = isAuth(state)
+
+		let loggedIn = isAuth(state)
+		if (!loggedIn) {
+			const token = localStorage.getItem('token')
+			console.log('got token', token)
+			if (token) {
+				dispatch(setToken(token))
+				loggedIn = true
+			}
+		}
 
 		console.log('action.action', action.action)
 		console.log('actionType', actionType)

@@ -1,5 +1,9 @@
 express error log middleware
-React email
 express requests number per second 
-localstorage
 token expire
+token blacklisting
+
+Redux
+set token on init action
+
+*React email

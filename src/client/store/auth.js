@@ -27,7 +27,10 @@ export const setEmail = email => ({
 	payload: email,
 })
 
-export const setToken = token => ({
-	type: SET_TOKEN,
-	payload: token,
-})
+export const setToken = token => (dispatch, getState) => {
+	localStorage.setItem('token', token)
+	dispatch({
+		type: SET_TOKEN,
+		payload: token,
+	})
+}
