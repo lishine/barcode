@@ -83,15 +83,18 @@ const options = {
 		const state = getState()
 		console.log('getState().location', getState().location)
 		const actionType = action.action.type
+		const payload = action.action.payload
 
 		const role = routesMap[actionType] && routesMap[actionType].role
 		const loggedIn = isAuth(state)
+
 		console.log('action.action', action.action)
 		console.log('actionType', actionType)
 		console.log('role', role)
 		console.log('loggedIn', loggedIn)
 		console.log('dispatch', dispatch)
-		if (role === roles.ONLY_OPEN && loggedIn) {
+
+		if (role === roles.ONLY_OPEN && loggedIn && payload.alert === 'form') {
 			const action = redirectRouter({ type: routes.HOME })
 			dispatch(action)
 		} else if (role !== roles.ONLY_OPEN && !loggedIn) {
@@ -122,5 +125,7 @@ export const redirect = (to, payload) =>
 	})
 
 export const getPage = state => state.location.type
+
+export const getPayload = state => state.location.payload
 
 export const getDomain = state => routesMap[state.location.type].domain

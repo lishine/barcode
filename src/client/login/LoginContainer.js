@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { getPage, redirect } from 'store/router'
+import { getPage, redirect, getPayload } from 'store/router'
 import { setEmail, isAuth, setToken, getAlert } from 'store/auth'
 import { withContext } from 'utils/with-context'
 
@@ -9,6 +9,7 @@ export default component =>
 	withContext({
 		selectors: {
 			page: getPage,
+			payload: getPayload,
 			alert: getAlert,
 			isAuth,
 		},

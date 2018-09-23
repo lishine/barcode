@@ -14,21 +14,27 @@ import { validate } from './validate'
 import { errors, formData } from './data'
 import * as routes from 'store/constants/routes'
 
-const onSubmit = async (values, actions, page, setToken, redirect, setEmail) => {
+const onSubmit = async (values, actions, page, setToken, redirect, setEmail, payload) => {
 	console.log('values', values)
 	console.log('actions', actions)
 	const { setStatus, setSubmitting } = actions
 	let apiRoute = page
+	let apiValues = values
 	if (page === 'sendRegLink') {
 		apiRoute = routes.SIGN_IN
-		values = Object.assign({}, values, { sendRegLink: true })
+		apiValues = Object.assign({}, apiValues, { sendRegLink: true })
 	}
+	console.log('payload', payload)
+
+	const token = get('token')(payload)
+	apiValues = Object.assign({}, apiValues, { token })
+	console.log('token', token)
 
 	setSubmitting(true)
 	await sleep(1000)
-
+	console.log('apiValues', apiValues)
 	axios
-		.post(`/auth/${apiRoute}`, values)
+		.post(`/auth/${apiRoute}`, apiValues)
 		.then(function(response) {
 			setSubmitting(false)
 			let token
@@ -100,7 +106,7 @@ const onSubmit = async (values, actions, page, setToken, redirect, setEmail) => 
 
 export default () => (
 	<LoginContext.Consumer>
-		{({ page, setToken, redirect, setEmail }) => {
+		{({ page, setToken, redirect, setEmail, payload }) => {
 			console.log('init(page)', formData(page))
 			console.log('page', page)
 			console.log('routes.SIGN_IN', routes.SIGN_IN)
@@ -120,7 +126,15 @@ export default () => (
 						initialValues={initialValues}
 						validate={validate(schema)}
 						onSubmit={(values, actions) =>
-							onSubmit(values, actions, page, setToken, redirect, setEmail)
+							onSubmit(
+								values,
+								actions,
+								page,
+								setToken,
+								redirect,
+								setEmail,
+								payload
+							)
 						}
 						render={({
 							setSubmitting,
@@ -163,6 +177,7 @@ export default () => (
 									<When condition={!!sendLink}>
 										<div>
 											<Link
+												to="#"
 												onClick={() =>
 													onSubmit(
 														values,
