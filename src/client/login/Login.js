@@ -8,7 +8,7 @@ import Modal from './Modal'
 import NavLinks from './NavLinks'
 
 import { alerts } from './form/data'
-import InlineAlert from './InlineAlert'
+import Alert from './Alert'
 
 import * as routes from 'store/constants/routes'
 
@@ -27,7 +27,7 @@ export default LoginContainer(
 									<Form />
 								</Then>
 								<Else>
-									<InlineAlert />
+									<Alert />
 								</Else>
 							</If>
 						</Box>

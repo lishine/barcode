@@ -4,6 +4,10 @@ import * as inputs from './inputs'
 import schema from './schema'
 import { mapToObject } from 'utils'
 
+export const errors = {
+	USER_NOT_CONFIRMED: 100,
+}
+
 const allFields = {
 	SignUp: ['name', 'email', 'password', 'passwordConfirmation'],
 	SignIn: ['email', 'password'],
@@ -34,7 +38,7 @@ export const formData = page => {
 
 export const alerts = {
 	success: {
-		SignUp: { message: 'Sign Up success', btnContinueToSite: true },
+		SignUp: { message: 'Sign Up success' },
 		SignIn: { message: 'Sign In success', btnContinueToSite: true },
 		ForgotPassword: { message: 'Forgot password success' },
 		NewPassword: { message: 'New password success', btnContinueToSite: true },

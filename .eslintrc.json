@@ -1,6 +1,6 @@
 {
     "globals": {
-        "print": true,
+        "sleep": true,
         "get": true,
         "React": true,
         "map": true,

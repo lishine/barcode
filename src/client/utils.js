@@ -7,6 +7,6 @@ export const mapToObject = func => array =>
 
 export const Map = ({ collection, children }) => <>{map(children)(collection)}</>
 
-export function print(json) {
-	JSON.stringify(json, null, 2)
+export function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms))
 }

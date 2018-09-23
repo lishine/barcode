@@ -58,7 +58,7 @@ module.exports = env => {
 
 	const config = {
 		mode: TARGET,
-		entry: path.resolve(APP_DIR, 'index.js'),
+		entry: { bundle: ['@babel/polyfill', path.resolve(APP_DIR, 'index.js')] },
 		output: {
 			publicPath: '/',
 			path: BUILD_DIR,
@@ -91,7 +91,7 @@ module.exports = env => {
 			}),
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.ProvidePlugin({
-				print: ['utils', 'print'],
+				sleep: ['utils', 'sleep'],
 				React: 'react',
 				get: 'lodash/fp/get',
 				map: 'lodash/fp/map',

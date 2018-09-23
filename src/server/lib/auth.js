@@ -1,3 +1,4 @@
+import get from 'lodash/fp/get'
 import { encode, decode } from 'jwt-simple'
 import bcrypt from 'bcrypt'
 
@@ -74,49 +75,76 @@ export function signUp(req, res, next) {
 			return db.users
 				.insert({ name, email, password: hash, confirmed: false })
 				.then(user => {
-					let token
-					try {
-						token = tokenForUser(user.id)
-					} catch (err) {
-						return res.status(500).json({ error: 'token generation failure', err })
-					}
-
-					const host = req.headers.host
-					const path = 'register-confirm'
-					console.log('token', token)
-					const link = `http://${host}/${path}?token=${token}`
-
-					emailUtils
-						.sendRegistrationEmail({
-							name,
-							email: 'vim55k@gmail.com',
-							link,
-						})
-						.then(info => res.status(200).json({ info, token }))
+					return sendRegistrationEmail({ req, res, userId: user.id, name, email })
+						.then(info => res.status(200).json({ info }))
 						.catch(err => res.status(400).json({ error: 'Email not sent', err }))
 				})
-				.catch(err => res.status(500).json({ err, error: 'error saving user' }))
+				.catch(err => {
+					const code = get('code')(err)
+					if (code === '23505') {
+						res.status(400).json({ err, error: 'User already exists' })
+					} else {
+						res.status(500).json({ err, error: 'error saving user' })
+					}
+				})
 		})
 		.catch(err => {
 			next(err)
 		})
 }
 
+function sendRegistrationEmail({ req, res, userId, name, email }) {
+	let token
+	try {
+		token = tokenForUser(userId)
+	} catch (err) {
+		return res.status(500).json({ error: 'token generation failure', err })
+	}
+	console.log(2)
+
+	const host = req.headers.host
+	const path = 'register-confirm'
+	console.log('token', token)
+	const link = `http://${host}/${path}?token=${token}`
+	console.log(3)
+
+	return emailUtils.sendRegistrationEmail({
+		name,
+		email: 'vim55k@gmail.com',
+		link,
+	})
+}
+
 export function signIn(req, res, next) {
 	const { app, body } = req
-	const { email, password } = body
+	const { email, password, sendRegLink } = body
 	const db = app.get('db')
 
 	if (!email || !password) {
 		res.status(400).json({ error: 'No password or email' })
 	}
-
+	console.log('email', email)
+	console.log('sendRegLink', sendRegLink)
 	return db.users
 		.findOne({ email })
 		.then(validUser => {
+			console.log('validUser', validUser)
 			const confirmed = validUser && validUser.confirmed
 			if (!confirmed) {
-				return res.status(400).json({ error: 'User not confirmed' })
+				if (sendRegLink) {
+					console.log(1)
+					return sendRegistrationEmail({
+						req,
+						res,
+						userId: validUser.id,
+						name: validUser.name,
+						email,
+					})
+						.then(info => res.status(200).json({ info }))
+						.catch(err => res.status(400).json({ error: 'Email not sent', err }))
+				} else {
+					return res.status(400).json({ code: 100, error: 'User not confirmed' })
+				}
 			}
 
 			bcrypt
