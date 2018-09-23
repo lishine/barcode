@@ -93,3 +93,8 @@ massive(config)
 		const c = app.get('db').listTables()
 	})
 	.catch(err => console.log('err', err))
+
+console.log({
+	send: process.env.NODE_ENV === 'production',
+	preview: process.env.NODE_ENV === 'development',
+})

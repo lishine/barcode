@@ -37,16 +37,23 @@ export const formData = page => {
 }
 
 export const alerts = {
-	success: {
-		SignUp: { message: 'Sign Up success' },
-		SignIn: { message: 'Sign In success', btnContinueToSite: true },
-		ForgotPassword: { message: 'Forgot password success' },
-		NewPassword: { message: 'New password success', btnContinueToSite: true },
+	SignUp: {
+		success: {
+			message: 'Sign up in process. Check your mail for email confirmation link',
+		},
 	},
-	failure: {
-		SignUp: { message: 'Sign Up failure' },
-		SignIn: { message: 'Sign In failure' },
-		ForgotPassword: { message: 'Forgot password failure' },
-		NewPassword: { message: 'New password failure' },
+	SignIn: {
+		success: { message: 'You are signed in', btnContinueToSite: true },
+		confirmLinkSent: { message: 'Please check your mail for email confirmation link' },
+		emailConfirmed: {
+			message: 'Email confirmed. You are signed in',
+			btnContinueToSite: true,
+		},
+	},
+	ForgotPassword: {
+		success: { message: 'Please check your mail for new password confirmation link' },
+	},
+	NewPassword: {
+		success: { message: 'Password changed. You are signed in', btnContinueToSite: true },
 	},
 }

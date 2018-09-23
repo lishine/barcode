@@ -60,7 +60,12 @@ const routesMap = {
 					console.log('newToken', newToken)
 					if (newToken) {
 						dispatch(setToken(newToken))
-						dispatch(redirectRouter({ type: routes.HOME }))
+						dispatch(
+							redirectRouter({
+								type: routes.SIGN_IN,
+								payload: { alert: 'emailConfirmed' },
+							})
+						)
 					} else {
 						dispatch(
 							redirectRouter({

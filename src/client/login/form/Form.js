@@ -40,7 +40,7 @@ const onSubmit = async (values, actions, page, setToken, redirect, setEmail, pay
 			let token
 			switch (page) {
 				case 'sendRegLink':
-					redirect(routes.SIGN_UP, { alert: 'success' })
+					redirect(routes.SIGN_IN, { alert: 'confirmLinkSent' })
 					break
 				case routes.SIGN_UP:
 					redirect(routes.SIGN_UP, { alert: 'success' })
@@ -82,19 +82,12 @@ const onSubmit = async (values, actions, page, setToken, redirect, setEmail, pay
 				case 'sendRegLink':
 				case routes.SIGN_IN:
 					if (code === errors.USER_NOT_CONFIRMED) {
-						console.log('111')
 						setError({ sendLink: true })
 					} else {
-						console.log('222')
-
 						setError({})
 					}
 					break
 				case routes.FORGOT_PASSWORD:
-					// actions.setTouched(false)
-					// actions.setStatus(true)
-					// actions.handleChange = () => console.log('CHANGE')
-					// redirect(routes.FORGOT_PASSWORD, { alert: 'failure' })
 					setError({})
 					break
 				case routes.NEW_PASSWORD:
@@ -114,13 +107,6 @@ export default () => (
 			console.log('show', show)
 			return (
 				<>
-					<div onClick={() => redirect(routes.SIGN_UP, { alert: 'failure' })}>
-						signup-failure
-					</div>
-					<div
-						onClick={() => redirect(routes.FORGOT_PASSWORD, { alert: 'success' })}>
-						fp-success
-					</div>
 					<Title>{title}</Title>
 					<Formik
 						initialValues={initialValues}
@@ -145,7 +131,6 @@ export default () => (
 							values,
 							...bag
 						}) => {
-							console.log('bag', bag)
 							console.log('status', status)
 							console.log('isSubmitting', isSubmitting)
 							const error = get('data.error')(status)
@@ -156,9 +141,6 @@ export default () => (
 
 							return (
 								<Form onSubmit={handleSubmit}>
-									<div onClick={() => bag.setError({ aaa: 'aaaaaa' })}>
-										signup-success
-									</div>
 									<Map collection={show}>
 										{({ name, component }) => (
 											<Field {...{ key: name, name, component }} />

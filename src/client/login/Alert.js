@@ -12,7 +12,7 @@ export default () => (
 	<LoginContext.Consumer>
 		{({ page, alert }) => {
 			console.log('alert', alert)
-			const { btnContinueToSite, message } = alerts[alert][page]
+			const { btnContinueToSite, message } = alerts[page][alert]
 			return (
 				<Flex column>
 					<Box>
