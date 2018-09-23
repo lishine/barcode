@@ -9,7 +9,7 @@ export function sendRegistrationEmail({ req, userId, name, email }) {
 	const path = 'register-confirm'
 	const link = `http://${host}/${path}?token=${token}`
 
-	createEmailTransport().send({
+	return createEmailTransport().send({
 		template: 'register-confirmation',
 		message: {
 			to: 'vim55k@gmail.com', // process.env.NODE_ENV === 'production'? email : 'vim55k@gmail.com',
@@ -28,7 +28,7 @@ export function sendNewPasswordEmail({ req, userId, name, email }) {
 	const path = 'new-password'
 	const link = `http://${host}/${path}?token=${token}`
 
-	createEmailTransport().send({
+	return createEmailTransport().send({
 		template: 'new-password',
 		message: {
 			to: 'vim55k@gmail.com', // process.env.NODE_ENV === 'production'? email : 'vim55k@gmail.com',
