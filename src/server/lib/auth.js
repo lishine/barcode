@@ -3,9 +3,11 @@ import bcrypt from 'bcrypt'
 
 import * as emailUtils from './email'
 
-function tokenForUser(user) {
+const saltRounds = 12
+
+function tokenForUser(userId, expire, newPassword) {
 	const timestamp = new Date().getTime()
-	return encode({ userId: user.id, iat: timestamp }, process.env.JWT_SECRET)
+	return encode({ userId, iat: timestamp, expire, newPassword }, process.env.JWT_SECRET)
 }
 
 function userIdForToken(token) {
@@ -15,14 +17,55 @@ function userIdForToken(token) {
 	return userId
 }
 
+export function forgotPassword(req, res, next) {
+	const { app, body } = req
+	const { email } = body
+	const db = app.get('db')
+
+	if (!email) {
+		res.status(400).json({ error: 'No email provided' })
+	}
+
+	return db.users
+		.findOne({ email })
+		.then(validUser => {
+			const confirmed = validUser && validUser.confirmed
+			if (!confirmed) {
+				return res.status(400).json({ error: 'User not confirmed' })
+			}
+
+			let token
+			try {
+				token = tokenForUser(validUser.id)
+			} catch (err) {
+				return res.status(500).json({ error: 'token generation failure', err })
+			}
+
+			const host = req.headers.host
+			const path = 'new-password'
+			console.log('token', token)
+			const link = `http://${host}/${path}?token=${token}`
+
+			const { name } = validUser
+			emailUtils
+				.sendRegistrationEmail({
+					name,
+					email: 'vim55k@gmail.com',
+					link,
+				})
+				.then(info => res.status(200).json({ info }))
+				.catch(err => res.status(400).json({ error: 'Email not sent', err }))
+		})
+		.catch(err => res.status(400).json({ err, error: 'User not found' }))
+}
+
 export function signUp(req, res, next) {
 	const { app, body } = req
 	const { name, email, password } = body
 	const db = app.get('db')
-	const saltRounds = 12
 
 	if (!email || !password || !name) {
-		res.status(500).json({ error: 'Provide password or email or name' })
+		res.status(400).json({ error: 'No password or email or name' })
 	}
 
 	bcrypt
@@ -33,16 +76,14 @@ export function signUp(req, res, next) {
 				.then(user => {
 					let token
 					try {
-						token = tokenForUser(user)
+						token = tokenForUser(user.id)
 					} catch (err) {
 						return res.status(500).json({ error: 'token generation failure', err })
 					}
 
 					const host = req.headers.host
 					const path = 'register-confirm'
-					// const replacedToken = token.replace(/\./g, '/')
 					console.log('token', token)
-					// console.log('replacedToken', replacedToken)
 					const link = `http://${host}/${path}?token=${token}`
 
 					emailUtils
@@ -52,11 +93,9 @@ export function signUp(req, res, next) {
 							link,
 						})
 						.then(info => res.status(200).json({ info, token }))
-						.catch(err => res.status(500).json({ error: 'email not sent', err }))
+						.catch(err => res.status(400).json({ error: 'Email not sent', err }))
 				})
-				.catch(err =>
-					res.status(500).json({ sucess: false, err, error: 'error saving user' })
-				)
+				.catch(err => res.status(500).json({ err, error: 'error saving user' }))
 		})
 		.catch(err => {
 			next(err)
@@ -64,13 +103,12 @@ export function signUp(req, res, next) {
 }
 
 export function signIn(req, res, next) {
-	console.log('aaaaa')
 	const { app, body } = req
 	const { email, password } = body
 	const db = app.get('db')
 
 	if (!email || !password) {
-		res.status(500).json({ sucess: false, error: 'Provide password or email' })
+		res.status(400).json({ error: 'No password or email' })
 	}
 
 	return db.users
@@ -78,24 +116,30 @@ export function signIn(req, res, next) {
 		.then(validUser => {
 			const confirmed = validUser && validUser.confirmed
 			if (!confirmed) {
-				res.status(402).json({ error: 'user not confirmed' })
+				return res.status(400).json({ error: 'User not confirmed' })
 			}
 
 			bcrypt
 				.compare(password, validUser.password)
 				.then(validPassword => {
 					if (validPassword) {
-						res.status(200).json({
-							sucess: true,
-							token: tokenForUser(validUser),
+						let token
+						try {
+							token = tokenForUser(validUser.id)
+						} catch (err) {
+							return res
+								.status(500)
+								.json({ error: 'token generation failure', err })
+						}
+
+						return res.status(200).json({
+							token,
 						})
 					}
 				})
-				.catch(err =>
-					res.status(401).json({ sucess: false, err, error: 'Unauthorized Access' })
-				)
+				.catch(err => res.status(400).json({ err, error: 'Unauthorized Access' }))
 		})
-		.catch(err => res.status(500).json({ sucess: false, err, error: 'user not found' }))
+		.catch(err => res.status(400).json({ err, error: 'user not found' }))
 }
 
 export function registrationConfirm(req, res, next) {
@@ -104,7 +148,7 @@ export function registrationConfirm(req, res, next) {
 	const db = app.get('db')
 
 	if (!token) {
-		return res.status(500).json({ error: 'no token, not authorized' })
+		return res.status(400).json({ error: 'No token' })
 	}
 
 	let userId
@@ -120,11 +164,11 @@ export function registrationConfirm(req, res, next) {
 		.then(validUser => {
 			console.log('validUser', validUser)
 			if (!validUser) {
-				return res.status(500).json({ error: 'no user' })
+				return res.status(400).json({ error: 'No user' })
 			}
 			const { confirmed } = validUser
 			if (confirmed) {
-				return res.status(500).json({ error: 'account already confirmed' })
+				return res.status(400).json({ error: 'Account already confirmed' })
 			} else {
 				db.users
 					.update({ id: userId }, { confirmed: true })
@@ -140,7 +184,7 @@ export function registrationConfirm(req, res, next) {
 			}
 		})
 		.catch(err => {
-			return res.status(500).json({ err, error: 'no user, not authorized' })
+			return res.status(400).json({ err, error: 'No user' })
 		})
 }
 
@@ -150,7 +194,7 @@ export function validateTokenMid(req, res, next) {
 	const db = app.get('db')
 
 	if (!token) {
-		res.status(500).json({ error: 'no token, not authorized' })
+		res.status(400).json({ error: 'No token' })
 		return
 	}
 
@@ -165,10 +209,10 @@ export function validateTokenMid(req, res, next) {
 				req.user = validUser
 				next()
 			} else {
-				res.status(401).json({ error: 'no user, not authorized' })
+				res.status(400).json({ error: 'User not confirmed' })
 			}
 		})
-		.catch(err => res.status(401).json({ err, error: 'no user, not authorized' }))
+		.catch(err => res.status(400).json({ err, error: 'No user' }))
 }
 
 // const fullPath = `${baseUrl}${path}`
@@ -177,3 +221,6 @@ export function validateTokenMid(req, res, next) {
 // 	return
 // }
 // console.log('validating')
+
+// const replacedToken = token.replace(/\./g, '/')
+// console.log('replacedToken', replacedToken)

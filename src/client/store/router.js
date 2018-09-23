@@ -16,17 +16,17 @@ const routesMap = {
 		role: roles.ONLY_OPEN,
 	},
 	[routes.SIGN_IN]: {
-		path: '/sign-in',
+		path: '/sign-in/:alert',
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
 	[routes.FORGOT_PASSWORD]: {
-		path: '/forgot-password',
+		path: '/forgot-password/:alert',
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
 	[routes.NEW_PASSWORD]: {
-		path: '/new-password',
+		path: '/new-password/:alert',
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
@@ -47,7 +47,12 @@ const routesMap = {
 						dispatch(setToken(newToken))
 						dispatch(redirectRouter({ type: routes.HOME }))
 					} else {
-						dispatch(redirectRouter({ type: routes.SIGN_IN }))
+						dispatch(
+							redirectRouter({
+								type: routes.SIGN_IN,
+								payload: { alert: 'form' },
+							})
+						)
 					}
 				})
 				.catch(function(err) {
@@ -75,7 +80,10 @@ const options = {
 			const action = redirectRouter({ type: routes.HOME })
 			dispatch(action)
 		} else if (role !== roles.ONLY_OPEN && !loggedIn) {
-			const action = redirectRouter({ type: routes.SIGN_IN })
+			const action = redirectRouter({
+				type: routes.SIGN_IN,
+				payload: { alert: 'form' },
+			})
 			dispatch(action)
 		}
 	},
@@ -95,7 +103,7 @@ export const go = to => ({
 export const redirect = (to, payload) =>
 	redirectRouter({
 		type: to,
-		payload,
+		payload: payload || {},
 	})
 
 export const getPage = state => state.location.type

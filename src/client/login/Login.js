@@ -22,12 +22,12 @@ export default LoginContainer(
 							<NavLinks />
 						</Box>
 						<Box>
-							<If condition={!!alert}>
+							<If condition={alert === 'form'}>
 								<Then>
-									<InlineAlert />
+									<Form />
 								</Then>
 								<Else>
-									<Form />
+									<InlineAlert />
 								</Else>
 							</If>
 						</Box>

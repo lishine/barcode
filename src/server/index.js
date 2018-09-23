@@ -15,12 +15,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.post('/auth/signin', auth.signIn)
 app.post('/auth/signup', auth.signUp)
-app.post('/auth/registerconfirm', (req, res, next) => {
-	console.log('registrationConfirm')
-	// const { a, b, c } = req.params
-	// const token = `${a}.${b}.${c}`
-	auth.registrationConfirm(req, res, next)
-})
+app.post('/auth/registerconfirm', (req, res, next) => auth.registrationConfirm(req, res, next))
+app.post('/auth/forgotpassword', (req, res, next) => auth.forgotPassword(req, res, next))
+app.post('/auth/newpassword', (req, res, next) => auth.newPassword(req, res, next))
 app.use('/api/*', auth.validateTokenMid)
 
 app.get('/api1/check', (req, res) =>

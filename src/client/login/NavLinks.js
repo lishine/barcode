@@ -1,11 +1,13 @@
 import { NavLink } from 'redux-first-router-link'
 import { Flex, Box } from 'reflexbox'
 
+import * as routes from 'store/constants/routes'
+
 export default () => (
 	<Flex w={1}>
 		<Box w={1 / 2}>
 			<NavLink
-				to="/sign-up"
+				to={{ type: routes.SIGN_UP, payload: { alert: 'form' } }}
 				style={{
 					height: '30px',
 					backgroundColor: '#444',
@@ -24,7 +26,7 @@ export default () => (
 		</Box>
 		<Box w={1 / 2}>
 			<NavLink
-				to="/sign-in"
+				to={{ type: routes.SIGN_IN, payload: { alert: 'form' } }}
 				style={{
 					height: '30px',
 					backgroundColor: '#444',
