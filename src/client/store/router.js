@@ -30,6 +30,21 @@ const routesMap = {
 		domain: domains.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
+	[routes.NEW_PASSWORD_LINK]: {
+		path: '/new-password',
+		role: roles.ONLY_OPEN,
+		thunk: (dispatch, getState) => {
+			console.log('getState().location', getState().location)
+			const { token } = getState().location.query
+			console.log('token', token)
+			dispatch(
+				redirectRouter({
+					type: routes.NEW_PASSWORD,
+					payload: { alert: 'form', token },
+				})
+			)
+		},
+	},
 	[routes.REGISTER_CONFIRM]: {
 		path: '/register-confirm',
 		role: roles.ONLY_OPEN,
