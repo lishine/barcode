@@ -73,6 +73,9 @@ export function signIn(req, res, next) {
 	return db.users
 		.findOne({ email })
 		.then(user => {
+			if (!user) {
+				return res.status(400).json({ error: 'User not found' })
+			}
 			console.log('user', user)
 			const confirmed = user && user.confirmed
 			if (!confirmed) {
