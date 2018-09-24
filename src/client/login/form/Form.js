@@ -31,7 +31,7 @@ const onSubmit = async (values, actions, page, setToken, redirect, setEmail, pay
 	console.log('token', token)
 
 	setSubmitting(true)
-	await sleep(1000)
+	await sleep(100)
 	console.log('apiValues', apiValues)
 	axios
 		.post(`/auth/${apiRoute}`, apiValues)
