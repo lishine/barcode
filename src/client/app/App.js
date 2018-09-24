@@ -5,7 +5,7 @@ import { When } from 'react-if'
 import AppContainer, { AppContext } from 'app/AppContainer'
 import * as domains from 'store/constants/domains'
 
-export default AppContainer(
+export default AppContainer(() => (
 	<>
 		<AppContext.Consumer>
 			{({ domain, page, token, email, setToken, setEmail }) => {
@@ -31,7 +31,7 @@ export default AppContainer(
 			}}
 		</AppContext.Consumer>
 	</>
-)
+))
 
 // {!userId ? (
 //     <div>

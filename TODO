@@ -3,7 +3,9 @@ express requests number per second
 token expire
 token blacklisting
 
-Redux
+reducers hot loader
+redux production mode
+
 set token on init action
 
 *React email

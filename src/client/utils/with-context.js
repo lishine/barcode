@@ -23,10 +23,17 @@ const wrapInDispatch = (o, dispatch) =>
 		{}
 	)
 
-export const withContext = ({ selectors, actions, calls, ContextProvider }) => component =>
+export const withContext = ({ selectors, actions, calls, ContextProvider }) => Component =>
 	connect(
 		mem(selectors),
 		dispatch => Object.assign(bindActionCreators(actions, dispatch), calls)
-	)(props =>
-		React.createElement(ContextProvider['Provider'], { value: { ...props } }, component)
-	)
+	)(props => {
+		const CP = ContextProvider['Provider']
+		return (
+			<CP value={props}>
+				<Component />
+			</CP>
+		)
+	})
+
+// <ContextProvider['Provider'], { value: { ...props } }, component)

@@ -12,7 +12,7 @@ import Alert from './Alert'
 
 import * as routes from 'store/constants/routes'
 
-export default LoginContainer(
+export default LoginContainer(() => (
 	<LoginContext.Consumer>
 		{({ alert }) => {
 			return (
@@ -36,4 +36,4 @@ export default LoginContainer(
 			)
 		}}
 	</LoginContext.Consumer>
-)
+))

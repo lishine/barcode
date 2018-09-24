@@ -5,14 +5,13 @@ import { withContext } from 'utils/with-context'
 
 export const LoginContext = createContext({})
 
-export default component =>
-	withContext({
-		selectors: {
-			page: getPage,
-			payload: getPayload,
-			alert: getAlert,
-			isAuth,
-		},
-		actions: { setEmail, setToken, redirect },
-		ContextProvider: LoginContext,
-	})(component)
+export default withContext({
+	selectors: {
+		page: getPage,
+		payload: getPayload,
+		alert: getAlert,
+		isAuth,
+	},
+	actions: { setEmail, setToken, redirect },
+	ContextProvider: LoginContext,
+})
