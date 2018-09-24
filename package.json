@@ -11,7 +11,8 @@
         "client": "webpack-dev-server --color --env.development -d",
         "server": "nodemon -r esm --watch src/server --inspect src/server/index.js",
         "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
-        "ch": "python heroku-config.py"
+        "ch": "python heroku-config.py",
+        "ho": "python heroku-config.py ; yarn build ; gct . ; git push heroku master ; heroku open ; heroku logs --tail"
     },
     "author": "Pavel Ravits",
     "license": "ISC",
