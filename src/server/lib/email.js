@@ -12,7 +12,7 @@ export function sendRegistrationEmail({ req, userId, name, email }) {
 	return createEmailTransport().send({
 		template: 'register-confirmation',
 		message: {
-			to: 'vim55k@gmail.com', // process.env.NODE_ENV === 'production'? email : 'vim55k@gmail.com',
+			to: process.env.NODE_ENV === 'production' ? email : 'vim55k@gmail.com',
 		},
 		locals: {
 			name,
@@ -31,7 +31,7 @@ export function sendNewPasswordEmail({ req, userId, name, email }) {
 	return createEmailTransport().send({
 		template: 'new-password',
 		message: {
-			to: 'vim55k@gmail.com', // process.env.NODE_ENV === 'production'? email : 'vim55k@gmail.com',
+			to: process.env.NODE_ENV === 'production' ? email : 'vim55k@gmail.com',
 		},
 		locals: {
 			name,
