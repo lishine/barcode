@@ -1,6 +1,5 @@
 import { Formik, Field } from 'formik'
 import { Button, Form, Title } from 'styled'
-import axios from 'axios'
 import Link from 'redux-first-router-link'
 import ProgressButton from 'react-progress-button'
 import 'react-progress-button/react-progress-button.css'
@@ -12,7 +11,6 @@ import { LoginContext } from 'login/LoginContainer'
 
 import { validate } from './validate'
 import { errors, formData } from './data'
-import * as routes from 'store/constants/routes'
 
 const onSubmit = async (values, actions, page, setToken, redirect, setEmail, payload) => {
 	console.log('values', values)
@@ -99,7 +97,7 @@ const onSubmit = async (values, actions, page, setToken, redirect, setEmail, pay
 
 export default () => (
 	<LoginContext.Consumer>
-		{({ page, setToken, redirect, setEmail, payload }) => {
+		{({ page, , , payload }) => {
 			console.log('init(page)', formData(page))
 			console.log('page', page)
 			console.log('routes.SIGN_IN', routes.SIGN_IN)
@@ -111,17 +109,7 @@ export default () => (
 					<Formik
 						initialValues={initialValues}
 						validate={validate(schema)}
-						onSubmit={(values, actions) =>
-							onSubmit(
-								values,
-								actions,
-								page,
-								setToken,
-								redirect,
-								setEmail,
-								payload
-							)
-						}
+						onSubmit={submit}
 						render={({
 							setSubmitting,
 							handleSubmit,
@@ -148,10 +136,7 @@ export default () => (
 									</Map>
 									<When condition={page === routes.SIGN_IN}>
 										<Link
-											to={{
-												type: routes.FORGOT_PASSWORD,
-												payload: { alert: 'form' },
-											}}>
+											to={}>
 											forgot password
 										</Link>
 									</When>

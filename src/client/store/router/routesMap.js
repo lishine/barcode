@@ -8,7 +8,7 @@ import * as routes from './constants/routes'
 import * as domains from './constants/domains'
 import * as roles from './constants/roles'
 
-const routesMap = {
+export default {
 	[routes.HOME]: { path: '/', role: '' },
 	[routes.SIGN_UP]: {
 		path: '/sign-up/:alert',
@@ -81,65 +81,3 @@ const routesMap = {
 		},
 	},
 }
-
-const options = {
-	querySerializer: queryString,
-	onBeforeChange: (dispatch, getState, action) => {
-		const state = getState()
-		console.log('getState().location', getState().location)
-		const actionType = action.action.type
-		const payload = action.action.payload
-
-		const role = routesMap[actionType] && routesMap[actionType].role
-
-		let loggedIn = isAuth(state)
-		if (!loggedIn) {
-			const token = localStorage.getItem('token')
-			console.log('got token', token)
-			if (token) {
-				dispatch(setToken(token))
-				loggedIn = true
-			}
-		}
-
-		console.log('action.action', action.action)
-		console.log('actionType', actionType)
-		console.log('role', role)
-		console.log('loggedIn', loggedIn)
-		console.log('dispatch', dispatch)
-
-		if (role === roles.ONLY_OPEN && loggedIn && payload.alert === 'form') {
-			const action = redirectRouter({ type: routes.HOME })
-			dispatch(action)
-		} else if (role !== roles.ONLY_OPEN && !loggedIn) {
-			const action = redirectRouter({
-				type: routes.SIGN_IN,
-				payload: { alert: 'form' },
-			})
-			dispatch(action)
-		}
-	},
-}
-
-const history = createHistory()
-export const {
-	reducer: routerReducer,
-	middleware: routerMiddleware,
-	enhancer: routerEnhancer,
-} = connectRoutes(history, routesMap, options)
-
-export const go = to => ({
-	type: to,
-})
-
-export const redirect = (to, payload) =>
-	redirectRouter({
-		type: to,
-		payload: payload || {},
-	})
-
-export const getPage = state => state.location.type
-
-export const getPayload = state => state.location.payload
-
-export const getDomain = state => routesMap[state.location.type].domain

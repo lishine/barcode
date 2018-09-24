@@ -1,17 +1,17 @@
 import { createContext } from 'react'
-import { getPage, redirect, getPayload } from 'store/router'
-import { setEmail, isAuth, setToken, getAlert } from 'store/auth'
+import selectors from 'store/router'
+import { isAuth, alert } from 'store/auth'
 import { withContext } from 'utils/with-context'
 
 export const LoginContext = createContext({})
 
 export default withContext({
 	selectors: {
-		page: getPage,
-		payload: getPayload,
-		alert: getAlert,
+		page,
+		payload,
+		alert,
 		isAuth,
 	},
-	actions: { setEmail, setToken, redirect },
+	actions: { goToSignUpForm },
 	ContextProvider: LoginContext,
 })
