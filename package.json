@@ -19,6 +19,7 @@
     "dependencies": {
         "axios": "^0.18.0",
         "bcrypt": "^2.0.1",
+        "beautiful-react-redux": "^2.1.0",
         "body-parser": "^1.18.3",
         "dotenv": "^6.0.0",
         "email-templates": "^5.0.0",

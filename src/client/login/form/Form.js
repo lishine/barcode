@@ -12,7 +12,12 @@ import { LoginContext } from 'login/LoginContainer'
 import { validate } from './validate'
 import { errors, formData } from './data'
 
-const onSubmit = async (values, actions, page, setToken, redirect, setEmail, payload) => {
+import { goToForgotPasswordForm } from 'store/auth/actions'
+import { resendLinkWillSubmit, submit } from 'login/model/actions'
+import { page } from 'store/auth/selectors'
+import * as routes from 'store/router/constants/routes'
+
+const onSubmit = async (values, bag) => {
 	console.log('values', values)
 	console.log('actions', actions)
 	const { setStatus, setSubmitting } = actions
@@ -28,7 +33,6 @@ const onSubmit = async (values, actions, page, setToken, redirect, setEmail, pay
 	apiValues = Object.assign({}, apiValues, { token })
 	console.log('token', token)
 
-	setSubmitting(true)
 	await sleep(100)
 	console.log('apiValues', apiValues)
 	axios
@@ -95,81 +99,67 @@ const onSubmit = async (values, actions, page, setToken, redirect, setEmail, pay
 		})
 }
 
-export default () => (
-	<LoginContext.Consumer>
-		{({ page, , , payload }) => {
-			console.log('init(page)', formData(page))
-			console.log('page', page)
-			console.log('routes.SIGN_IN', routes.SIGN_IN)
-			const { initialValues, show, schema, title } = formData(page)
-			console.log('show', show)
-			return (
-				<>
-					<Title>{title}</Title>
-					<Formik
-						initialValues={initialValues}
-						validate={validate(schema)}
-						onSubmit={submit}
-						render={({
-							setSubmitting,
-							handleSubmit,
-							isSubmitting,
-							status,
-							setStatus,
-							values,
-							...bag
-						}) => {
-							console.log('status', status)
-							console.log('isSubmitting', isSubmitting)
-							const error = get('data.error')(status)
-							const sendLink = get('data.sendLink')(status)
-							if (error && values !== status.values) {
-								setStatus(Object.assign({}, status, { data: undefined }))
-							}
+export default connect({ page })(props => {
+	const { page } = props
+	console.log('page', page)
+	const { initialValues, show, schema, title } = formData(page)
 
-							return (
-								<Form onSubmit={handleSubmit}>
-									<Map collection={show}>
-										{({ name, component }) => (
-											<Field {...{ key: name, name, component }} />
-										)}
-									</Map>
-									<When condition={page === routes.SIGN_IN}>
-										<Link
-											to={}>
-											forgot password
-										</Link>
-									</When>
-									<When condition={!!error}>{error}</When>
-									<When condition={!!sendLink}>
-										<div>
-											<Link
-												to="#"
-												onClick={() =>
-													onSubmit(
-														values,
-														{ setStatus, setSubmitting },
-														'sendRegLink',
-														setToken,
-														redirect,
-														setEmail
-													)
-												}>
-												Resend email
-											</Link>
-										</div>
-									</When>
-									<ProgressButton
-										type="submit"
-										state={isSubmitting ? 'loading' : ''}>
-										Submit
-									</ProgressButton>
-								</Form>
-							)
-						}}
-					/>
-				</>
-			)
-		}}
-	</LoginContext.Consumer>
-)
+	return (
+		<>
+			<Title>{title}</Title>
+			<Formik
+				initialValues={initialValues}
+				validate={validate(schema)}
+				onSubmit={props => dispatch(submit(props))}
+				render={formikProps => {
+					const {
+						setStatus,
+						handleSubmit,
+						isSubmitting,
+						status,
+						values,
+						submitForm,
+					} = formikProps
+					console.log('status', status)
+					console.log('isSubmitting', isSubmitting)
+					const error = get('data.error')(status)
+					const sendLink = get('data.sendLink')(status)
+					if (error && values !== status.values) {
+						setStatus(Object.assign({}, status, { data: undefined }))
+					}
+
+					return (
+						<Form onSubmit={handleSubmit}>
+							<Map collection={show}>
+								{({ name, component }) => (
+									<Field {...{ key: name, name, component }} />
+								)}
+							</Map>
+							<When condition={page === routes.SIGN_IN}>
+								<Link to={goToForgotPasswordForm()}>forgot password</Link>
+							</When>
+							<When condition={!!error}>{error}</When>
+							<When condition={!!sendLink}>
+								<div>
+									<Link
+										to="#"
+										onClick={() => {
+											dispatch(resendLinkWillSubmit())
+											submitForm()
+										}}>
+										Resend link
+									</Link>
+								</div>
+							</When>
+							<ProgressButton
+								type="submit"
+								state={isSubmitting ? 'loading' : ''}>
+								Submit
+							</ProgressButton>
+						</Form>
+					)
+				}}
+			/>
+		</>
+	)
+})

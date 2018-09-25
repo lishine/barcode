@@ -91,6 +91,8 @@ module.exports = env => {
 			}),
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.ProvidePlugin({
+				dispatch: ['store/configureStore', 'dispatch'],
+				connect: ['beautiful-react-redux', 'connect'],
 				sleep: ['utils', 'sleep'],
 				React: 'react',
 				get: 'lodash/fp/get',

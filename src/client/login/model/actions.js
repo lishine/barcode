@@ -1,5 +1,11 @@
-import { createAction } from 'redux-act'
+import * as c from './constants'
 
-const DOMAIN = 'LOGIN'
+export const resendLinkWillSubmit = boolean => ({
+	type: c.RESEND_LINK_WILL_SUBMIT,
+	payload: { data: boolean },
+})
 
-export const submit = createAction(`${DOMAIN} Submit`)
+export const submit = boolean => ({
+	type: c.SUBMIT,
+	payload: { data: boolean },
+})

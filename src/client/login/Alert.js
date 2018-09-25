@@ -8,21 +8,24 @@ import { alerts } from './form/data'
 
 import * as routes from 'store/constants/routes'
 
-export default () => (
-	<LoginContext.Consumer>
-		{({ page, alert }) => {
-			console.log('alert', alert)
-			const { btnContinueToSite, message } = alerts[page][alert]
-			return (
-				<Flex column>
-					<Box>
-						message: {message}
-						<When condition={!!btnContinueToSite}>
-							<Link to={{ type: routes.HOME }}>HOME</Link>
-						</When>
-					</Box>
-				</Flex>
-			)
-		}}
-	</LoginContext.Consumer>
-)
+import { page, alert } from 'store/router/selectors'
+import { goToHome } from 'store/router/actions'
+
+export default connect({
+	page,
+	alert,
+})(props => {
+	const { page, alert } = props
+	console.log('alert', alert)
+	const { btnContinueToSite, message } = alerts[page][alert]
+	return (
+		<Flex column>
+			<Box>
+				message: {message}
+				<When condition={!!btnContinueToSite}>
+					<Link to={goToHome()}>HOME</Link>
+				</When>
+			</Box>
+		</Flex>
+	)
+})

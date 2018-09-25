@@ -1,5 +1,7 @@
 {
     "globals": {
+        "dispatch": true,
+        "connect": true,
         "sleep": true,
         "get": true,
         "React": true,
