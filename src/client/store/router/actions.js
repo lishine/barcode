@@ -5,6 +5,7 @@ import * as domains from './constants/domains'
 
 export const goToHome = to => ({
 	type: routes.HOME,
+	payload: {},
 })
 
 export const goToSignUpForm = to => ({
@@ -24,6 +25,7 @@ export const goToForgotPasswordForm = to => ({
 
 export const go = to => ({
 	type: to,
+	payload: {},
 })
 
 export const redirect = (to, payload) =>

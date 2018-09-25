@@ -6,7 +6,6 @@ import './config'
 
 import { dropQuery, createQuery } from './data/users'
 import * as auth from './lib/auth'
-import * as email from './lib/email'
 
 const app = express()
 

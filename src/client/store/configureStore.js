@@ -4,6 +4,7 @@ import ReduxThunk from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from './rootReducer'
+import { runSagas } from './logic'
 import { routerMiddleware, routerEnhancer } from './router'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -16,7 +17,11 @@ const store = createStore(
 	)
 )
 
+runSagas(sagaMiddleware)
+
 export const dispatch = store.dispatch
+
+export default store
 
 // if (module.hot) {
 // 	// Enable Webpack hot module replacement for reducers
@@ -25,5 +30,3 @@ export const dispatch = store.dispatch
 // 		store.replaceReducer(nextRootReducer)
 // 	})
 // }
-
-export default store

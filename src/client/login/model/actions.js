@@ -5,7 +5,7 @@ export const resendLinkWillSubmit = boolean => ({
 	payload: { data: boolean },
 })
 
-export const submit = boolean => ({
+export const submit = (values, formikBag) => ({
 	type: c.SUBMIT,
-	payload: { data: boolean },
+	payload: { data: { values, formikBag } },
 })

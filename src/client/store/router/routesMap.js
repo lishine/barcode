@@ -1,36 +1,34 @@
-import { NOT_FOUND, connectRoutes, redirect as redirectRouter } from 'redux-first-router'
-import createHistory from 'history/createBrowserHistory'
 import axios from 'axios'
-import { isAuth, setToken } from 'store/auth'
-import queryString from 'query-string'
 
-import * as routes from './constants/routes'
-import * as domains from './constants/domains'
+import * as r from './constants/routes'
+import * as d from './constants/domains'
 import * as roles from './constants/roles'
+import * as a from './actions'
+import { login } from 'store/auth/actions'
 
 export default {
-	[routes.HOME]: { path: '/', role: '' },
-	[routes.SIGN_UP]: {
+	[r.HOME]: { path: '/', role: '' },
+	[r.SIGN_UP]: {
 		path: '/sign-up/:alert',
-		domain: domains.LOGIN,
+		domain: d.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
-	[routes.SIGN_IN]: {
+	[r.SIGN_IN]: {
 		path: '/sign-in/:alert',
-		domain: domains.LOGIN,
+		domain: d.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
-	[routes.FORGOT_PASSWORD]: {
+	[r.FORGOT_PASSWORD]: {
 		path: '/forgot-password/:alert',
-		domain: domains.LOGIN,
+		domain: d.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
-	[routes.NEW_PASSWORD]: {
+	[r.NEW_PASSWORD]: {
 		path: '/new-password/:alert',
-		domain: domains.LOGIN,
+		domain: d.LOGIN,
 		role: roles.ONLY_OPEN,
 	},
-	[routes.NEW_PASSWORD_LINK]: {
+	[r.NEW_PASSWORD_LINK]: {
 		path: '/new-password',
 		role: roles.ONLY_OPEN,
 		thunk: (dispatch, getState) => {
@@ -38,14 +36,14 @@ export default {
 			const { token } = getState().location.query
 			console.log('token', token)
 			dispatch(
-				redirectRouter({
-					type: routes.NEW_PASSWORD,
+				a.redirect({
+					type: r.NEW_PASSWORD,
 					payload: { alert: 'form', token },
 				})
 			)
 		},
 	},
-	[routes.REGISTER_CONFIRM]: {
+	[r.REGISTER_CONFIRM]: {
 		path: '/register-confirm',
 		role: roles.ONLY_OPEN,
 		thunk: (dispatch, getState) => {
@@ -59,17 +57,17 @@ export default {
 					const { token: newToken } = response.data
 					console.log('newToken', newToken)
 					if (newToken) {
-						dispatch(setToken(newToken))
+						dispatch(login(newToken))
 						dispatch(
-							redirectRouter({
-								type: routes.SIGN_IN,
+							a.redirect({
+								type: r.SIGN_IN,
 								payload: { alert: 'emailConfirmed' },
 							})
 						)
 					} else {
 						dispatch(
-							redirectRouter({
-								type: routes.SIGN_IN,
+							a.redirect({
+								type: r.SIGN_IN,
 								payload: { alert: 'form' },
 							})
 						)

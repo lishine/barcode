@@ -2,11 +2,9 @@ import Link from 'redux-first-router-link'
 import { Flex, Box } from 'reflexbox'
 import { When, If, Then, Else } from 'react-if'
 
-import { LoginContext } from './LoginContainer'
 
 import { alerts } from './form/data'
 
-import * as routes from 'store/constants/routes'
 
 import { page, alert } from 'store/router/selectors'
 import { goToHome } from 'store/router/actions'

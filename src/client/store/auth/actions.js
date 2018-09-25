@@ -9,3 +9,8 @@ export const setToken = token => ({
 	type: c.SET_TOKEN,
 	payload: { data: token },
 })
+
+export const login = token => ({
+	type: c.LOGIN,
+	payload: { data: token },
+})
