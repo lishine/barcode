@@ -93,6 +93,8 @@ module.exports = env => {
 			new webpack.ProvidePlugin({
 				dispatch: ['store/configureStore', 'dispatch'],
 				connect: ['utils/with-context', 'connect'],
+				navigate: ['redux-saga-first-router', 'navigate'],
+				when: ['utils', 'when'],
 				sleep: ['utils', 'sleep'],
 				React: 'react',
 				get: 'lodash/fp/get',

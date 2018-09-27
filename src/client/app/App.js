@@ -2,28 +2,26 @@ import Login from '../login/Login'
 import Link from 'redux-first-router-link'
 import { When } from 'react-if'
 
-import * as domains from 'store/model/router/router.constants/domains'
-import { getDomain, getPage } from 'store/model/router/router.selectors'
-import { getToken, getEmail } from 'store/model/auth/auth.selectors'
-import { logout } from 'store/model/auth/auth.actions'
+import { routes } from 'router/routes'
+import { getPage } from 'router.selectors'
+import { getToken, getEmail } from 'auth.selectors'
+import { logout } from 'auth.actions'
 
-export default connect({ domain: getDomain, page: getPage, token: getToken, email: getEmail })(
-	props => {
-		const { domain, page, token, email } = props
-		return (
-			<>
-				<button onClick={() => dispatch(logout())}>logout</button>
-				<div>domain: {domain}</div>
-				<div>page: {page}</div>
-				<div>token: {token}</div>
-				<div>email: {email}</div>
-				<When condition={domain === domains.LOGIN}>
-					<Login />
-				</When>
-			</>
-		)
-	}
-)
+export default connect({ page: getPage, token: getToken, email: getEmail })(props => {
+	const { page, token, email } = props
+	return (
+		<>
+			<button onClick={() => dispatch(logout())}>logout</button>
+			<div>page: {page}</div>
+			<div>token: {token}</div>
+			<div>email: {email}</div>
+			{when(page)
+				.is(routes.HOME, () => <div>I am home</div>)
+				.is(routes.LOGIN, () => <Login />)
+				.else(() => {})()}
+		</>
+	)
+})
 
 // {!userId ? (
 //     <div>

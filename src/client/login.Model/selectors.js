@@ -1,3 +1,3 @@
-import { DOMAIN } from './constants'
-
-export const getFormikProps = state => state[DOMAIN].formikProps
+export const getFormikProps = state => state.login.formikProps
+export const getForm = state => state.login.form
+export const getAlert = state => state.login.alert

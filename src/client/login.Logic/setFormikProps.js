@@ -3,7 +3,7 @@ import { take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import * as a from '../login.actions'
 import * as c from '../login.constants'
 
-export default function*() {
+export function* watchSetFormikProps() {
 	yield takeLatest(c.SET_FORMIK_PROPS, function*({ payload }) {
 		const formikProps = payload.data
 		const { submitForm, setStatus, values, status = {} } = formikProps

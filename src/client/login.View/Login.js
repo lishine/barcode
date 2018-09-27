@@ -1,5 +1,4 @@
 import { Flex, Box } from 'reflexbox'
-import { If, Then, Else } from 'react-if'
 
 import Form from './form/Form'
 import Modal from './Modal'
@@ -7,7 +6,7 @@ import NavLinks from './NavLinks'
 
 import Alert from './Alert'
 
-import { getAlert } from '../store/model/router/router.selectors'
+import { getAlert } from 'login.selectors'
 
 export default connect({
 	alert: getAlert,
@@ -20,14 +19,9 @@ export default connect({
 					<NavLinks />
 				</Box>
 				<Box>
-					<If condition={alert === 'form'}>
-						<Then>
-							<Form />
-						</Then>
-						<Else>
-							<Alert />
-						</Else>
-					</If>
+					{when(!!alert)
+						.is(true, () => <Form />)
+						.else(() => <Alert />)()}
 				</Box>
 			</Flex>
 		</Modal>

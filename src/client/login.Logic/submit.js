@@ -9,7 +9,7 @@ import { getFormikProps } from '../login.selectors'
 import { redirect } from '../../../store/model/router/router.actions'
 import { login } from '../../../store/model/auth/auth.actions'
 
-export default function*() {
+export function* watchSubmit() {
 	while (true) {
 		const { payload } = yield take(c.SUBMIT)
 		const token = yield select(getTokenFromUrl)

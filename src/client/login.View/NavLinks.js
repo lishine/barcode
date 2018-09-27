@@ -1,48 +1,16 @@
-import { NavLink } from 'redux-first-router-link'
 import { Flex, Box } from 'reflexbox'
 
-import { goToSignUpForm, goToSignInForm } from '../store/model/router/router.actions'
+import { forms } from 'login.Model/constants'
+import { gotoForm } from 'login.Model/actions'
 
 export default props => {
 	return (
 		<Flex w={1}>
 			<Box w={1 / 2}>
-				<NavLink
-					to={goToSignUpForm()}
-					style={{
-						height: '30px',
-						backgroundColor: '#444',
-						color: 'yellow',
-						display: 'flex',
-						textAlign: 'center',
-						justifyContent: 'center',
-						alignItems: 'center',
-						textDecoration: 'none',
-					}}
-					activeStyle={{
-						backgroundColor: '#222',
-					}}>
-					sign up
-				</NavLink>
+				<button onClick={() => dispatch(gotoForm(forms.SIGN_UP))}>sign up</button>
 			</Box>
 			<Box w={1 / 2}>
-				<NavLink
-					to={goToSignInForm()}
-					style={{
-						height: '30px',
-						backgroundColor: '#444',
-						color: 'yellow',
-						display: 'flex',
-						textAlign: 'center',
-						justifyContent: 'center',
-						alignItems: 'center',
-						textDecoration: 'none',
-					}}
-					activeStyle={{
-						backgroundColor: '#222',
-					}}>
-					sign in
-				</NavLink>
+				<button onClick={() => dispatch(gotoForm(forms.SIGN_IN))}>sign in</button>
 			</Box>
 		</Flex>
 	)

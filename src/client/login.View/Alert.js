@@ -1,26 +1,25 @@
-import Link from 'redux-first-router-link'
 import { Flex, Box } from 'reflexbox'
-import { When, If, Then, Else } from 'react-if'
 
-import { alerts } from './form/data'
-import { getPage, getAlert } from '../store/model/router/router.selectors'
-import { goToHome } from '../store/model/router/router.actions'
+import { alerts } from 'login/form/data'
+import { getForm, getAlert } from 'login.selectors'
+import * as routes from 'router/routes'
+import { goToHome } from 'router/actions'
 
 export default connect({
-	page: getPage,
+	form: getForm,
 	alert: getAlert,
 })(props => {
-	const { page, alert } = props
+	const { form, alert } = props
 	console.log('alert', alert)
-	console.log('page', page)
-	const { btnContinueToSite, message } = alerts[page][alert]
+	console.log('form', form)
+	const { btnContinueToSite, message } = alerts[form][alert]
 	return (
 		<Flex column>
 			<Box>
 				message: {message}
-				<When condition={!!btnContinueToSite}>
-					<Link to={goToHome()}>HOME</Link>
-				</When>
+				{when(!!alert).is(true, () => (
+					<button onClick={() => dispatch(goToHome())}>HOME</button>
+				))}
 			</Box>
 		</Flex>
 	)

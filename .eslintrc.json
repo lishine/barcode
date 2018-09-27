@@ -1,5 +1,7 @@
 {
     "globals": {
+        "navigate": true,
+        "when": true,
         "dispatch": true,
         "connect": true,
         "sleep": true,
