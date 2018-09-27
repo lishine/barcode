@@ -3,19 +3,18 @@ import { Button, Form, Title } from 'styled'
 import Link from 'redux-first-router-link'
 import ProgressButton from 'react-progress-button'
 import 'react-progress-button/react-progress-button.css'
-
 import { When } from 'react-if'
 import { Map } from 'utils'
 
 import { validate } from './validate'
 import { formData } from './data'
 
-import { goToForgotPasswordForm } from 'store/auth/actions'
-import { resendLinkWillSubmit, submit } from 'login/model/actions'
-import { page } from 'store/auth/selectors'
-import * as routes from 'store/router/constants/routes'
+import { goToForgotPasswordForm } from '../../store/model/router/router.actions'
+import { getPage } from '../../store/model/router/router.selectors'
+import { submit, setFormikProps } from '../model/login.actions'
+import * as routes from 'store/model/router/router.constants/routes'
 
-export default connect({ page })(props => {
+export default connect({ page: getPage })(props => {
 	const { page } = props
 	console.log('page', page)
 	const { initialValues, show, schema, title } = formData(page)
@@ -28,21 +27,11 @@ export default connect({ page })(props => {
 				validate={validate(schema)}
 				onSubmit={props => dispatch(submit(props))}
 				render={formikProps => {
-					const {
-						setStatus,
-						handleSubmit,
-						isSubmitting,
-						status,
-						values,
-						submitForm,
-					} = formikProps
+					dispatch(setFormikProps(formikProps))
+					const { setStatus, handleSubmit, isSubmitting, status = {} } = formikProps
 					console.log('status', status)
 					console.log('isSubmitting', isSubmitting)
-					const error = get('data.error')(status)
-					const sendLink = get('data.sendLink')(status)
-					if (error && values !== status.values) {
-						setStatus(Object.assign({}, status, { data: undefined }))
-					}
+					const { error, sendLink } = status
 
 					return (
 						<Form onSubmit={handleSubmit}>
@@ -56,16 +45,9 @@ export default connect({ page })(props => {
 							</When>
 							<When condition={!!error}>{error}</When>
 							<When condition={!!sendLink}>
-								<div>
-									<Link
-										to="#"
-										onClick={() => {
-											dispatch(resendLinkWillSubmit())
-											submitForm()
-										}}>
-										Resend link
-									</Link>
-								</div>
+								<button onClick={() => setStatus('sendLinkSubmit')}>
+									Resend link
+								</button>
 							</When>
 							<ProgressButton
 								type="submit"

@@ -1,4 +1,4 @@
-import * as c from './constants'
+import * as c from './auth.constants'
 
 export default (state = { email: '', token: '' }, action) => {
 	const { payload } = action

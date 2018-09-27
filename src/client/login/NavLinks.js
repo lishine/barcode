@@ -1,14 +1,14 @@
 import { NavLink } from 'redux-first-router-link'
 import { Flex, Box } from 'reflexbox'
 
-import { goToSignUp, goToSignIn } from 'store/router/actions'
+import { goToSignUpForm, goToSignInForm } from '../store/model/router/router.actions'
 
-export default connect({})(props => {
+export default props => {
 	return (
 		<Flex w={1}>
 			<Box w={1 / 2}>
 				<NavLink
-					to={goToSignUp()}
+					to={goToSignUpForm()}
 					style={{
 						height: '30px',
 						backgroundColor: '#444',
@@ -27,7 +27,7 @@ export default connect({})(props => {
 			</Box>
 			<Box w={1 / 2}>
 				<NavLink
-					to={goToSignIn()}
+					to={goToSignInForm()}
 					style={{
 						height: '30px',
 						backgroundColor: '#444',
@@ -46,4 +46,4 @@ export default connect({})(props => {
 			</Box>
 		</Flex>
 	)
-})
+}

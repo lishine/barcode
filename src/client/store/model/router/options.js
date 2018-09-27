@@ -1,10 +1,10 @@
 import queryString from 'query-string'
 
-import { isAuth } from 'store/auth/selectors'
+import { isAuth } from '../auth/auth.selectors'
 import routesMap from './routesMap'
-import * as r from './constants/routes'
-import * as roles from './constants/roles'
-import { redirect } from './actions'
+import * as r from './router.constants/routes'
+import * as roles from './router.constants/roles'
+import { redirect } from './router.actions'
 
 export default {
 	querySerializer: queryString,
@@ -33,14 +33,9 @@ export default {
 		console.log('dispatch', dispatch)
 
 		if (role === roles.ONLY_OPEN && loggedIn && payload.alert === 'form') {
-			const action = redirect({ type: r.HOME })
-			dispatch(action)
+			dispatch(redirect(r.HOME, { alert: 'form' }))
 		} else if (role !== roles.ONLY_OPEN && !loggedIn) {
-			const action = redirect({
-				type: r.SIGN_IN,
-				payload: { alert: 'form' },
-			})
-			dispatch(action)
+			dispatch(redirect(r.SIGN_IN, { alert: 'form' }))
 		}
 	},
 }

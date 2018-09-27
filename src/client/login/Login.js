@@ -7,10 +7,10 @@ import NavLinks from './NavLinks'
 
 import Alert from './Alert'
 
-import { alert } from 'store/auth/selectors'
+import { getAlert } from '../store/model/router/router.selectors'
 
 export default connect({
-	alert,
+	alert: getAlert,
 })(props => {
 	const { alert } = props
 	return (

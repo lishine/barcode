@@ -4,10 +4,6 @@ import * as inputs from './inputs'
 import schema from './schema'
 import { mapToObject } from 'utils'
 
-export const errors = {
-	USER_NOT_CONFIRMED: 100,
-}
-
 const allFields = {
 	SignUp: ['name', 'email', 'password', 'passwordConfirmation'],
 	SignIn: ['email', 'password'],

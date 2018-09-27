@@ -15,20 +15,44 @@
     "extends": [
         "standard",
         "standard-react",
-        "prettier"
+        "prettier",
+        "plugin:import/warnings"
     ],
     "plugins": [
         "prettier",
-        "standard"
+        "standard",
+        "import"
     ],
     "parser": "babel-eslint",
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": [
+                    "./src/client"
+                ]
+            }
+        }
+    },
     "rules": {
+        "no-use-before-define": 1,
+        "import/no-unresolved": 1,
+        "import/namespace": [
+            1,
+            {
+                "allowComputed": true
+            }
+        ],
+        "import/named": 1,
+        "import/default": 1,
+        "import/export": 1,
+        "import/exports-last": 1,
+        "import/newline-after-import": 1,
         "react/react-jsx-no-undef": 0,
         "react/react-in-jsx-scope": 0,
         "camelcase": 0,
         "no-return-await": 0,
         "no-constant-condition": 0,
-        "no-unused-vars": 1,
+        "no-unused-vars": 0,
         "curly": [
             "error",
             "all"

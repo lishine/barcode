@@ -1,28 +1,28 @@
 module.exports = env => {
-	const path = require('path')
-	const webpack = require('webpack')
-	const Dotenv = require('dotenv-webpack')
+	var path = require('path')
+	var webpack = require('webpack')
+	var Dotenv = require('dotenv-webpack')
 
-	const HtmlWebpackPlugin = require('html-webpack-plugin')
-	const CleanWebpackPlugin = require('clean-webpack-plugin')
-	const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-	const CompressionPlugin = require('compression-webpack-plugin')
-	const Visualizer = require('webpack-visualizer-plugin')
-	const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-	// const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-	const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+	var HtmlWebpackPlugin = require('html-webpack-plugin')
+	var CleanWebpackPlugin = require('clean-webpack-plugin')
+	// var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+	// var CompressionPlugin = require('compression-webpack-plugin')
+	// var Visualizer = require('webpack-visualizer-plugin')
+	// var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+	// var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+	var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-	const PUBLIC_DIR = path.resolve(__dirname, 'public')
-	const BUILD_DIR = path.resolve(__dirname, 'dist')
-	const APP_DIR = path.resolve(__dirname, 'src/client')
-	const NODE_MODULES = path.resolve(__dirname, 'node_modules')
-	const TARGET = env.development ? 'development' : 'production'
+	var PUBLIC_DIR = path.resolve(__dirname, 'public')
+	var BUILD_DIR = path.resolve(__dirname, 'dist')
+	var APP_DIR = path.resolve(__dirname, 'src/client')
+	var NODE_MODULES = path.resolve(__dirname, 'node_modules')
+	var TARGET = env.development ? 'development' : 'production'
 
 	let outputFileName = 'app'
 	outputFileName += TARGET === 'production' ? '.min.js' : '.js'
 	console.log('TARGET', TARGET)
 
-	const rules = [
+	var rules = [
 		{
 			test: /\.js$/,
 			exclude: /node_modules/,
@@ -56,7 +56,7 @@ module.exports = env => {
 		},
 	]
 
-	const config = {
+	var config = {
 		mode: TARGET,
 		entry: { bundle: ['@babel/polyfill', path.resolve(APP_DIR, 'index.js')] },
 		output: {
@@ -92,7 +92,7 @@ module.exports = env => {
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.ProvidePlugin({
 				dispatch: ['store/configureStore', 'dispatch'],
-				connect: ['beautiful-react-redux', 'connect'],
+				connect: ['utils/with-context', 'connect'],
 				sleep: ['utils', 'sleep'],
 				React: 'react',
 				get: 'lodash/fp/get',

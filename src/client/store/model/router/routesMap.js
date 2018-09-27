@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-import * as r from './constants/routes'
-import * as d from './constants/domains'
-import * as roles from './constants/roles'
-import * as a from './actions'
-import { login } from 'store/auth/actions'
+import * as r from './router.constants/routes'
+import * as d from './router.constants/domains'
+import * as roles from './router.constants/roles'
+import * as a from './router.actions'
+import { login } from '../auth/auth.actions'
 
 export default {
 	[r.HOME]: { path: '/', role: '' },
@@ -35,12 +35,7 @@ export default {
 			console.log('getState().location', getState().location)
 			const { token } = getState().location.query
 			console.log('token', token)
-			dispatch(
-				a.redirect({
-					type: r.NEW_PASSWORD,
-					payload: { alert: 'form', token },
-				})
-			)
+			dispatch(a.redirect(r.NEW_PASSWORD, { token, alert: 'form' }))
 		},
 	},
 	[r.REGISTER_CONFIRM]: {
@@ -58,19 +53,9 @@ export default {
 					console.log('newToken', newToken)
 					if (newToken) {
 						dispatch(login(newToken))
-						dispatch(
-							a.redirect({
-								type: r.SIGN_IN,
-								payload: { alert: 'emailConfirmed' },
-							})
-						)
+						dispatch(a.redirect(r.SIGN_IN, { alert: 'emailConfirmed' }))
 					} else {
-						dispatch(
-							a.redirect({
-								type: r.SIGN_IN,
-								payload: { alert: 'form' },
-							})
-						)
+						dispatch(a.redirect(r.SIGN_IN, { alert: 'form' }))
 					}
 				})
 				.catch(function(err) {

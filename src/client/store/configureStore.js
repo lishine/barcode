@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from './rootReducer'
 import { runSagas } from './logic'
-import { routerMiddleware, routerEnhancer } from './router'
+import { routerMiddleware, routerEnhancer } from './model/router'
 
 const sagaMiddleware = createSagaMiddleware()
 

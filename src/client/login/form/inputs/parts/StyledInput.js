@@ -6,5 +6,5 @@ export default styled.input`
 	background: #222;
 	text-align: left;
 	color: yellow;
-    // border: ${(props) => props.border || '1px solid #ccc'};
+    // border: ${props => props.border || '1px solid #ccc'};
 `

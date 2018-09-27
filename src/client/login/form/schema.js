@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 import { MIN_PASSWORD_LENGTH } from 'fixed'
+
 export default values => ({
 	name: yup.string().required('Name is required!'),
 	email: yup
