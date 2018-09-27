@@ -1,10 +1,12 @@
-import axios from 'axios'
+import { buildRoutesMap, route } from 'redux-saga-first-router'
 
 import * as r from './router.constants/routes'
-import * as d from './router.constants/domains'
-import * as roles from './router.constants/roles'
-import * as a from './router.actions'
-import { login } from '../auth/auth.actions'
+import { loginNavigate } from 'login.Logic/loginNavigate'
+
+export const routesMap = buildRoutesMap(
+	route(r.HOME, '/'),
+	route(r.LOGIN, '/login/:form', loginNavigate)
+)
 
 export default {
 	[r.HOME]: { path: '/', role: '' },

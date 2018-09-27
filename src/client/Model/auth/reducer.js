@@ -1,6 +1,6 @@
-import * as c from './auth.constants'
+import * as c from './constants'
 
-export default (state = { email: '', token: '' }, action) => {
+export const authReducer = (state = { email: '', token: '' }, action) => {
 	const { payload } = action
 
 	switch (action.type) {

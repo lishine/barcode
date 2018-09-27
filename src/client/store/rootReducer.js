@@ -1,12 +1,10 @@
-import { routerReducer } from './model/router'
+import { routerReducer } from 'Model/router'
 
-import authReducer from './model/auth/auth.reducers'
-import loginReducer from '../login/model/login.reducers'
-import { DOMAIN as AUTH_DOMAIN } from './model/auth/auth.constants'
-import { DOMAIN as LOGIN_DOMAIN } from '../login/model/login.constants'
+import { authReducer } from 'Model/auth/reducer'
+import { loginReducer } from 'login.Model/reducer'
 
 export default {
 	location: routerReducer,
-	[AUTH_DOMAIN]: authReducer,
-	[LOGIN_DOMAIN]: loginReducer,
+	auth: authReducer,
+	login: loginReducer,
 }

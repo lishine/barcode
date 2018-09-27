@@ -1,4 +1,5 @@
 export const HOME = 'Home'
+export const LOGIN = 'Login'
 export const SIGN_UP = 'SignUp'
 export const SIGN_IN = 'SignIn'
 export const FORGOT_PASSWORD = 'ForgotPassword'

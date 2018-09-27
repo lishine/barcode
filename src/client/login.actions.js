@@ -1,4 +1,4 @@
-import * as c from './login.constants'
+import * as c from './login.model/login.constants'
 
 export const submit = (page, values, formikBag) => {
 	return {
