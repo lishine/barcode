@@ -6,39 +6,21 @@ import { routes } from 'router/routes'
 import { isAuth } from 'auth/auth.selectors'
 import { submit } from './submit'
 import { setFormikProps } from './setFormikProps'
+import { forms } from 'login/login.constants'
 
-export function* loginNavigate({ query }) {
-	if (yield select(isAuth)) {
-		yield put(navigate(routes.HOME, {}, { replace: true }))
+export function* registerConfirm(token) {
+	const { response, err } = yield call(post, `/auth/registerconfirm`, { token })
+	if (response) {
+		const { token: newToken } = response.data
+		console.log('newToken', newToken)
+		if (newToken) {
+			yield put(login(newToken))
+			yield put(setAlert('emailConfirmed'))
+			yield put(gotoForm(forms.SIGN_IN))
+			return
+		}
 	}
-
-	const { link, token } = query
-	console.log('token', token)
-	console.log('link', token)
-
-	when(link)
-		.is(forms.NEW_PASSWORD, function*() {
-			yield put(setLinkToken(token))
-			yield put(gotoForm(forms.NEW_PASSWORD))
-		})
-		.is(forms.REGISTER_CONFIRMATION, function*() {
-			yield call(registerConfirm(token))
-		})
-		.else(() => {})()
-
-	yield fork(setFormikProps)
-	yield fork(submit)
-
-	// clean store
-
-	// yield takeLatest(t.GOTO_FORM, function*({ payload: form }) {
-	// 	when(form)
-	// 		.is(forms.SIGN_UP, () => {})
-	// 		.is(forms.SIGN_IN, () => {})
-	// 		.is(forms.NEW_PASSWORD, () => {})
-	// 		.is(forms.FORGOT_PASSWORD, () => {})
-	// 		.else(() => {})()
-	// })
+	yield put(gotoHome())
 }
 
 // when(form)

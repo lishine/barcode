@@ -1,19 +1,18 @@
 import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import axios from 'axios'
 
 import { errors, actionTypes as t } from 'login/login.constants'
 import { setAlert } from 'login/login.actions'
 import { routes as r } from 'router/routes'
-import { getTokenFromUrl } from 'router/router.selectors'
+import { getLinkToken } from 'login/login.selectors'
 import { getFormikProps, getForm } from 'login/login.selectors'
-import { redirect } from 'router/router.actions'
 import { login } from 'auth/auth.logic/login'
+import { post } from 'utils/utils'
 
 export function* submit() {
 	while (true) {
 		const { payload } = yield take(t.SUBMIT)
 
-		const token = yield select(getTokenFromUrl)
+		const token = yield select(getLinkToken)
 		const formikProps = yield select(getFormikProps)
 		let form = yield select(getForm)
 		const { values, setStatus, setSubmitting } = formikProps
@@ -35,11 +34,7 @@ export function* submit() {
 
 		yield call(sleep, 100)
 
-		const { data: response, err } = yield call(
-			toto,
-			axios.post(`/auth/${apiRoute}`, apiValues)
-		)
-		console.log('response', response)
+		const { response, err } = yield call(post, `/auth/${apiRoute}`, apiValues)
 
 		if (response) {
 			when(form)
@@ -47,7 +42,7 @@ export function* submit() {
 					yield put(setAlert, 'confirmLinkSent')
 				})
 				.is(r.SIGN_IN, function*() {
-					yield fork(login, token)
+					yield call(login, token)
 					yield put(setAlert, 'signedIn')
 				})
 				.is('sendLinkSubmit', function*() {
@@ -57,7 +52,7 @@ export function* submit() {
 					yield put(setAlert, 'passwordLinkSent')
 				})
 				.is(r.NEW_PASSWORD, function*() {
-					yield fork(login, token)
+					yield call(login, token)
 					yield put(setAlert, 'signedIn')
 				})
 				.else(() => {})()

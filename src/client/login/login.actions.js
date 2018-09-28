@@ -12,6 +12,11 @@ export const gotoForm = form => ({
 	payload: form,
 })
 
+export const setLinkToken = token => ({
+	type: t.SET_LINK_TOKEN,
+	payload: token,
+})
+
 // export const gotoSignIn = form => ({
 // 	type: c.GOTO_FORM,
 // 	payload: c.forms.SIGN_IN,

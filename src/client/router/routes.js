@@ -3,6 +3,7 @@ import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga
 
 import { buildRoutesMap, route } from 'redux-saga-first-router'
 import { loginNavigate } from 'login/login.logic/loginNavigate'
+import { login } from 'auth/auth.logic/login'
 
 import { isAuth } from 'auth/auth.selectors'
 
@@ -21,18 +22,10 @@ export const history = createHistory()
 function protectedRoute(navigateSaga) {
 	return function*(...args) {
 		console.log('1')
-		let loggedIn = yield select(isAuth)
-		// if (!loggedIn) {
-		// 	const token = localStorage.getItem('token')
-		// 	console.log('got token', token)
-		// 	if (token) {
-		// 		dispatch(setToken(token))
-		// 		loggedIn = true
-		// 	}
-		// }
+		const isLoggedIn = yield call(login)
 
-		console.log('loggedIn', loggedIn)
-		if (loggedIn) {
+		console.log('isLoggedIn', isLoggedIn)
+		if (isLoggedIn) {
 			if (navigateSaga) {
 				yield fork(navigateSaga, ...args)
 			}

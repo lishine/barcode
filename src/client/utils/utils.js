@@ -1,4 +1,5 @@
 import { default as lodashSome } from 'lodash/fp/some'
+import axios from 'axios'
 
 export const some = (value, array) => lodashSome(v => v === value)(array)
 
@@ -67,4 +68,12 @@ function timeOutPromise({ timeOut, promise }) {
 			throw err
 		}
 	)
+}
+
+export const post = (route, data) => {
+	const { data: response, err } = toto(axios.post(route, data))
+	console.log('response', response)
+	console.log('err', err)
+
+	return { response, err }
 }

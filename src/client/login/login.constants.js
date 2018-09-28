@@ -8,6 +8,7 @@ export const actionTypes = {
 	SET_ALERT: '[login] set alert',
 	GOTO_FORM: '[login] goto form',
 	SET_FORMIK_PROPS: '[login] set formik props',
+	SET_LINK_TOKEN: '[login] set link token',
 }
 
 export const forms = {
@@ -15,6 +16,11 @@ export const forms = {
 	SIGN_IN: 'SignIn',
 	FORGOT_PASSWORD: 'ForgotPassword',
 	NEW_PASSWORD: 'NewPassword',
+}
+
+export const links = {
+	NEW_PASSWORD: 'new-password',
+	REGISTER_CONFIRMATION: 'register-confirmation',
 }
 
 export const errors = {
