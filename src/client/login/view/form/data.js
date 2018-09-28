@@ -34,12 +34,12 @@ export const formData = page => {
 
 export const alerts = {
 	SignUp: {
-		success: {
-			message: 'Sign up in process. Check your mail for email confirmation link',
+		confirmLinkSent: {
+			message: 'Sign up in process. Please check your mail for email confirmation link',
 		},
 	},
 	SignIn: {
-		success: { message: 'You are signed in', btnContinueToSite: true },
+		signedIn: { message: 'You are signed in', btnContinueToSite: true },
 		confirmLinkSent: { message: 'Please check your mail for email confirmation link' },
 		emailConfirmed: {
 			message: 'Email confirmed. You are signed in',
@@ -47,9 +47,11 @@ export const alerts = {
 		},
 	},
 	ForgotPassword: {
-		success: { message: 'Please check your mail for new password confirmation link' },
+		passwordLinkSent: {
+			message: 'Please check your mail for new password confirmation link',
+		},
 	},
 	NewPassword: {
-		success: { message: 'Password changed. You are signed in', btnContinueToSite: true },
+		signedIn: { message: 'Password changed. You are signed in', btnContinueToSite: true },
 	},
 }

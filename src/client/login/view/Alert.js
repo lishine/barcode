@@ -2,7 +2,7 @@ import { Flex, Box } from 'reflexbox'
 
 import { alerts } from 'login/view/form/data'
 import { getForm, getAlert } from 'login/login.selectors'
-import { goToHome } from 'router/router.actions'
+import { gotoHome } from 'router/router.actions'
 
 export default connect({
 	form: getForm,
@@ -17,7 +17,7 @@ export default connect({
 			<Box>
 				message: {message}
 				{when(!!alert).is(true, () => (
-					<button onClick={() => dispatch(goToHome())}>HOME</button>
+					<button onClick={() => dispatch(gotoHome())}>HOME</button>
 				))}
 			</Box>
 		</Flex>

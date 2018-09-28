@@ -94,6 +94,7 @@ module.exports = env => {
 				dispatch: ['store/configureStore', 'dispatch'],
 				connect: ['utils/with-context', 'connect'],
 				navigate: ['redux-saga-first-router', 'navigate'],
+				toto: ['utils/utils', 'toto'],
 				when: ['utils/utils', 'when'],
 				sleep: ['utils/utils', 'sleep'],
 				React: 'react',

@@ -42,7 +42,8 @@ export default connect({ form: getForm })(props => {
 							</Map>
 
 							{form === forms.SIGN_IN && (
-								<button onClick={() => dispatch(gotoForm(forms.SIGN_IN))}>
+								<button
+									onClick={() => dispatch(gotoForm(forms.FORGOT_PASSWORD))}>
 									forgot password
 								</button>
 							)}

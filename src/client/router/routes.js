@@ -4,28 +4,82 @@ import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga
 import { buildRoutesMap, route } from 'redux-saga-first-router'
 import { loginNavigate } from 'login/login.logic/loginNavigate'
 
+import { isAuth } from 'auth/auth.selectors'
+
 export const routes = {
 	HOME: 'Home',
 	LOGIN: 'Login',
 }
 
-function protectedRoute(navigateSaga) {
-	return function*(...args) {
-		const isAuthenticated = yield call(validateTokenFromLocalStorage)
-		if (isAuthenticated) {
-			yield fork(navigateSaga, ...args)
-		} else {
-			yield put(navigate('LOGIN'))
-		}
-	}
-}
-
 export const routesMap = buildRoutesMap(
-	route(routes.HOME, '/'),
+	route(routes.HOME, '/', protectedRoute()),
 	route(routes.LOGIN, '/login', loginNavigate)
 )
 
 export const history = createHistory()
+
+function protectedRoute(navigateSaga) {
+	return function*(...args) {
+		console.log('1')
+		let loggedIn = yield select(isAuth)
+		// if (!loggedIn) {
+		// 	const token = localStorage.getItem('token')
+		// 	console.log('got token', token)
+		// 	if (token) {
+		// 		dispatch(setToken(token))
+		// 		loggedIn = true
+		// 	}
+		// }
+
+		console.log('loggedIn', loggedIn)
+		if (loggedIn) {
+			if (navigateSaga) {
+				yield fork(navigateSaga, ...args)
+			}
+		} else {
+			yield put(navigate(routes.LOGIN))
+		}
+	}
+}
+
+// export default {
+// 	querySerializer: queryString,
+// 	onBeforeChange: (dispatch, getState, action) => {
+// 		const state = getState()
+// 		console.log('getState().location', getState().location)
+// 		const actionType = action.action.type
+// 		const payload = action.action.payload
+
+// 		const role = routesMap[actionType] && routesMap[actionType].role
+
+// 		let loggedIn = isAuth(state)
+// 		// if (!loggedIn) {
+// 		// 	const token = localStorage.getItem('token')
+// 		// 	console.log('got token', token)
+// 		// 	if (token) {
+// 		// 		dispatch(setToken(token))
+// 		// 		loggedIn = true
+// 		// 	}
+// 		// }
+
+// 		console.log('action.action', action.action)
+// 		console.log('actionType', actionType)
+// 		console.log('role', role)
+// 		console.log('loggedIn', loggedIn)
+// 		console.log('dispatch', dispatch)
+
+// 		if (role === roles.ONLY_OPEN && loggedIn && payload.alert === 'form') {
+// 			const action = redirect({ type: r.HOME })
+// 			dispatch(action)
+// 		} else if (role !== roles.ONLY_OPEN && !loggedIn) {
+// 			const action = redirect({
+// 				type: r.SIGN_IN,
+// 				payload: { alert: 'form' },
+// 			})
+// 			dispatch(action)
+// 		}
+// 	},
+// }
 
 // export default {
 // 	[r.HOME]: { path: '/', role: '' },

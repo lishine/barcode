@@ -20,8 +20,8 @@ export default connect({
 				</Box>
 				<Box>
 					{when(!!alert)
-						.is(true, () => <Form />)
-						.else(() => <Alert />)()}
+						.is(true, () => <Alert />)
+						.else(() => <Form />)()}
 				</Box>
 			</Flex>
 		</Modal>

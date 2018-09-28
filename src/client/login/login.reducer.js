@@ -1,11 +1,12 @@
 import { actionTypes as t } from 'login/login.constants'
+import { forms } from 'login/login.constants'
 
 export const loginReducer = (
-	state = { formikProps: {}, form: undefined, alert: undefined },
+	state = { formikProps: {}, form: forms.SIGN_IN, alert: undefined },
 	action
 ) => {
 	const { payload } = action
-
+	console.log('payload', payload)
 	switch (action.type) {
 		case t.GOTO_FORM:
 			return { ...state, form: payload }

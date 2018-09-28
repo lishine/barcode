@@ -12,7 +12,8 @@ export const redirect = (to, payload) => navigate(to, {}, { replace: true })
 // 		payload: payload || {},
 // 	})
 
-export const goToHome = () => goto(routes.HOME)
+export const gotoHome = () => goto(routes.HOME)
+export const gotoSignIn = () => goto(routes.SignIn)
 
 // export const goToSignUpForm = () => go(routes.SIGN_UP, { alert: 'form' })
 // export const goToSignInForm = () => go(routes.SIGN_IN, { alert: 'form' })

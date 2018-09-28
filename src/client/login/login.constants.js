@@ -11,10 +11,10 @@ export const actionTypes = {
 }
 
 export const forms = {
-	SIGN_UP: 'sign-up',
-	SIGN_IN: 'sign-in',
-	FORGOT_PASSWORD: 'forgot-password',
-	NEW_PASSWORD: 'new-password',
+	SIGN_UP: 'SignUp',
+	SIGN_IN: 'SignIn',
+	FORGOT_PASSWORD: 'ForgotPassword',
+	NEW_PASSWORD: 'NewPassword',
 }
 
 export const errors = {

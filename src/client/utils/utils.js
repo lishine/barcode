@@ -22,10 +22,49 @@ export const when = expr => ({
 	is: (constExpr, value) => (expr === constExpr ? resolve(value) : when(expr)),
 	else: defaultValue => defaultValue,
 })
-//// !!!!! MUST USE ELSE !!!!
+/// / !!!!! MUST USE ELSE !!!!
 // export const whenTrue = expr => {
 // 	then: value => (expr ? value : when(expr)),
 // 	else: defaultValue => defaultValue,
 // }
 
 /// ////////////////
+
+export function toto(p) {
+	const promise = get('promise')(p) || p
+	const timeOut = get('timeOut')(p)
+	return timeOutPromise({ promise, timeOut })
+		.then(data => ({ data }))
+		.catch(err => {
+			if (err.message === 'timeOut') {
+				return { timeOut: true }
+			} else {
+				return { err }
+			}
+		})
+}
+
+function timeOutPromise({ timeOut, promise }) {
+	let handle
+	if (!timeOut) {
+		return promise
+	}
+
+	return Promise.race([
+		promise,
+		new Promise((resolve, reject) => {
+			handle = setTimeout(() => {
+				reject(new Error('timeOut'))
+			}, timeOut)
+		}),
+	]).then(
+		v => {
+			clearTimeout(handle)
+			return v
+		},
+		err => {
+			clearTimeout(handle)
+			throw err
+		}
+	)
+}

@@ -5,7 +5,7 @@ import { actionTypes as t } from 'login/login.constants'
 
 export function* setFormikProps() {
 	yield takeLatest(t.SET_FORMIK_PROPS, function*({ payload }) {
-		const formikProps = payload.data
+		const formikProps = payload
 		const { submitForm, setStatus, values, status = {} } = formikProps
 
 		console.log('formikProps', formikProps)

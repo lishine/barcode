@@ -10,9 +10,4 @@ export const setToken = token => ({
 	payload: token,
 })
 
-export const login = token => ({
-	type: c.LOGIN,
-	payload: token,
-})
-
 export const logout = token => ({ type: c.LOGOUT })
