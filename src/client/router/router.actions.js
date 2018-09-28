@@ -3,14 +3,8 @@
 import { routes } from 'router/routes'
 // import * as domains from './router.constants/domains'
 
-export const goto = (...args) => {
-	console.log('goto', ...args)
-	return navigate(...args)
-}
-export const redirect = (...args) => {
-	console.log('redirect', ...args)
-	return navigate(...args, { replace: true })
-}
+export const goto = (to, payload) => navigate(to)
+export const redirect = (to, payload) => navigate(to, {}, { replace: true })
 
 // export const redirect = (to, payload) =>
 // 	redirectRouter({

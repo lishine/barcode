@@ -54,7 +54,7 @@
         "camelcase": 0,
         "no-return-await": 0,
         "no-constant-condition": 0,
-        "no-unused-vars": 0,
+        "no-unused-vars": 1,
         "curly": [
             "error",
             "all"

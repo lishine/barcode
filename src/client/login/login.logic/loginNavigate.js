@@ -1,8 +1,8 @@
-import { fork, select, take, call, put } from 'redux-saga/effects'
+import { fork, select, put } from 'redux-saga/effects'
 
-import { actionTypes as t, forms, links } from 'login/login.constants'
-import { setLinkToken, gotoForm, reset } from 'login/login.actions'
-import { routes } from 'router/routes'
+import * as links from 'login/login.constants/links'
+import * as forms from 'login/login.constants/forms'
+import { gotoForm, reset } from 'login/login.actions'
 import { gotoHome } from 'router/router.actions'
 import { isAuth } from 'auth/auth.selectors'
 import { submit } from './submit'

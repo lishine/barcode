@@ -1,4 +1,4 @@
-import { actionTypes as t } from 'login/login.constants'
+import * as t from 'login/login.constants/actionTypes'
 
 export const submit = () => ({ type: t.SUBMIT })
 
@@ -12,10 +12,10 @@ export const gotoForm = form => ({
 	payload: form,
 })
 
-export const setLinkToken = token => ({
-	type: t.SET_LINK_TOKEN,
-	payload: token,
-})
+// export const setLinkToken = token => ({
+// 	type: t.SET_LINK_TOKEN,
+// 	payload: token,
+// })
 
 export const setAlert = alert => ({
 	type: t.SET_ALERT,

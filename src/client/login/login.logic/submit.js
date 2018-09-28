@@ -1,6 +1,8 @@
-import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { select, take, call, put } from 'redux-saga/effects'
 
-import { errors, actionTypes as t, forms as f } from 'login/login.constants'
+import * as errors from 'login/login.constants/errors'
+import * as f from 'login/login.constants/forms'
+import * as t from 'login/login.constants/actionTypes'
 import { setAlert } from 'login/login.actions'
 // import { getLinkToken } from 'login/login.selectors'
 import { getFormikProps, getForm } from 'login/login.selectors'
@@ -9,7 +11,7 @@ import { post } from 'utils/utils'
 
 export function* submit(linkToken) {
 	while (true) {
-		const { payload } = yield take(t.SUBMIT)
+		yield take(t.SUBMIT)
 
 		// const token = yield select(getLinkToken)
 		const formikProps = yield select(getFormikProps)

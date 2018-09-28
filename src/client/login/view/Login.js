@@ -14,16 +14,18 @@ export default connect({
 	const { alert } = props
 	return (
 		<Modal isOpen>
-			<Flex column>
-				<Box>
-					<NavLinks />
-				</Box>
-				<Box>
-					{when(!!alert)
-						.is(true, () => <Alert />)
-						.else(() => <Form />)()}
-				</Box>
-			</Flex>
+			{alert ? (
+				<Alert />
+			) : (
+				<Flex column>
+					<Box>
+						<NavLinks />
+					</Box>
+					<Box>
+						<Form />
+					</Box>
+				</Flex>
+			)}
 		</Modal>
 	)
 })

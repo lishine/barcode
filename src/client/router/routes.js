@@ -1,11 +1,9 @@
 import createHistory from 'history/createBrowserHistory'
-import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { fork, call, put } from 'redux-saga/effects'
 
 import { buildRoutesMap, route } from 'redux-saga-first-router'
 import { loginNavigate } from 'login/login.logic/loginNavigate'
 import { login } from 'auth/auth.logic/login'
-
-import { isAuth } from 'auth/auth.selectors'
 
 export const routes = {
 	HOME: 'Home',

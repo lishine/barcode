@@ -2,7 +2,7 @@ import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import ReduxThunk from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
-import { reducer as routerReducer, saga as routerSaga } from 'redux-saga-first-router'
+import { saga as routerSaga } from 'redux-saga-first-router'
 
 import rootReducer from 'store/rootReducer'
 import { runSagas } from 'store/logic'

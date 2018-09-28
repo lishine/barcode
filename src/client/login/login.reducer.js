@@ -1,9 +1,11 @@
-import { actionTypes as t, forms } from 'login/login.constants'
+import * as forms from 'login/login.constants/forms'
+import * as t from 'login/login.constants/actionTypes'
 
 const initState = { formikProps: {}, form: forms.SIGN_IN, alert: undefined }
 
 export const loginReducer = (state = initState, action) => {
 	const { payload } = action
+
 	switch (action.type) {
 		// case t.SET_LINK_TOKEN:
 		// 	return { ...state, linkToken: payload }

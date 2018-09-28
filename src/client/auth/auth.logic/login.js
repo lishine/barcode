@@ -1,9 +1,7 @@
-import { spawn, fork, select, take, call, put } from 'redux-saga/effects'
+import { spawn, select, put } from 'redux-saga/effects'
 
 import { setToken } from 'auth/auth.actions'
 import { isAuth } from 'auth/auth.selectors'
-import * as c from 'auth/auth.constants'
-import { gotoLogin } from 'router/router.actions'
 import { logout } from './logout'
 
 export function* login(token) {

@@ -1,6 +1,6 @@
 import { Flex, Box } from 'reflexbox'
 
-import { forms } from 'login/login.constants'
+import * as forms from 'login/login.constants/forms'
 import { gotoForm } from 'login/login.actions'
 
 export default props => {

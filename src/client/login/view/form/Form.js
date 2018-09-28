@@ -11,7 +11,7 @@ import { formData } from './data'
 
 import { goto } from 'router/router.actions'
 import { getForm } from 'login/login.selectors'
-import { forms } from 'login/login.constants'
+import * as forms from 'login/login.constants/forms'
 import { gotoForm, submit, setFormikProps } from 'login/login.actions'
 
 export default connect({ form: getForm })(props => {
