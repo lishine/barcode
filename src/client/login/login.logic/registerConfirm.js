@@ -1,12 +1,14 @@
 import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import { actionTypes as t, forms } from 'login/login.constants'
-import { setLinkToken, gotoForm } from 'login/login.actions'
+import { gotoForm, setAlert } from 'login/login.actions'
 import { routes } from 'router/routes'
+import { gotoHome } from 'router/router.actions'
 import { isAuth } from 'auth/auth.selectors'
+import { login } from 'auth/auth.logic/login'
 import { submit } from './submit'
 import { setFormikProps } from './setFormikProps'
-import { forms } from 'login/login.constants'
+import { post } from 'utils/utils'
 
 export function* registerConfirm(token) {
 	const { response, err } = yield call(post, `/auth/registerconfirm`, { token })

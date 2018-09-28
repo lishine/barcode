@@ -1,8 +1,9 @@
-import { cancelled, fork, select, take, call, put } from 'redux-saga/effects'
+import { fork, select, take, call, put } from 'redux-saga/effects'
 
-import { actionTypes as t, forms } from 'login/login.constants'
+import { actionTypes as t, forms, links } from 'login/login.constants'
 import { setLinkToken, gotoForm, reset } from 'login/login.actions'
 import { routes } from 'router/routes'
+import { gotoHome } from 'router/router.actions'
 import { isAuth } from 'auth/auth.selectors'
 import { submit } from './submit'
 import { setFormikProps } from './setFormikProps'
@@ -10,33 +11,41 @@ import { registerConfirm } from './registerConfirm'
 
 export function* loginNavigate({ query }) {
 	if (yield select(isAuth)) {
-		yield put(navigate(routes.HOME, {}, { replace: true }))
+		yield put(gotoHome())
 	}
 
-	const { link, token } = query
+	const { link, token } = query || {}
 	console.log('token', token)
 	console.log('link', token)
 
 	const exit = yield when(link)
-		.is(forms.NEW_PASSWORD, function*() {
+		.is(links.NEW_PASSWORD, function*() {
+			console.log('NEW_PASSWORD')
 			// yield put(setLinkToken(token))
 			yield put(gotoForm(forms.NEW_PASSWORD))
 			return false
 		})
-		.is(forms.REGISTER_CONFIRMATION, function*() {
-			yield fork(registerConfirm(token))
+		.is(links.REGISTER_CONFIRMATION, function*() {
+			console.log('REGISTER_CONFIRMATION')
+			yield fork(registerConfirm, token)
 			return true
 		})
 		.else(() => false)()
 
 	if (exit) {
+		console.log('canceling')
 		return
 	}
-
+	console.log('continuing')
 	yield fork(setFormikProps)
 	yield fork(submit, token)
 
-	if (yield cancelled()) {
+	try {
+		while (true) {
+			yield sleep(100)
+		}
+	} finally {
+		console.log('canceled')
 		yield put(reset())
 	}
 	// yield takeLatest(t.GOTO_FORM, function*({ payload: form }) {

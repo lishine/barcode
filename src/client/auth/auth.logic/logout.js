@@ -3,7 +3,7 @@ import { spawn, fork, select, take, call, put } from 'redux-saga/effects'
 import { setToken } from 'auth/auth.actions'
 import { isAuth } from 'auth/auth.selectors'
 import { LOGOUT } from 'auth/auth.constants'
-import { gotoSignIn } from 'router/router.actions'
+import { gotoLogin } from 'router/router.actions'
 
 export function* logout(token) {
 	yield take(LOGOUT)
@@ -11,6 +11,6 @@ export function* logout(token) {
 	localStorage.setItem('token', '')
 	yield put(setToken())
 	console.log('4')
-	yield put(gotoSignIn())
+	yield put(gotoLogin())
 	// TODO Total reset
 }

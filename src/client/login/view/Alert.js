@@ -16,9 +16,9 @@ export default connect({
 		<Flex column>
 			<Box>
 				message: {message}
-				{when(!!alert).is(true, () => (
+				{btnContinueToSite && (
 					<button onClick={() => dispatch(gotoHome())}>HOME</button>
-				))}
+				)}
 			</Box>
 		</Flex>
 	)

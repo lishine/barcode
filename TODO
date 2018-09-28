@@ -1,15 +1,19 @@
+server:
 express error log middleware
 express requests number per second 
 token expire
 token blacklisting
 
+client:
+reset store on logout
+
 reducers hot loader
 redux production mode
 
-set token on init action
+
+
 
 *React email
-
 *FLOW
 
 Learn:

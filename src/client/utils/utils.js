@@ -14,7 +14,6 @@ export function sleep(ms) {
 
 /// ////// Functional switch
 const resolve = resolvedValue => ({
-	then: () => resolve(resolvedValue),
 	is: () => resolve(resolvedValue),
 	else: () => resolvedValue,
 })
@@ -70,8 +69,8 @@ function timeOutPromise({ timeOut, promise }) {
 	)
 }
 
-export const post = (route, data) => {
-	const { data: response, err } = toto(axios.post(route, data))
+export const post = async (route, data) => {
+	const { data: response, err } = await toto(axios.post(route, data))
 	console.log('response', response)
 	console.log('err', err)
 

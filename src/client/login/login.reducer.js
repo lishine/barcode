@@ -4,7 +4,6 @@ const initState = { formikProps: {}, form: forms.SIGN_IN, alert: undefined }
 
 export const loginReducer = (state = initState, action) => {
 	const { payload } = action
-	console.log('payload', payload)
 	switch (action.type) {
 		// case t.SET_LINK_TOKEN:
 		// 	return { ...state, linkToken: payload }

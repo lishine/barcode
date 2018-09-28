@@ -1,8 +1,7 @@
 import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { errors, actionTypes as t } from 'login/login.constants'
+import { errors, actionTypes as t, forms as f } from 'login/login.constants'
 import { setAlert } from 'login/login.actions'
-import { routes as r } from 'router/routes'
 // import { getLinkToken } from 'login/login.selectors'
 import { getFormikProps, getForm } from 'login/login.selectors'
 import { login } from 'auth/auth.logic/login'
@@ -37,45 +36,47 @@ export function* submit(linkToken) {
 		const { response, err } = yield call(post, `/auth/${apiRoute}`, apiValues)
 
 		if (response) {
-			const {
-				data: { token },
-			} = response
+			const { data } = response
+			const { token } = data
 			yield when(form)
-				.is(r.SIGN_UP, function*() {
-					yield put(setAlert, 'confirmLinkSent')
+				.is(f.SIGN_UP, function*() {
+					yield put(setAlert('confirmLinkSent'))
 				})
-				.is(r.SIGN_IN, function*() {
+				.is(f.SIGN_IN, function*() {
 					yield call(login, token)
-					yield put(setAlert, 'signedIn')
+					yield put(setAlert('signedIn'))
 				})
 				.is('sendLinkSubmit', function*() {
-					yield put(setAlert, 'confirmLinkSent')
+					yield put(setAlert('confirmLinkSent'))
 				})
-				.is(r.FORGOT_PASSWORD, function*() {
-					yield put(setAlert, 'passwordLinkSent')
+				.is(f.FORGOT_PASSWORD, function*() {
+					yield put(setAlert('passwordLinkSent'))
 				})
-				.is(r.NEW_PASSWORD, function*() {
+				.is(f.NEW_PASSWORD, function*() {
 					yield call(login, token)
-					yield put(setAlert, 'signedIn')
+					yield put(setAlert('signedIn'))
 				})
 				.else(() => {})()
 		} else {
 			console.dir(err)
-			const { response = {} } = err
-			const { data = {}, status } = response
+			const { data = {}, status } = err.response
 			const { error, code } = data
 
 			const setError = ({ sendLink }) => {
+				console.log('in setError')
 				setStatus({
 					values,
 					sendLink,
-					error: (status === 400 && error) || 'Something went wrong',
+					error: when(status)
+						.is(504, 'Timeout')
+						.is(400, error)
+						.else('Something went wrong'),
 				})
 			}
 
 			when(form)
-				.is(r.SIGN_UP, () => setError({}))
-				.is(r.SIGN_IN, () => {
+				.is(f.SIGN_UP, () => setError({}))
+				.is(f.SIGN_IN, () => {
 					if (code === errors.USER_NOT_CONFIRMED) {
 						setError({ sendLink: true })
 					} else {
@@ -83,8 +84,8 @@ export function* submit(linkToken) {
 					}
 				})
 				.is('sendLinkSubmit', () => setError({}))
-				.is(r.FORGOT_PASSWORD, () => setError({}))
-				.is(r.NEW_PASSWORD, () => setError({}))
+				.is(f.FORGOT_PASSWORD, () => setError({}))
+				.is(f.NEW_PASSWORD, () => setError({}))
 				.else(() => {})()
 		}
 
