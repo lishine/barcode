@@ -6,7 +6,7 @@ import NavLinks from './NavLinks'
 
 import Alert from './Alert'
 
-import { getAlert } from 'login.selectors'
+import { getAlert } from 'login/login.selectors'
 
 export default connect({
 	alert: getAlert,

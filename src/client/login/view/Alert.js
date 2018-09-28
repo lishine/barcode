@@ -1,9 +1,9 @@
 import { Flex, Box } from 'reflexbox'
 
-import { alerts } from 'login/form/data'
-import { getForm, getAlert } from 'login.selectors'
+import { alerts } from 'login/view/form/data'
+import { getForm, getAlert } from 'login/login.selectors'
 import * as routes from 'router/routes'
-import { goToHome } from 'router/actions'
+import { goToHome } from 'router/router.actions'
 
 export default connect({
 	form: getForm,

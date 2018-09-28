@@ -1,7 +1,7 @@
-import { routerReducer } from 'router'
+import { reducer as routerReducer } from 'redux-saga-first-router'
 
-import { authReducer } from 'auth.reducer'
-import { loginReducer } from 'login.reducer'
+import { authReducer } from 'auth/auth.reducer'
+import { loginReducer } from 'login/login.reducer'
 
 export default {
 	location: routerReducer,

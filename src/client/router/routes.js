@@ -1,5 +1,7 @@
+import createHistory from 'history/createBrowserHistory'
+
 import { buildRoutesMap, route } from 'redux-saga-first-router'
-import { loginNavigate } from 'login.logic/loginNavigate'
+import { loginNavigate } from 'login/login.logic/loginNavigate'
 
 export const HOME = 'Home'
 export const LOGIN = 'Login'
@@ -8,6 +10,8 @@ export const routesMap = buildRoutesMap(
 	route(HOME, '/'),
 	route(LOGIN, '/login', loginNavigate)
 )
+
+export const history = createHistory()
 
 // export default {
 // 	[r.HOME]: { path: '/', role: '' },

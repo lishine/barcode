@@ -1,12 +1,12 @@
 import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { navigate } from 'redux-saga-first-router'
 
-import * as c from 'login.Model/constants'
-import * as a from 'login.Model/actions'
+import * as c from 'login/login.constants'
+import * as a from 'login/login.actions'
 import * as routes from 'router/routes'
-import { isAuth } from 'auth.Model/selectors'
-import { watchSubmit } from 'watchSubmit'
-import { watchSetFromikProps } from 'watchSetFromikProps'
+import { isAuth } from 'auth/auth.selectors'
+import { submit } from './submit'
+import { setFromikProps } from './setFromikProps'
 
 export function* loginNavigate() {
 	if (yield select(isAuth)) {
@@ -15,8 +15,8 @@ export function* loginNavigate() {
 	// email confirm
 	// new password
 
-	yield fork(watchSetFromikProps)
-	yield fork(watchSubmit)
+	yield fork(setFromikProps)
+	yield fork(submit)
 
 	yield takeLatest(c.GOTO_FORM, function*({ payload: form }) {
 		when(form)

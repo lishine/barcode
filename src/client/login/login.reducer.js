@@ -1,4 +1,4 @@
-import * as c from 'login.Model/constants'
+import * as c from 'login/login.constants'
 
 export const loginReducer = (
 	state = { formikProps: {}, form: undefined, alert: undefined },

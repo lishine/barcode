@@ -2,7 +2,7 @@ import upperFirst from 'lodash/fp/upperFirst'
 import * as yup from 'yup'
 import * as inputs from './inputs'
 import schema from './schema'
-import { mapToObject } from 'utils'
+import { mapToObject } from 'utils/utils'
 
 const allFields = {
 	SignUp: ['name', 'email', 'password', 'passwordConfirmation'],

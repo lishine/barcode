@@ -1,11 +1,12 @@
-import Login from '../login/Login'
 import Link from 'redux-first-router-link'
 import { When } from 'react-if'
 
+import Login from 'login/view/Login'
+
 import { routes } from 'router/routes'
-import { getPage } from 'router.selectors'
-import { getToken, getEmail } from 'auth.selectors'
-import { logout } from 'auth.actions'
+import { getPage } from 'router/router.selectors'
+import { getToken, getEmail } from 'auth/auth.selectors'
+import { logout } from 'auth/auth.actions'
 
 export default connect({ page: getPage, token: getToken, email: getEmail })(props => {
 	const { page, token, email } = props

@@ -4,15 +4,15 @@ import Link from 'redux-first-router-link'
 import ProgressButton from 'react-progress-button'
 import 'react-progress-button/react-progress-button.css'
 import { When } from 'react-if'
-import { Map } from 'utils'
+import { Map } from 'utils/utils'
 
 import { validate } from './validate'
 import { formData } from './data'
 
-import { goToForgotPasswordForm } from '../../store/model/router/router.actions'
-import { getPage } from '../../store/model/router/router.selectors'
-import { submit, setFormikProps } from '../model/login.actions'
-import * as routes from 'store/model/router/router.constants/routes'
+import { goto } from 'router/router.actions'
+import { getForm } from 'login/login.selectors'
+import { submit, setFormikProps } from 'login/login.actions'
+import * as routes from 'router/routes'
 
 export default connect({ page: getPage })(props => {
 	const { page } = props

@@ -1,10 +1,10 @@
 import { take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import * as a from '../auth.actions'
-import * as c from '../auth.constants'
-import * as routerActions from 'store/model/router/router.actions'
+import * as a from 'auth/auth.actions'
+import * as c from 'auth/auth.constants'
+import * as routerActions from 'router/router.actions'
 
-export default function*() {
+export function* login() {
 	yield takeLatest(c.LOGIN, function*({ payload }) {
 		console.log('0here')
 		let token = payload.data

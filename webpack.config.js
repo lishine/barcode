@@ -58,7 +58,7 @@ module.exports = env => {
 
 	var config = {
 		mode: TARGET,
-		entry: { bundle: ['@babel/polyfill', path.resolve(APP_DIR, 'store/index.js')] },
+		entry: { bundle: ['@babel/polyfill', path.resolve(APP_DIR, 'index.js')] },
 		output: {
 			publicPath: '/',
 			path: BUILD_DIR,
