@@ -1,4 +1,4 @@
-import * as c from 'login/login.constants'
+import { actionTypes as t } from 'login/login.constants'
 
 export const loginReducer = (
 	state = { formikProps: {}, form: undefined, alert: undefined },
@@ -7,11 +7,11 @@ export const loginReducer = (
 	const { payload } = action
 
 	switch (action.type) {
-		case c.GOTO_FORM:
+		case t.GOTO_FORM:
 			return { ...state, form: payload }
-		case c.SET_ALERT:
+		case t.SET_ALERT:
 			return { ...state, alert: payload }
-		case c.SET_FORMIK_PROPS:
+		case t.SET_FORMIK_PROPS:
 			return { ...state, formikProps: payload }
 		default:
 			return state

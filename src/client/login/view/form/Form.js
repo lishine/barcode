@@ -11,13 +11,13 @@ import { formData } from './data'
 
 import { goto } from 'router/router.actions'
 import { getForm } from 'login/login.selectors'
-import { submit, setFormikProps } from 'login/login.actions'
-import * as routes from 'router/routes'
+import { forms } from 'login/login.constants'
+import { gotoForm, submit, setFormikProps } from 'login/login.actions'
 
-export default connect({ page: getPage })(props => {
-	const { page } = props
-	console.log('page', page)
-	const { initialValues, show, schema, title } = formData(page)
+export default connect({ form: getForm })(props => {
+	const { form } = props
+	console.log('form', form)
+	const { initialValues, show, schema, title } = formData(form)
 
 	return (
 		<>
@@ -25,7 +25,7 @@ export default connect({ page: getPage })(props => {
 			<Formik
 				initialValues={initialValues}
 				validate={validate(schema)}
-				onSubmit={props => dispatch(submit(props))}
+				onSubmit={() => dispatch(submit())}
 				render={formikProps => {
 					dispatch(setFormikProps(formikProps))
 					const { setStatus, handleSubmit, isSubmitting, status = {} } = formikProps
@@ -40,15 +40,19 @@ export default connect({ page: getPage })(props => {
 									<Field {...{ key: name, name, component }} />
 								)}
 							</Map>
-							<When condition={page === routes.SIGN_IN}>
-								<Link to={goToForgotPasswordForm()}>forgot password</Link>
-							</When>
-							<When condition={!!error}>{error}</When>
-							<When condition={!!sendLink}>
+
+							{form === forms.SIGN_IN && (
+								<button onClick={() => dispatch(gotoForm(forms.SIGN_IN))}>
+									forgot password
+								</button>
+							)}
+							{!!error && <div>{error}</div>}
+							{!!sendLink && (
 								<button onClick={() => setStatus('sendLinkSubmit')}>
 									Resend link
 								</button>
-							</When>
+							)}
+
 							<ProgressButton
 								type="submit"
 								state={isSubmitting ? 'loading' : ''}>

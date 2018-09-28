@@ -1,9 +1,9 @@
 import { select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import axios from 'axios'
 
-import * as c from 'login/login.constants'
+import { actionTypes as t } from 'login/login.constants'
 import * as a from 'login/login.actions'
-import * as r from 'router/routes'
+import { routes as r } from 'router/routes'
 import { getTokenFromUrl, getPage } from 'router/router.selectors'
 import { getFormikProps } from 'login/login.selectors'
 import { redirect } from 'router/router.actions'
@@ -11,7 +11,8 @@ import { login } from 'auth/auth.actions'
 
 export function* submit() {
 	while (true) {
-		const { payload } = yield take(c.SUBMIT)
+		const { payload } = yield take(t.SUBMIT)
+
 		const token = yield select(getTokenFromUrl)
 		const formikProps = yield select(getFormikProps)
 		const page = yield select(getPage)

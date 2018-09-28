@@ -1,6 +1,6 @@
 // import { redirect as redirectRouter } from 'redux-first-router'
 
-import * as routes from 'router/routes'
+import { routes } from 'router/routes'
 // import * as domains from './router.constants/domains'
 
 export const goto = (to, payload) => navigate(to)

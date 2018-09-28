@@ -1,10 +1,10 @@
 import { take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import * as a from 'login/login.actions'
-import * as c from 'login/login.constants'
+import * as loginActions from 'login/login.actions'
+import { actionTypes as t } from 'login/login.constants'
 
 export function* setFormikProps() {
-	yield takeLatest(c.SET_FORMIK_PROPS, function*({ payload }) {
+	yield takeLatest(t.SET_FORMIK_PROPS, function*({ payload }) {
 		const formikProps = payload.data
 		const { submitForm, setStatus, values, status = {} } = formikProps
 

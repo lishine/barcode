@@ -47,7 +47,6 @@
         "import/named": 1,
         "import/default": 1,
         "import/export": 1,
-        "import/exports-last": 1,
         "import/newline-after-import": 1,
         "react/react-jsx-no-undef": 0,
         "react/react-in-jsx-scope": 0,

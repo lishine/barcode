@@ -1,7 +1,14 @@
-export const SUBMIT = '[login] submit'
-export const SET_ALERT = '[login] set alert'
-export const GOTO_FORM = '[login] goto form'
-export const SET_FORMIK_PROPS = '[login] set formik props'
+// export const SUBMIT = '[login] submit'
+// export const SET_ALERT = '[login] set alert'
+// export const GOTO_FORM = '[login] goto form'
+// export const SET_FORMIK_PROPS = '[login] set formik props'
+
+export const actionTypes = {
+	SUBMIT: '[login] submit',
+	SET_ALERT: '[login] set alert',
+	GOTO_FORM: '[login] goto form',
+	SET_FORMIK_PROPS: '[login] set formik props',
+}
 
 export const forms = {
 	SIGN_UP: 'sign-up',

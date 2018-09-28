@@ -1,21 +1,14 @@
-import * as c from 'login/login.constants'
+import { actionTypes as t } from 'login/login.constants'
 
-export const submit = (page, values, formikBag) => {
-	return {
-		type: c.SUBMIT,
-		payload: { data: { page, values, formikBag } },
-	}
-}
+export const submit = () => ({ type: t.SUBMIT })
 
-export const setFormikProps = formikProps => {
-	return {
-		type: c.SET_FORMIK_PROPS,
-		payload: { data: formikProps },
-	}
-}
+export const setFormikProps = formikProps => ({
+	type: t.SET_FORMIK_PROPS,
+	payload: formikProps,
+})
 
 export const gotoForm = form => ({
-	type: c.GOTO_FORM,
+	type: t.GOTO_FORM,
 	payload: form,
 })
 

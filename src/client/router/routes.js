@@ -3,12 +3,14 @@ import createHistory from 'history/createBrowserHistory'
 import { buildRoutesMap, route } from 'redux-saga-first-router'
 import { loginNavigate } from 'login/login.logic/loginNavigate'
 
-export const HOME = 'Home'
-export const LOGIN = 'Login'
+export const routes = {
+	HOME: 'Home',
+	LOGIN: 'Login',
+}
 
 export const routesMap = buildRoutesMap(
-	route(HOME, '/'),
-	route(LOGIN, '/login', loginNavigate)
+	route(routes.HOME, '/'),
+	route(routes.LOGIN, '/login', loginNavigate)
 )
 
 export const history = createHistory()

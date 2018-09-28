@@ -1,12 +1,12 @@
 import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { navigate } from 'redux-saga-first-router'
 
-import * as c from 'login/login.constants'
-import * as a from 'login/login.actions'
-import * as routes from 'router/routes'
+import { actionTypes as t, forms } from 'login/login.constants'
+import * as loginActions from 'login/login.actions'
+import { routes } from 'router/routes'
 import { isAuth } from 'auth/auth.selectors'
 import { submit } from './submit'
-import { setFromikProps } from './setFromikProps'
+import { setFormikProps } from './setFormikProps'
 
 export function* loginNavigate() {
 	if (yield select(isAuth)) {
@@ -15,15 +15,15 @@ export function* loginNavigate() {
 	// email confirm
 	// new password
 
-	yield fork(setFromikProps)
+	yield fork(setFormikProps)
 	yield fork(submit)
 
-	yield takeLatest(c.GOTO_FORM, function*({ payload: form }) {
+	yield takeLatest(t.GOTO_FORM, function*({ payload: form }) {
 		when(form)
-			.is(c.forms.SIGN_UP, () => {})
-			.is(c.forms.SIGN_IN, () => {})
-			.is(c.forms.NEW_PASSWORD, () => {})
-			.is(c.forms.FORGOT_PASSWORD, () => {})
+			.is(forms.SIGN_UP, () => {})
+			.is(forms.SIGN_IN, () => {})
+			.is(forms.NEW_PASSWORD, () => {})
+			.is(forms.FORGOT_PASSWORD, () => {})
 			.else(() => {})()
 	})
 }
