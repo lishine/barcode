@@ -1,7 +1,7 @@
-import { routerReducer } from 'Model/router'
+import { routerReducer } from 'router'
 
-import { authReducer } from 'Model/auth/reducer'
-import { loginReducer } from 'login.Model/reducer'
+import { authReducer } from 'auth.reducer'
+import { loginReducer } from 'login.reducer'
 
 export default {
 	location: routerReducer,

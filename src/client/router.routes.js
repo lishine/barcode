@@ -1,11 +1,12 @@
 import { buildRoutesMap, route } from 'redux-saga-first-router'
+import { loginNavigate } from 'login.logic/loginNavigate'
 
-import * as r from './Model/router/routes'
-import { loginNavigate } from 'login.Logic/loginNavigate'
+export const HOME = 'Home'
+export const LOGIN = 'Login'
 
 export const routesMap = buildRoutesMap(
-	route(r.HOME, '/'),
-	route(r.LOGIN, '/login', loginNavigate)
+	route(HOME, '/'),
+	route(LOGIN, '/login', loginNavigate)
 )
 
 // export default {
