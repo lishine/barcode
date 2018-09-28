@@ -7,8 +7,8 @@ module.exports = env => {
 	var CleanWebpackPlugin = require('clean-webpack-plugin')
 	// var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 	// var CompressionPlugin = require('compression-webpack-plugin')
-	// var Visualizer = require('webpack-visualizer-plugin')
-	// var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+	var Visualizer = require('webpack-visualizer-plugin')
+	var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 	// var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 	var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -94,8 +94,8 @@ module.exports = env => {
 				dispatch: ['store/configureStore', 'dispatch'],
 				connect: ['utils/with-context', 'connect'],
 				navigate: ['redux-saga-first-router', 'navigate'],
-				when: ['utils', 'when'],
-				sleep: ['utils', 'sleep'],
+				when: ['utils/utils', 'when'],
+				sleep: ['utils/utils', 'sleep'],
 				React: 'react',
 				get: 'lodash/fp/get',
 				map: 'lodash/fp/map',
@@ -124,9 +124,9 @@ module.exports = env => {
 			// 	minRatio: 0.8,
 			// 	deleteOriginalAssets: true,
 			// }),
-			new CleanWebpackPlugin([BUILD_DIR])
-			// new Visualizer(),
-			// new BundleAnalyzerPlugin()
+			new CleanWebpackPlugin([BUILD_DIR]),
+			new Visualizer(),
+			new BundleAnalyzerPlugin()
 		)
 	} else {
 		config.plugins.push(

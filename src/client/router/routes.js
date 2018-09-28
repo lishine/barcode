@@ -1,4 +1,5 @@
 import createHistory from 'history/createBrowserHistory'
+import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import { buildRoutesMap, route } from 'redux-saga-first-router'
 import { loginNavigate } from 'login/login.logic/loginNavigate'
@@ -6,6 +7,17 @@ import { loginNavigate } from 'login/login.logic/loginNavigate'
 export const routes = {
 	HOME: 'Home',
 	LOGIN: 'Login',
+}
+
+function protectedRoute(navigateSaga) {
+	return function*(...args) {
+		const isAuthenticated = yield call(validateTokenFromLocalStorage)
+		if (isAuthenticated) {
+			yield fork(navigateSaga, ...args)
+		} else {
+			yield put(navigate('LOGIN'))
+		}
+	}
 }
 
 export const routesMap = buildRoutesMap(

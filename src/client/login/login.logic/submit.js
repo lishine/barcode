@@ -1,8 +1,8 @@
 import { select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import axios from 'axios'
 
-import { actionTypes as t } from 'login/login.constants'
-import * as a from 'login/login.actions'
+import { errors, actionTypes as t } from 'login/login.constants'
+import * as loginActions from 'login/login.actions'
 import { routes as r } from 'router/routes'
 import { getTokenFromUrl, getPage } from 'router/router.selectors'
 import { getFormikProps } from 'login/login.selectors'
@@ -77,7 +77,7 @@ export function* submit() {
 					break
 				case 'sendRegLink':
 				case r.SIGN_IN:
-					if (code === c.errors.USER_NOT_CONFIRMED) {
+					if (code === errors.USER_NOT_CONFIRMED) {
 						setError({ sendLink: true })
 					} else {
 						setError({})

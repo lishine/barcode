@@ -1,5 +1,4 @@
 import { fork, select, take, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { navigate } from 'redux-saga-first-router'
 
 import { actionTypes as t, forms } from 'login/login.constants'
 import * as loginActions from 'login/login.actions'

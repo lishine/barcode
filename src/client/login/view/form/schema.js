@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { MIN_PASSWORD_LENGTH } from 'fixed'
+import { MIN_PASSWORD_LENGTH } from 'utils/constants'
 
 export default values => ({
 	name: yup.string().required('Name is required!'),
