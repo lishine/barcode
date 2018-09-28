@@ -17,6 +17,13 @@ export const setLinkToken = token => ({
 	payload: token,
 })
 
+export const setAlert = alert => ({
+	type: t.SET_ALERT,
+	payload: alert,
+})
+
+export const reset = () => ({ type: t.RESET })
+
 // export const gotoSignIn = form => ({
 // 	type: c.GOTO_FORM,
 // 	payload: c.forms.SIGN_IN,

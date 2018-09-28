@@ -4,11 +4,12 @@
 // export const SET_FORMIK_PROPS = '[login] set formik props'
 
 export const actionTypes = {
+	RESET: '[login] reset',
 	SUBMIT: '[login] submit',
 	SET_ALERT: '[login] set alert',
 	GOTO_FORM: '[login] goto form',
 	SET_FORMIK_PROPS: '[login] set formik props',
-	SET_LINK_TOKEN: '[login] set link token',
+	// SET_LINK_TOKEN: '[login] set link token',
 }
 
 export const forms = {

@@ -12,4 +12,5 @@ export function* logout(token) {
 	yield put(setToken())
 	console.log('4')
 	yield put(gotoSignIn())
+	// TODO Total reset
 }
