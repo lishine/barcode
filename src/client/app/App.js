@@ -1,4 +1,5 @@
 import Login from 'login/view/Login'
+import Profile from 'profile/view/Profile'
 import { routes } from 'router/routes'
 import { getPage } from 'router/selectors'
 import { getToken, getEmail } from 'auth/selectors'
@@ -17,6 +18,7 @@ export default connect({ page: getPage, token: getToken, email: getEmail })(prop
 			<div>email: {email}</div>
 			{when(page)
 				.is(routes.HOME, () => <div>I am home</div>)
+				.is(routes.PROFILE, () => <Profile />)
 				.is(routes.LOGIN, () => <Login />)
 				.else(() => {})()}
 		</>

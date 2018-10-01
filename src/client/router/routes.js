@@ -3,26 +3,28 @@ import { fork, call, put } from 'redux-saga/effects'
 
 import { buildRoutesMap, route } from 'redux-saga-first-router'
 import { loginNavigate } from 'login/logic/loginNavigate'
+import { profileNavigate } from 'profile/logic/onNavigate'
 import { login } from 'auth/logic/login'
 
 export const routes = {
 	HOME: 'Home',
 	LOGIN: 'Login',
+	PROFILE: 'Profile',
+	EDIT_PROFILE: 'Edit profile',
 }
 
 export const routesMap = buildRoutesMap(
 	route(routes.HOME, '/', protectedRoute()),
-	route(routes.LOGIN, '/login', loginNavigate)
+	route(routes.LOGIN, '/login', loginNavigate),
+	route(routes.PROFILE, '/profile/view', protectedRoute(profileNavigate))
 )
 
 export const history = createHistory()
 
 function protectedRoute(navigateSaga) {
 	return function*(...args) {
-		console.log('1')
 		const isLoggedIn = yield call(login)
 
-		console.log('isLoggedIn', isLoggedIn)
 		if (isLoggedIn) {
 			if (navigateSaga) {
 				yield fork(navigateSaga, ...args)
