@@ -1,0 +1,51 @@
+import { store } from 'react-easy-state'
+import * as forms from 'login/constants/forms'
+
+const init = {
+	email: '',
+	error: false,
+	sendLink: false,
+	alert: '',
+	form: forms.SIGN_IN,
+	submitSource: undefined,
+}
+
+const self = store({
+	reset() {
+		Object.assign(self, init)
+	},
+
+	gotoForm(form) {
+		self.setForm(form)
+		self.setSendLink(false)
+		self.setError(false)
+	},
+	onChange(values) {
+		if (values !== self.values) {
+			if (self.error) {
+				self.setError(false)
+			}
+			if (self.sendLink) {
+				self.setSendLink(false)
+			}
+			self.values = values
+		}
+	},
+	setSubmitSource(submitSource) {
+		self.submitSource = submitSource
+	},
+	setForm(form) {
+		self.form = form
+	},
+	setAlert(alert) {
+		self.alert = alert
+	},
+	setSendLink(bool) {
+		self.sendLink = bool
+	},
+	setError(bool) {
+		self.error = bool
+	},
+})
+
+export const loginStore = self

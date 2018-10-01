@@ -1,4 +1,4 @@
-import * as c from './auth.constants'
+import * as c from './constants'
 
 export const setEmail = email => ({
 	type: c.SET_EMAIL,

@@ -1,8 +1,9 @@
 import { spawn, select, put } from 'redux-saga/effects'
 
-import { setToken } from 'auth/auth.actions'
-import { isAuth } from 'auth/auth.selectors'
+import { setToken } from '../actions'
+import { isAuth } from '../selectors'
 import { logout } from './logout'
+import { dispatch } from 'store/configureStore'
 
 export function* login(token) {
 	if (yield select(isAuth)) {
@@ -17,11 +18,8 @@ export function* login(token) {
 		return false
 	}
 
-	console.log('1')
-	yield put(setToken(token))
+	dispatch(setToken(token))
 	localStorage.setItem('token', token)
-	console.log('2')
-	// send logged in
 	yield spawn(logout)
 	return true
 }

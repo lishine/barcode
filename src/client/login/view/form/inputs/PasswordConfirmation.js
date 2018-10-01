@@ -5,6 +5,6 @@ export default props => (
 		{...props}
 		autoComplete="new-password"
 		type="password"
-		placeholder="Password"
+		placeholder="Password confirmation"
 	/>
 )

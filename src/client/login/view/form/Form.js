@@ -1,55 +1,78 @@
-import { Formik, Field } from 'formik'
-import { Button, Form, Title } from 'styled'
-import Link from 'redux-first-router-link'
+import { Formik, FastField } from 'formik'
+import { Form, Title } from 'styled'
 import ProgressButton from 'react-progress-button'
 import 'react-progress-button/react-progress-button.css'
-import { When } from 'react-if'
 import { Map } from 'utils/utils'
+import { loginStore } from 'login/store'
 
 import { validate } from './validate'
 import { formData } from './data'
 
-import { goto } from 'router/router.actions'
-import { getForm } from 'login/login.selectors'
-import * as forms from 'login/login.constants/forms'
-import { gotoForm, submit, setFormikProps } from 'login/login.actions'
+import * as forms from 'login/constants/forms'
+import { gotoForm, submit } from '../../actions'
 
-export default connect({ form: getForm })(props => {
-	const { form } = props
+export default view(props => {
+	const { form } = loginStore
 	console.log('form', form)
-	const { initialValues, show, schema, title } = formData(form)
+	const { show, schema, title } = formData(form)
+	// Object.assign(initialValues, { email: '' })
 
+	// console.log('initialValues', initialValues)
+	const { email } = loginStore
 	return (
-		<>
+		<div key={form}>
 			<Title>{title}</Title>
 			<Formik
-				initialValues={initialValues}
+				// enableReinitialize
+				initialValues={{ email }}
 				validate={validate(schema)}
-				onSubmit={() => dispatch(submit())}
+				onSubmit={(...props) => dispatch(submit(...props))}
 				render={formikProps => {
-					dispatch(setFormikProps(formikProps))
-					const { setStatus, handleSubmit, isSubmitting, status = {} } = formikProps
+					// dispatch(setFormikProps(formikProps))
+					const {
+						values,
+						handleSubmit,
+						submitForm,
+						setStatus,
+						isSubmitting,
+						status = {},
+					} = formikProps
 					console.log('status', status)
-					console.log('isSubmitting', isSubmitting)
-					const { error, sendLink } = status
+					if (status.error && status.values !== values) {
+						setStatus({})
+					}
+					loginStore.email = values.email
+					console.log('values', values)
+					// console.log('isSubmitting', isSubmitting)
+					const { error, sendLink } = loginStore
 
 					return (
-						<Form onSubmit={handleSubmit}>
+						<Form
+							onSubmit={(...props) => {
+								loginStore.setSubmitSource()
+								handleSubmit(...props)
+							}}>
 							<Map collection={show}>
 								{({ name, component }) => (
-									<Field {...{ key: name, name, component }} />
+									<FastField {...{ key: name, name, component }} />
 								)}
 							</Map>
 
 							{form === forms.SIGN_IN && (
 								<button
-									onClick={() => dispatch(gotoForm(forms.FORGOT_PASSWORD))}>
+									type="button"
+									onClick={() => loginStore.gotoForm(forms.FORGOT_PASSWORD)}>
 									forgot password
 								</button>
 							)}
 							{!!error && <div>{error}</div>}
-							{!!sendLink && (
-								<button onClick={() => setStatus('sendLinkSubmit')}>
+							{sendLink && (
+								<button
+									type="button"
+									onClick={() => {
+										loginStore.setSubmitSource('link')
+										submitForm()
+									}}>
 									Resend link
 								</button>
 							)}
@@ -63,6 +86,6 @@ export default connect({ form: getForm })(props => {
 					)
 				}}
 			/>
-		</>
+		</div>
 	)
 })

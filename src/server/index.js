@@ -58,12 +58,6 @@ app.get('/api1/insert', (req, res) => {
 app.use(express.static('dist'))
 
 app.use((req, res) => {
-	// console.log('req.session', req.session)
-	// if (req.session) {
-	// 	console.log('req.session', req.session)
-	// 	res.set({ token: req.session.token })
-	// }
-	// console.log('redirected')
 	res.sendFile(path.resolve(__dirname, '../../dist/index.html'))
 })
 

@@ -5,7 +5,7 @@ export default values => ({
 	name: yup.string().required('Name is required!'),
 	email: yup
 		.string()
-		.email('E-mail is not valid!')
+		// .email('E-mail is not valid!')
 		.required('E-mail is required!'),
 	password: yup
 		.string()

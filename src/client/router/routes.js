@@ -2,8 +2,8 @@ import createHistory from 'history/createBrowserHistory'
 import { fork, call, put } from 'redux-saga/effects'
 
 import { buildRoutesMap, route } from 'redux-saga-first-router'
-import { loginNavigate } from 'login/login.logic/loginNavigate'
-import { login } from 'auth/auth.logic/login'
+import { loginNavigate } from 'login/logic/loginNavigate'
+import { login } from 'auth/logic/login'
 
 export const routes = {
 	HOME: 'Home',
@@ -28,7 +28,7 @@ function protectedRoute(navigateSaga) {
 				yield fork(navigateSaga, ...args)
 			}
 		} else {
-			yield put(navigate(routes.LOGIN))
+			dispatch(navigate(routes.LOGIN))
 		}
 	}
 }

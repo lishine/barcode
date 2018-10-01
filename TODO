@@ -6,15 +6,30 @@ token blacklisting
 
 client:
 reset store on logout
+button-link, link
 
-reducers hot loader
-redux production mode
+!! 404 on start-up
+!! setTimeout red
 
+webpack:
+*HMR
 
+redux:
+redux&react production mode + devtools:
 
+const composeEnhancers =
+	(process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+	compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 
 *React email
 *FLOW
 
 Learn:
-SVG
+Browsers status regarding polyfills
+Server - error handling : promise vs runtime
+
+what is SVG
+Redux devtools: trigger actions, production
+* HMR
+* StoryBook

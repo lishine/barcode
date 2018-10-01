@@ -6,8 +6,7 @@ export function sendRegistrationEmail({ req, userId, name, email }) {
 	const token = createToken({ userId })
 
 	const host = req.headers.host
-	const path = 'register-confirm'
-	const link = `http://${host}/${path}?token=${token}`
+	const link = `http://${host}/login?link=register-confirmation&token=${token}`
 
 	return createEmailTransport().send({
 		template: 'register-confirmation',
@@ -25,9 +24,9 @@ export function sendNewPasswordEmail({ req, userId, name, email }) {
 	const token = createToken({ userId, isNewPassword: true })
 
 	const host = req.headers.host
-	const path = 'new-password'
-	const link = `http://${host}/${path}?token=${token}`
+	const link = `http://${host}/login?link=new-password&token=${token}`
 
+	console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 	return createEmailTransport().send({
 		template: 'new-password',
 		message: {

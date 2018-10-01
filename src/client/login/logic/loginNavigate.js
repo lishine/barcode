@@ -1,62 +1,54 @@
-import { fork, select, put } from 'redux-saga/effects'
-
-import * as links from 'login/login.constants/links'
-import * as forms from 'login/login.constants/forms'
-import { gotoForm, reset } from 'login/login.actions'
-import { gotoHome } from 'router/router.actions'
-import { isAuth } from 'auth/auth.selectors'
+import { cancelled, call, fork, select, put } from 'redux-saga/effects'
+import { HALT } from 'utils/utils'
+import * as links from 'login/constants/links'
+import * as forms from 'login/constants/forms'
+import { gotoHome } from 'router/actions'
+import { isAuth } from 'auth/selectors'
 import { submit } from './submit'
-import { setFormikProps } from './setFormikProps'
 import { registerConfirm } from './registerConfirm'
+import { loginStore } from 'login/store'
+import { dispatch } from 'store/configureStore'
 
-export function* loginNavigate({ query }) {
+export function* loginNavigate(_, query) {
+	loginStore.reset()
+
 	if (yield select(isAuth)) {
-		yield put(gotoHome())
+		dispatch(gotoHome())
 	}
-
 	const { link, token } = query || {}
 	console.log('token', token)
 	console.log('link', token)
 
-	const exit = yield when(link)
+	yield when(link)
 		.is(links.NEW_PASSWORD, function*() {
 			console.log('NEW_PASSWORD')
-			// yield put(setLinkToken(token))
-			yield put(gotoForm(forms.NEW_PASSWORD))
-			return false
+			loginStore.gotoForm(forms.NEW_PASSWORD)
 		})
 		.is(links.REGISTER_CONFIRMATION, function*() {
 			console.log('REGISTER_CONFIRMATION')
 			yield fork(registerConfirm, token)
-			return true
 		})
-		.else(() => false)()
+		.else(() => {})()
 
-	if (exit) {
-		console.log('canceling')
-		return
-	}
-	console.log('continuing')
-	yield fork(setFormikProps)
 	yield fork(submit, token)
 
 	try {
-		while (true) {
-			yield sleep(100)
-		}
+		yield call(HALT)
 	} finally {
-		console.log('canceled')
-		yield put(reset())
+		if (yield cancelled()) {
+			loginStore.reset()
+		}
 	}
-	// yield takeLatest(t.GOTO_FORM, function*({ payload: form }) {
-	// 	when(form)
-	// 		.is(forms.SIGN_UP, () => {})
-	// 		.is(forms.SIGN_IN, () => {})
-	// 		.is(forms.NEW_PASSWORD, () => {})
-	// 		.is(forms.FORGOT_PASSWORD, () => {})
-	// 		.else(() => {})()
-	// })
 }
+
+// yield takeLatest(t.GOTO_FORM, function*({ payload: form }) {
+// 	when(form)
+// 		.is(forms.SIGN_UP, () => {})
+// 		.is(forms.SIGN_IN, () => {})
+// 		.is(forms.NEW_PASSWORD, () => {})
+// 		.is(forms.FORGOT_PASSWORD, () => {})
+// 		.else(() => {})()
+// })
 
 // when(form)
 // .is(c.forms.SIGN_UP, () => {})

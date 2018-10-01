@@ -7,10 +7,10 @@ module.exports = env => {
 	var CleanWebpackPlugin = require('clean-webpack-plugin')
 	// var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 	// var CompressionPlugin = require('compression-webpack-plugin')
-	var WebpackMd5Hash = require('webpack-md5-hash')
-	var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 	var Visualizer = require('webpack-visualizer-plugin')
 	var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+	// var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+	var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 	var PUBLIC_DIR = path.resolve(__dirname, 'public')
 	var BUILD_DIR = path.resolve(__dirname, 'dist')
@@ -18,9 +18,8 @@ module.exports = env => {
 	var NODE_MODULES = path.resolve(__dirname, 'node_modules')
 	var TARGET = env.development ? 'development' : 'production'
 
-	var outputFileName = 'app'
-	var ending = TARGET === 'production' ? 'min.js' : 'js'
-
+	let outputFileName = 'app'
+	outputFileName += TARGET === 'production' ? '.min.js' : '.js'
 	console.log('TARGET', TARGET)
 
 	var rules = [
@@ -32,15 +31,24 @@ module.exports = env => {
 			},
 		},
 		{
-			test: /\.s?[c|a]ss$/,
-			use: [
+			test: /\.scss$/,
+			loaders: [
 				'style-loader',
-				MiniCssExtractPlugin.loader,
-				// 'clean-css-loader',
 				'css-loader',
-				'postcss-loader',
+				{
+					loader: 'postcss-loader',
+					options: {
+						config: {
+							path: 'postcss.config.js',
+						},
+					},
+				},
 				'sass-loader',
 			],
+		},
+		{
+			test: /\.css$/,
+			use: [MiniCssExtractPlugin.loader, 'css-loader'],
 		},
 		{
 			test: /\.(png|woff|woff2|eot|ttf|svg)$/,
@@ -54,7 +62,7 @@ module.exports = env => {
 		output: {
 			publicPath: '/',
 			path: BUILD_DIR,
-			filename: `${outputFileName}.[hash].${ending}`,
+			filename: outputFileName,
 		},
 		module: {
 			rules,
@@ -68,26 +76,21 @@ module.exports = env => {
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
-				filename: 'style.[contenthash].css',
-			}),
-			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify(TARGET),
+				filename: '[name].css',
+				chunkFilename: '[id].css',
 			}),
 			new Dotenv({
 				path: path.resolve(__dirname, '.env'),
 			}),
-			// new webpack.EnvironmentPlugin({
-			// 	NODE_ENV: TARGET,
-			// }),
+			new webpack.EnvironmentPlugin({
+				NODE_ENV: TARGET,
+			}),
 			new HtmlWebpackPlugin({
-				title: 'Caching',
-				hash: true,
 				template: path.resolve(PUBLIC_DIR, 'index.html'),
 				favicon: path.resolve(PUBLIC_DIR, 'favicon.ico'),
 			}),
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.ProvidePlugin({
-				view: ['react-easy-state', 'view'],
 				dispatch: ['store/configureStore', 'dispatch'],
 				connect: ['utils/with-context', 'connect'],
 				navigate: ['redux-saga-first-router', 'navigate'],
@@ -99,20 +102,42 @@ module.exports = env => {
 				map: 'lodash/fp/map',
 				reduce: 'lodash/fp/reduce',
 			}),
-			new WebpackMd5Hash(),
 		],
 	}
 
 	if (env.production) {
+		// config.optimization = {
+		// 	minimizer: [
+		// 		new UglifyJsPlugin({
+		// 			cache: true,
+		// 			parallel: true,
+		// 		}),
+		// 		new OptimizeCSSAssetsPlugin({}),
+		// 	],
+		// }
 		config.plugins.push(
+			// new webpack.optimize.AggressiveMergingPlugin(),
+			// new CompressionPlugin({
+			// 	filename: '[path].gz[query]',
+			// 	algorithm: 'gzip',
+			// 	test: /\.js$|\.min.js$|\.css$|\.html$/,
+			// 	threshold: 10240,
+			// 	minRatio: 0.8,
+			// 	deleteOriginalAssets: true,
+			// }),
 			new CleanWebpackPlugin([BUILD_DIR]),
 			new Visualizer(),
 			new BundleAnalyzerPlugin()
 		)
 	} else {
+		config.plugins.push(
+			new webpack.DefinePlugin({
+				'process.env.NODE_ENV': JSON.stringify('development'),
+			})
+		)
 		config.devtool = 'inline-source-map'
 		config.devServer = {
-			hot: false,
+			hot: true,
 			contentBase: BUILD_DIR,
 			historyApiFallback: true,
 			port: 3000,

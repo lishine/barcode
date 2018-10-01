@@ -1,5 +1,6 @@
 {
     "globals": {
+        "view": true,
         "toto": true,
         "navigate": true,
         "when": true,
@@ -37,7 +38,8 @@
         }
     },
     "rules": {
-        "no-use-before-define": 1,
+        "no-unsafe-finally": 0,
+        "no-use-before-define": 0,
         "import/no-unresolved": 1,
         "import/namespace": [
             1,

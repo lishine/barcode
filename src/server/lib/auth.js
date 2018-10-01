@@ -97,12 +97,16 @@ export function signIn(req, res, next) {
 			bcrypt
 				.compare(password, user.password)
 				.then(validPassword => {
+					console.log(11)
 					if (validPassword) {
+						console.log(12)
 						const token = createToken({ userId: user.id })
 
 						return res.status(200).json({
 							token,
 						})
+					} else {
+						throw new Error('wrong password')
 					}
 				})
 				.catch(err => res.status(400).json({ err, error: 'Unauthorized Access' }))

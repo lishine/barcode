@@ -1,3 +1,4 @@
+import { call, cancelled, fork, select, put } from 'redux-saga/effects'
 import { default as lodashSome } from 'lodash/fp/some'
 import axios from 'axios'
 
@@ -75,4 +76,14 @@ export const post = async (route, data) => {
 	console.log('err', err)
 
 	return { response, err }
+}
+
+export const HALT = async () => new Promise(() => {})
+
+export function* waitForCancel() {
+	try {
+		yield call(HALT)
+	} finally {
+		return yield cancelled()
+	}
 }

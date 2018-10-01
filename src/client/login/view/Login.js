@@ -6,12 +6,10 @@ import NavLinks from './NavLinks'
 
 import Alert from './Alert'
 
-import { getAlert } from 'login/login.selectors'
+import { loginStore } from 'login/store'
 
-export default connect({
-	alert: getAlert,
-})(props => {
-	const { alert } = props
+export default view(() => {
+	const { alert } = loginStore
 	return (
 		<Modal isOpen>
 			{alert ? (

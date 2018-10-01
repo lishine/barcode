@@ -1,14 +1,11 @@
 import { Flex, Box } from 'reflexbox'
 
 import { alerts } from 'login/view/form/data'
-import { getForm, getAlert } from 'login/login.selectors'
-import { gotoHome } from 'router/router.actions'
+import { gotoHome } from 'router/actions'
+import { loginStore } from 'login/store'
 
-export default connect({
-	form: getForm,
-	alert: getAlert,
-})(props => {
-	const { form, alert } = props
+export default view(() => {
+	const { form, alert } = loginStore
 	console.log('alert', alert)
 	console.log('form', form)
 	const { btnContinueToSite, message } = alerts[form][alert]
@@ -17,7 +14,9 @@ export default connect({
 			<Box>
 				message: {message}
 				{btnContinueToSite && (
-					<button onClick={() => dispatch(gotoHome())}>HOME</button>
+					<button type="button" onClick={() => dispatch(gotoHome())}>
+						HOME
+					</button>
 				)}
 			</Box>
 		</Flex>

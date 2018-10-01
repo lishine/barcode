@@ -1,0 +1,6 @@
+// export const RESET = '[login] reset'
+// export const SET_SUBMIT_SOURCE = '[login] set submit source'
+// export const SET_ALERT = '[login] set alert'
+// export const GOTO_FORM = '[login] goto form'
+// export const SET_FORMIK_PROPS = '[login] set formik props'
+// SET_LINK_TOKEN: '[login] set link token'

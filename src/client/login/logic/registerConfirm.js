@@ -1,10 +1,11 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, fork } from 'redux-saga/effects'
 
-import * as forms from 'login/login.constants/forms'
-import { gotoForm, setAlert } from 'login/login.actions'
-import { gotoHome } from 'router/router.actions'
-import { login } from 'auth/auth.logic/login'
+import * as forms from 'login/constants/forms'
+import { gotoHome } from 'router/actions'
+import { login } from 'auth/logic/login'
 import { post } from 'utils/utils'
+import { loginStore } from 'login/store'
+import { dispatch } from 'store/configureStore'
 
 export function* registerConfirm(token) {
 	const { response, err } = yield call(post, `/auth/registerconfirm`, { token })
@@ -12,13 +13,13 @@ export function* registerConfirm(token) {
 		const { token: newToken } = response.data
 		console.log('newToken', newToken)
 		if (newToken) {
-			yield put(login(newToken))
-			yield put(setAlert('emailConfirmed'))
-			yield put(gotoForm(forms.SIGN_IN))
+			yield fork(login, newToken)
+			loginStore.setAlert('emailConfirmed')
+			loginStore.gotoForm(forms.SIGN_IN)
 			return
 		}
 	}
-	yield put(gotoHome())
+	dispatch(gotoHome())
 }
 
 // when(form)

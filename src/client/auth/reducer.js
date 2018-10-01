@@ -1,4 +1,4 @@
-import * as c from './auth.constants'
+import * as c from './constants'
 
 export const authReducer = (state = { email: '', token: '' }, action) => {
 	const { payload } = action
