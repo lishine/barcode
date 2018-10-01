@@ -112,7 +112,7 @@ module.exports = env => {
 	} else {
 		config.devtool = 'inline-source-map'
 		config.devServer = {
-			hot: false,
+			hot: true,
 			contentBase: BUILD_DIR,
 			historyApiFallback: true,
 			port: 3000,
