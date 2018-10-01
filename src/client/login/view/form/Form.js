@@ -9,7 +9,7 @@ import { validate } from './validate'
 import { formData } from './data'
 
 import * as forms from 'login/constants/forms'
-import { gotoForm, submit } from '../../actions'
+import { gotoForm, submit } from '../../logic/actions'
 
 export default view(props => {
 	const { form } = loginStore

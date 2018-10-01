@@ -5,7 +5,7 @@ import * as f from 'login/constants/forms'
 import { login } from 'auth/logic/login'
 import { post } from 'utils/utils'
 import { loginStore } from 'login/store'
-import { SUBMIT } from 'login/actions'
+import { SUBMIT } from './actions'
 
 export function* submit(linkToken) {
 	while (true) {
