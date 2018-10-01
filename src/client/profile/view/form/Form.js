@@ -8,7 +8,6 @@ import { profileStore } from 'profile/store'
 import { validate } from 'common/form/validate'
 import * as groups from './groups'
 import { showFields } from 'profile/view/form/showFields'
-import { submit } from 'profile/logic/actions'
 
 export default view(props => {
 	const { editGroup, values, submit, error } = profileStore
@@ -21,28 +20,33 @@ export default view(props => {
 					validate={validate(groups(editGroup).schema)}
 					onSubmit={submit}
 					render={formikProps => {
-						const { values, handleSubmit, submitForm, isSubmitting } = formikProps
+						const { handleSubmit, isSubmitting } = formikProps
 
 						return (
 							<Form onSubmit={handleSubmit}>
 								<Map collection={groups}>
 									{({ label, link, fields }) => (
 										<>
+											{label}
 											<Map collection={showFields(fields)}>
-												{({ name, component }) => (
-													<FastField
-														{...{ key: name, name, component }}
-													/>
+												{({ name, label, component }) => (
+													<>
+														<div>{label}</div>
+														<FastField
+															{...{ key: name, name, component }}
+														/>
+													</>
 												)}
 											</Map>
 
-											{!!error && <div>{error}</div>}
+											{error && <div>{error}</div>}
 
 											<ProgressButton
 												type="submit"
 												state={isSubmitting ? 'loading' : ''}>
 												Submit
 											</ProgressButton>
+											<button type="button">Cancel</button>
 										</>
 									)}
 								</Map>

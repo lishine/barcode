@@ -1,4 +1,4 @@
-export { default as Email } from './Email'
-export { default as Password } from './Password'
-export { default as PasswordConfirmation } from './PasswordConfirmation'
-export { default as Name } from './Name'
+export { default as Email } from './login/Email'
+export { default as Password } from './login/Password'
+export { default as PasswordConfirmation } from './login/PasswordConfirmation'
+export { default as Name } from './login/Name'
