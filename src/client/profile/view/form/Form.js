@@ -7,7 +7,7 @@ import { Map } from 'utils/utils'
 import { profileStore } from 'profile/store'
 import { validate } from 'common/form/validate'
 import * as groups from './groups'
-import { showFields } from 'profile/view/form/showFields'
+import { showFields, getSchema } from 'profile/view/form/funcs'
 
 export default view(props => {
 	const { editGroup, values, submit, error } = profileStore
@@ -17,7 +17,7 @@ export default view(props => {
 			{values ? (
 				<Formik
 					initialValues={values}
-					validate={validate(groups(editGroup).schema)}
+					validate={editGroup && validate(getSchema(editGroup))}
 					onSubmit={submit}
 					render={formikProps => {
 						const { handleSubmit, isSubmitting } = formikProps
@@ -25,17 +25,21 @@ export default view(props => {
 						return (
 							<Form onSubmit={handleSubmit}>
 								<Map collection={groups}>
-									{({ label, link, fields }) => (
-										<>
+									{({ label, link, fields }, group) => (
+										<div key={group}>
 											{label}
 											<Map collection={showFields(fields)}>
-												{({ name, label, component }) => (
-													<>
+												{({ name, label, component }, key) => (
+													<div key={key}>
 														<div>{label}</div>
 														<FastField
-															{...{ key: name, name, component }}
+															{...{
+																readOnly: editGroup !== group,
+																name,
+																component,
+															}}
 														/>
-													</>
+													</div>
 												)}
 											</Map>
 
@@ -47,7 +51,7 @@ export default view(props => {
 												Submit
 											</ProgressButton>
 											<button type="button">Cancel</button>
-										</>
+										</div>
 									)}
 								</Map>
 							</Form>

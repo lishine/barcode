@@ -1,6 +1,9 @@
 import { call, cancelled, fork, select, put } from 'redux-saga/effects'
 import { default as lodashSome } from 'lodash/fp/some'
+import { default as fpmap } from 'lodash/fp/map'
 import axios from 'axios'
+
+export const map = fpmap.convert({ cap: false })
 
 export const some = (value, array) => lodashSome(v => v === value)(array)
 

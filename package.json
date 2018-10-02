@@ -51,6 +51,8 @@
         "react-modal": "^3.5.1",
         "react-progress-button": "^5.1.0",
         "react-redux": "^5.0.7",
+        "reactackle-core": "^1.1.0",
+        "reactackle-text-field": "^1.1.1",
         "recondition": "^1.2.3",
         "redux": "^4.0.0",
         "redux-act": "^1.7.4",

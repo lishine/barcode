@@ -96,7 +96,7 @@ module.exports = env => {
 				sleep: ['utils/utils', 'sleep'],
 				React: 'react',
 				get: 'lodash/fp/get',
-				map: 'lodash/fp/map',
+				map: ['utils/utils', 'map'],
 				reduce: 'lodash/fp/reduce',
 			}),
 			new WebpackMd5Hash(),
@@ -110,9 +110,10 @@ module.exports = env => {
 			new BundleAnalyzerPlugin()
 		)
 	} else {
-		config.devtool = 'inline-source-map'
+		// config.devtool = 'inline-source-map'
 		config.devServer = {
 			hot: true,
+			publicPath: '/',
 			contentBase: BUILD_DIR,
 			historyApiFallback: true,
 			port: 3000,

@@ -46,6 +46,9 @@ const self = store({
 	setError(bool) {
 		self.error = bool
 	},
+	setEmail(email) {
+		self.email = email
+	},
 })
 
 export const loginStore = self

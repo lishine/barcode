@@ -1,4 +1,4 @@
-import FormikInput from './parts/FormikInput'
+import FormikInput from 'common/form/formik/FormikInput'
 
 export default props => (
 	<FormikInput

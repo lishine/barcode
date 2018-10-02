@@ -2,21 +2,21 @@ import createHistory from 'history/createBrowserHistory'
 import { fork, call, put } from 'redux-saga/effects'
 
 import { buildRoutesMap, route } from 'redux-saga-first-router'
-import { loginNavigate } from 'login/logic/loginNavigate'
+import { loginNavigate } from 'login/logic/onNavigate'
 import { profileNavigate } from 'profile/logic/onNavigate'
 import { login } from 'auth/logic/login'
+import { gotoLogin } from 'router/actions'
 
 export const routes = {
 	HOME: 'Home',
 	LOGIN: 'Login',
 	PROFILE: 'Profile',
-	EDIT_PROFILE: 'Edit profile',
 }
 
 export const routesMap = buildRoutesMap(
 	route(routes.HOME, '/', protectedRoute()),
 	route(routes.LOGIN, '/login', loginNavigate),
-	route(routes.PROFILE, '/profile/view', protectedRoute(profileNavigate))
+	route(routes.PROFILE, '/profile', protectedRoute(profileNavigate))
 )
 
 export const history = createHistory()
@@ -30,7 +30,7 @@ function protectedRoute(navigateSaga) {
 				yield fork(navigateSaga, ...args)
 			}
 		} else {
-			dispatch(navigate(routes.LOGIN))
+			yield put(gotoLogin())
 		}
 	}
 }
