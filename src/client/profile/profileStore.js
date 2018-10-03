@@ -1,18 +1,18 @@
 import { store } from 'react-easy-state'
 
 const self = store({
-	editGroup: 'contacts',
+	editGroup: '',
 	formikProps: undefined,
 	values: {
-		name: '#name',
-		password: '#password',
-		passwordConfirmation: '#passwordConfirmation',
-		email: '#email',
+		name: 'michael',
+		password: '',
+		passwordConfirmation: '',
+		email: 'michael@gmail.com',
 		CPF: '64345',
-		phone: '#phone',
-		address: '#address',
-		city: '#city',
-		state: '#state',
+		phone: '062-9896733',
+		address: 'Tolstogo 2d',
+		city: 'Rio',
+		state: 'AM',
 		CEP: '552455',
 	},
 	cancel() {
