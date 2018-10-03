@@ -105,9 +105,9 @@ module.exports = env => {
 
 	if (env.production) {
 		config.plugins.push(
-			new CleanWebpackPlugin([BUILD_DIR]),
-			new Visualizer(),
-			new BundleAnalyzerPlugin()
+			new CleanWebpackPlugin([BUILD_DIR])
+			// new Visualizer(),
+			// new BundleAnalyzerPlugin()
 		)
 	} else {
 		// config.devtool = 'inline-source-map'
