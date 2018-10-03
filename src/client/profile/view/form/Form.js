@@ -9,7 +9,7 @@ import { validate } from 'common/form/validate'
 import { groups } from './groups'
 
 export default view(props => {
-	const { editGroup, values, submit, error, cancel, edit } = profileStore
+	const { editGroup, values, submit, error, cancel, edit, setFormikProps } = profileStore
 	console.log('***groups', groups)
 	console.log('***editGroup', editGroup)
 
@@ -22,6 +22,7 @@ export default view(props => {
 					validate={editGroup && validate(groups[editGroup].schema)}
 					onSubmit={submit}
 					render={formikProps => {
+						profileStore.setFormikProps(formikProps)
 						const { handleSubmit, isSubmitting } = formikProps
 
 						return (

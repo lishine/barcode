@@ -1,3 +1,3 @@
-import FormikInput from 'common/form/formik/FormikInput'
+import Input from 'common/form/formik/Input'
 
-export default props => <FormikInput {...props} autoComplete="tel" type="text" placeholder="Phone" />
+export default props => <Input {...props} autoComplete="tel" type="tel" placeholder="Phone" />

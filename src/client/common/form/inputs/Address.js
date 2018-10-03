@@ -1,5 +1,5 @@
-import FormikInput from 'common/form/formik/FormikInput'
+import Input from 'common/form/formik/Input'
 
 export default props => (
-	<FormikInput {...props} autoComplete="street-address" type="text" placeholder="Address" />
+	<Input {...props} autoComplete="street-address" type="text" placeholder="Address" />
 )

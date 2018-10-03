@@ -1,10 +1,5 @@
-import FormikInput from 'common/form/formik/FormikInput'
+import Input from 'common/form/formik/Input'
 
 export default props => (
-	<FormikInput
-		{...props}
-		autoComplete="new-password"
-		type="password"
-		placeholder="Password confirmation"
-	/>
+	<Input {...props} autoComplete="new-password" type="password" placeholder="Password confirmation" />
 )
