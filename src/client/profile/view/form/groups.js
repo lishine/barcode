@@ -11,7 +11,7 @@ const _groups = {
 		link: 'change',
 		fields: [
 			{ name: 'password', label: 'Password', hiddenInViewMode: true },
-			{ name: 'password', label: 'Password Confirmation', hiddenInViewMode: true },
+			{ name: 'passwordConfirmation', label: 'Password Confirmation', hiddenInViewMode: true },
 		],
 	},
 	contacts: {
@@ -20,22 +20,29 @@ const _groups = {
 		fields: [
 			{ name: 'email', label: 'Email', viewOnly: true },
 			{ name: 'name', label: 'Full Name' },
+			{ name: 'CEP', label: 'CEP' },
+			{ name: 'phone', label: 'Phone' },
 		],
 	},
 	address: {
 		label: 'Address',
 		link: 'edit',
-		fields: [{ name: 'city', label: 'City' }],
+		fields: [
+			{ name: 'city', label: 'City' },
+			{ name: 'CPF', label: 'CPF' },
+			{ name: 'address', label: 'Address' },
+			{ name: 'state', label: 'State' },
+		],
 	},
 }
 
 const addComponent = fields =>
 	map(({ name, ...props }) => ({ name, component: inputs[upperFirst(name)], ...props }))(fields)
 
-const schemas = values => extractSchemas(['name', 'email', 'password', 'passwordConfirmation'], values)
 const addSchema = fields => values => {
-	const sch = schemas(values)
-	return yup.object().shape(mapToObject(({ name }) => ({ [name]: sch[name] }))(fields))
+	const fieldNames = map('name')(fields)
+	const schemas = extractSchemas(fieldNames, values)
+	return yup.object().shape(mapToObject(({ name }) => ({ [name]: schemas[name] }))(fields))
 }
 
 export const groups = mapToObject(({ fields, ...group }, groupName) => ({

@@ -5,8 +5,8 @@ import ErrorText from './ErrorText'
 export default ({
 	field: { value, name, ...fieldProps }, // { name, value, onChange, onBlur }
 	form: { touched, errors, ...formProps }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-    readOnly,
-    placeholder,
+	readOnly,
+	placeholder,
 	...props
 }) => {
 	console.log('formProps', formProps)
@@ -19,11 +19,11 @@ export default ({
 			{
 				<>
 					<StyledInput
-						border={touched[name] && errors[name] && '1px solid red'}
+						border={touched[name] && errors[name] && '2px solid red'}
 						{...{
 							readOnly,
-                            disabled: readOnly,
-                            placeholder: readOnly ? '' : placeholder,
+							disabled: readOnly,
+							placeholder: readOnly ? '' : placeholder,
 							value: value || '',
 							name,
 						}}

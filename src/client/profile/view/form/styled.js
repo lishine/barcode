@@ -9,21 +9,21 @@ export const Link = styled(RouterLink)`
 `
 
 export const Button = styled.button`
-	font-size: 1.2em;
+	font-size: 0.8em;
 	font-weight: 100;
-	width: 100px;
-	height: 35px;
+	width: 80px;
+	height: 25px;
 	background-color: #5995ef;
 	color: #fff;
 	border-radius: 3px;
 `
 
 export const Row = styled.div`
-	padding-bottom: 20px;
 	display: flex;
 	flex-grow: 1;
 `
-export const GroupLabelRow = styled(Row)`
+export const GroupHeaderRow = styled(Row)`
+	min-height: 30px;
 	font-size: 1.2em;
 	font-weight: 600;
 	padding-top: 20px;
@@ -33,8 +33,8 @@ export const FieldRow = styled(Row)`
 	padding-bottom: 10px;
 `
 export const SubmitRow = styled(Row)`
-	padding-top: 20px;
-	padding-bottom: 20px;
+	// padding-top: 20px;
+	// padding-bottom: 20px;
 `
 
 export const Col = styled.div`

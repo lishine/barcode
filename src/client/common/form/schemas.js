@@ -2,7 +2,23 @@ import * as yup from 'yup'
 import { MIN_PASSWORD_LENGTH } from 'utils/constants'
 
 const schemas = {
+	CEP: yup
+		.number()
+		.typeError('Must be a number')
+		.integer('Must be an integer number')
+		.positive('Must be an positive number')
+		.required('CEP is required!'),
+	CPF: yup
+		.number()
+		.typeError('Must be a number')
+		.integer('Must be an integer number')
+		.positive('Must be an positive number')
+		.required('CPF is required!'),
+	address: yup.string().required('Address is required!'),
+	state: yup.string().required('State is required!'),
+	phone: yup.string().required('Phone is required!'),
 	name: yup.string().required('Name is required!'),
+	city: yup.string().required('City is required!'),
 	email: yup
 		.string()
 		.email('E-mail is not valid!')
@@ -23,6 +39,7 @@ export const extractSchemas = (names, values) =>
 		console.log('####acc', acc)
 		const schema = schemas[name]
 		if (typeof schema === 'function') {
+			console.log('***name function', name)
 			acc[name] = schema(values)
 		} else {
 			acc[name] = schema

@@ -2,7 +2,7 @@ import reject from 'lodash/fp/reject'
 import { Formik, Field } from 'formik'
 import ProgressButton from 'react-progress-button'
 
-import { Button, Container, GroupLabelRow, FieldRow, SubmitRow, Col, Form, Title, Link } from './styled'
+import { Button, Container, GroupHeaderRow, FieldRow, SubmitRow, Col, Form, Title, Link } from './styled'
 import { Map } from 'utils/utils'
 import { profileStore } from 'profile/profileStore'
 import { validate } from 'common/form/validate'
@@ -10,6 +10,8 @@ import { groups } from './groups'
 
 export default view(props => {
 	const { editGroup, values, submit, error, cancel, edit } = profileStore
+	console.log('***groups', groups)
+	console.log('***editGroup', editGroup)
 
 	return (
 		<Container>
@@ -31,7 +33,7 @@ export default view(props => {
 
 										return (
 											<div key={group}>
-												<GroupLabelRow>
+												<GroupHeaderRow>
 													<Col>
 														<label>{label}</label>
 													</Col>
@@ -62,7 +64,7 @@ export default view(props => {
 															</SubmitRow>
 														)}
 													</Col>
-												</GroupLabelRow>
+												</GroupHeaderRow>
 												<Map
 													collection={reject(
 														field =>
