@@ -54,7 +54,8 @@ module.exports = env => {
 		output: {
 			publicPath: '/',
 			path: BUILD_DIR,
-			filename: `${outputFileName}.[hash].${ending}`,
+			// filename: `${outputFileName}.[hash].${ending}`,
+			filename: 'bundle.js',
 		},
 		module: {
 			rules,
