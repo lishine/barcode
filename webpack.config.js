@@ -69,7 +69,8 @@ module.exports = env => {
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
-				filename: 'style.[contenthash].css',
+				// filename: 'style.[contenthash].css',
+				filename: 'style.css',
 			}),
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(TARGET),
@@ -100,7 +101,7 @@ module.exports = env => {
 				map: ['utils/utils', 'map'],
 				reduce: ['utils/utils', 'reduce'],
 			}),
-			new WebpackMd5Hash(),
+			// new WebpackMd5Hash(),
 		],
 	}
 
