@@ -1,4 +1,4 @@
-import reject  from 'lodash/fp/reject'
+import reject from 'lodash/fp/reject'
 import { Formik, Field } from 'formik'
 import ProgressButton from 'react-progress-button'
 
@@ -11,7 +11,7 @@ import { groups } from './groups'
 export default view(props => {
 	const { editGroup, values, submit, error, cancel, edit } = profileStore
 
-    return (
+	return (
 		<Container>
 			<Title>Profile</Title>
 			{values ? (
@@ -26,62 +26,75 @@ export default view(props => {
 							<Form onSubmit={handleSubmit}>
 								<Map collection={groups}>
 									{({ label, link, fields, showWhenReadOnly }, group) => {
-                                        const editingThisGroup = editGroup === group
-                                        const editing = editGroup
-                                        
-										return <div key={group}>
-											<GroupLabelRow>
-												<Col>
-													<label>{label}</label>
-												</Col>
-												<Col>
-													{!editing && (
-														<Link onClick={() => edit(group)}>{link}</Link>
+										const editingThisGroup = editGroup === group
+										const editing = editGroup
+
+										return (
+											<div key={group}>
+												<GroupLabelRow>
+													<Col>
+														<label>{label}</label>
+													</Col>
+													<Col>
+														{!editing && (
+															<Link onClick={() => edit(group)}>
+																{link}
+															</Link>
+														)}
+														{editingThisGroup && (
+															<SubmitRow>
+																<Col>
+																	<Button
+																		type="button"
+																		onClick={cancel}>
+																		Cancel
+																	</Button>
+																</Col>
+																<Col>
+																	<ProgressButton
+																		type="submit"
+																		state={
+																			isSubmitting ? 'loading' : ''
+																		}>
+																		Submit
+																	</ProgressButton>
+																</Col>
+															</SubmitRow>
+														)}
+													</Col>
+												</GroupLabelRow>
+												<Map
+													collection={reject(
+														field =>
+															!editingThisGroup && field.hiddenInViewMode
+													)(fields)}>
+													{({ name, label, component, viewOnly }, field) => (
+														<div key={field}>
+															<FieldRow>
+																<Col>
+																	<label htmlFor={name}>{label}</label>
+																</Col>
+																<Col>
+																	<Field
+																		{...{
+																			readOnly:
+																				viewOnly ||
+																				!editingThisGroup,
+																			name,
+																			component,
+																			label,
+																			labelPosition: 'side',
+																		}}
+																	/>
+																</Col>
+															</FieldRow>
+														</div>
 													)}
-												</Col>
-											</GroupLabelRow>
-											<Map collection={reject(field => !editingThisGroup && field.hiddenInViewMode)(fields)}>
-												{({ name, label, component, viewOnly }, field) => (
-													<div key={field}>
-														<FieldRow>
-															<Col>
-																<label htmlFor={name}>{label}</label>
-															</Col>
-															<Col>
-																<Field
-																	{...{
-																		readOnly: viewOnly || !editingThisGroup,
-																		name,
-																		component,
-																		label,
-																		labelPosition: 'side',
-																	}}
-																/>
-															</Col>
-														</FieldRow>
-													</div>
-												)}
-											</Map>
+												</Map>
 
-											{error && <div>{error}</div>}
-
-											{editingThisGroup && (
-												<SubmitRow>
-													<Col>
-														<Button type="button" onClick={cancel}>
-															Cancel
-														</Button>
-													</Col>
-													<Col>
-														<ProgressButton
-															type="submit"
-															state={isSubmitting ? 'loading' : ''}>
-															Submit
-														</ProgressButton>
-													</Col>
-												</SubmitRow>
-											)}
-										</div>
+												{error && <div>{error}</div>}
+											</div>
+										)
 									}}
 								</Map>
 							</Form>

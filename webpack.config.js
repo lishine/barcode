@@ -97,6 +97,7 @@ module.exports = env => {
 				React: 'react',
 				get: 'lodash/fp/get',
 				map: ['utils/utils', 'map'],
+				reduce: ['utils/utils', 'reduce'],
 			}),
 			new WebpackMd5Hash(),
 		],

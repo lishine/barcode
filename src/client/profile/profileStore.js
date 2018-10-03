@@ -2,8 +2,18 @@ import { store } from 'react-easy-state'
 
 const self = store({
 	editGroup: 'contacts',
-    values: { name: '#name', password: '#password', passwordConfirmation: '#passwordConfirmation',
-     email: '#email', city: '#city' },
+	values: {
+		name: '#name',
+		password: '#password',
+		passwordConfirmation: '#passwordConfirmation',
+		email: '#email',
+		CPF: '#CPF',
+		phone: '#phone',
+		address: '#address',
+		city: '#city',
+		state: '#state',
+		CEP: '#CEP',
+	},
 	cancel() {
 		self.editGroup = ''
 	},

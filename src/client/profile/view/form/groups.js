@@ -3,7 +3,7 @@ import upperFirst from 'lodash/fp/upperFirst'
 
 import * as inputs from 'common/form/inputs'
 import { mapToObject } from 'utils/utils'
-import { schemas } from 'profile/view/form/schemas'
+import { extractSchemas } from 'common/form/schemas'
 
 const _groups = {
 	password: {
@@ -32,6 +32,7 @@ const _groups = {
 const addComponent = fields =>
 	map(({ name, ...props }) => ({ name, component: inputs[upperFirst(name)], ...props }))(fields)
 
+const schemas = values => extractSchemas(['name', 'email', 'password', 'passwordConfirmation'], values)
 const addSchema = fields => values => {
 	const sch = schemas(values)
 	return yup.object().shape(mapToObject(({ name }) => ({ [name]: sch[name] }))(fields))
