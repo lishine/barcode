@@ -1,13 +1,12 @@
 import { Formik, FastField } from 'formik'
-import { Form, Title } from 'styled'
 import ProgressButton from 'react-progress-button'
 import 'react-progress-button/react-progress-button.css'
+
+import { Form, Title } from './styled'
 import { Map } from 'utils/utils'
 import { loginStore } from 'login/store'
-
 import { validate } from 'common/form/validate'
 import { formData } from './data'
-
 import * as forms from 'login/constants/forms'
 import { submit } from 'login/logic/actions'
 

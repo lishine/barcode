@@ -1,16 +1,22 @@
 import { call, cancelled, fork, select, put } from 'redux-saga/effects'
 import { default as lodashSome } from 'lodash/fp/some'
 import { default as fpmap } from 'lodash/fp/map'
+import { default as freduce } from 'lodash/fp/reduce'
 import axios from 'axios'
 
 export const map = fpmap.convert({ cap: false })
+export const reduce = freduce.convert({ cap: false })
 
 export const some = (value, array) => lodashSome(v => v === value)(array)
 
 export const mapToObject = func => array =>
-	reduce((acc, value) => Object.assign(acc, func(value)), {})(array)
+	reduce((acc, value, key) => {
+		console.log('*acc', acc)
+		return Object.assign(acc, func(value, key))
+	}, {})(array)
 
-export const Map = ({ collection, children }) => <>{map(children)(collection)}</>
+export const Map = ({ collection, children, visible = true }) =>
+	visible && <>{map(children)(collection)}</>
 
 export function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms))

@@ -10,7 +10,6 @@
         "get": true,
         "React": true,
         "map": true,
-        "reduce": true
     },
     "env": {
         "browser": true,
@@ -68,7 +67,7 @@
                 "singleQuote": true,
                 "semi": false,
                 "tabWidth": 4,
-                "printWidth": 95,
+                "printWidth": 105,
                 "useTabs": true,
                 "trailingComma": "es5",
                 "jsxBracketSameLine": true

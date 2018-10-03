@@ -1,23 +1,23 @@
-import { Formik, FastField } from 'formik'
-import { Form, Title } from 'styled'
+import reject  from 'lodash/fp/reject'
+import { Formik, Field } from 'formik'
 import ProgressButton from 'react-progress-button'
-import 'react-progress-button/react-progress-button.css'
 
+import { Button, Container, GroupLabelRow, FieldRow, SubmitRow, Col, Form, Title, Link } from './styled'
 import { Map } from 'utils/utils'
-import { profileStore } from 'profile/store'
+import { profileStore } from 'profile/profileStore'
 import { validate } from 'common/form/validate'
-import * as groups from './groups'
-import { showFields, getSchema } from 'profile/view/form/funcs'
+import { groups } from './groups'
 
 export default view(props => {
-	const { editGroup, values, submit, error } = profileStore
-	return (
-		<>
+	const { editGroup, values, submit, error, cancel, edit } = profileStore
+
+    return (
+		<Container>
 			<Title>Profile</Title>
 			{values ? (
 				<Formik
 					initialValues={values}
-					validate={editGroup && validate(getSchema(editGroup))}
+					validate={editGroup && validate(groups[editGroup].schema)}
 					onSubmit={submit}
 					render={formikProps => {
 						const { handleSubmit, isSubmitting } = formikProps
@@ -25,34 +25,64 @@ export default view(props => {
 						return (
 							<Form onSubmit={handleSubmit}>
 								<Map collection={groups}>
-									{({ label, link, fields }, group) => (
-										<div key={group}>
-											{label}
-											<Map collection={showFields(fields)}>
-												{({ name, label, component }, key) => (
-													<div key={key}>
-														<div>{label}</div>
-														<FastField
-															{...{
-																readOnly: editGroup !== group,
-																name,
-																component,
-															}}
-														/>
+									{({ label, link, fields, showWhenReadOnly }, group) => {
+                                        const editingThisGroup = editGroup === group
+                                        const editing = editGroup
+                                        
+										return <div key={group}>
+											<GroupLabelRow>
+												<Col>
+													<label>{label}</label>
+												</Col>
+												<Col>
+													{!editing && (
+														<Link onClick={() => edit(group)}>{link}</Link>
+													)}
+												</Col>
+											</GroupLabelRow>
+											<Map collection={reject(field => !editingThisGroup && field.hiddenInViewMode)(fields)}>
+												{({ name, label, component, viewOnly }, field) => (
+													<div key={field}>
+														<FieldRow>
+															<Col>
+																<label htmlFor={name}>{label}</label>
+															</Col>
+															<Col>
+																<Field
+																	{...{
+																		readOnly: viewOnly || !editingThisGroup,
+																		name,
+																		component,
+																		label,
+																		labelPosition: 'side',
+																	}}
+																/>
+															</Col>
+														</FieldRow>
 													</div>
 												)}
 											</Map>
 
 											{error && <div>{error}</div>}
 
-											<ProgressButton
-												type="submit"
-												state={isSubmitting ? 'loading' : ''}>
-												Submit
-											</ProgressButton>
-											<button type="button">Cancel</button>
+											{editingThisGroup && (
+												<SubmitRow>
+													<Col>
+														<Button type="button" onClick={cancel}>
+															Cancel
+														</Button>
+													</Col>
+													<Col>
+														<ProgressButton
+															type="submit"
+															state={isSubmitting ? 'loading' : ''}>
+															Submit
+														</ProgressButton>
+													</Col>
+												</SubmitRow>
+											)}
 										</div>
-									)}
+									}}
 								</Map>
 							</Form>
 						)
@@ -61,6 +91,6 @@ export default view(props => {
 			) : (
 				'Loading'
 			)}
-		</>
+		</Container>
 	)
 })

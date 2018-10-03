@@ -11,27 +11,17 @@ export const Label = styled.label`
 	position: relative;
 `
 
-export const Form = styled.form`
-	display: flex;
-	width: 100%;
-	height: 100%;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: space-between;
-	align-content: space-between;
-`
-
 export const StyledField = styled(Field)`
 	width: 300px;
 	height: 35px;
-	border: ${(props) => props.border || '1px solid #ccc'};
+	border: ${props => props.border || '1px solid #ccc'};
 	background-color: #fff;
 `
 
 export const Input = styled.input`
 	width: 300px;
 	height: 35px;
-	border: ${(props) => props.border || '1px solid #ccc'};
+	border: ${props => props.border || '1px solid #ccc'};
 	background-color: #fff;
 `
 
@@ -61,7 +51,7 @@ export const Title2 = styled.h2`
 
 export const Text = styled.p`
 	font-family: 'Raleway', sans-serif;
-	color: ${(props) => props.color || '#4d4d4d'};
+	color: ${props => props.color || '#4d4d4d'};
 `
 
 // export const Button = styled.button`

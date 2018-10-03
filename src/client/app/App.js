@@ -13,9 +13,9 @@ export default connect({ page: getPage, token: getToken, email: getEmail })(prop
 			<button type="button" onClick={() => dispatch(logout())}>
 				logout
 			</button>
-			<div>page: {page}</div>
+			{/* <div>page: {page}</div>
 			<div>token: {token}</div>
-			<div>email: {email}</div>
+			<div>email: {email}</div> */}
 			{when(page)
 				.is(routes.HOME, () => <div>I am home</div>)
 				.is(routes.PROFILE, () => <Profile />)
