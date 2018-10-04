@@ -1,12 +1,14 @@
 import nodemailer from 'nodemailer'
 import Email from 'email-templates'
 import { createToken, decodeToken } from './token'
+import { app } from '../../server'
 
-export function sendRegistrationEmail({ req, userId, name, email }) {
+export function sendRegistrationEmail({ userId, name, email }) {
 	console.log('sendRegistrationEmail', '{ req, userId, name, email }', { req, userId, name, email })
 	const token = createToken({ userId })
 
-	const host = req.headers.host
+	const host = app.get('ip')
+	console.log('host', host)
 	const link = `http://${host}/login?link=register-confirmation&token=${token}`
 	console.log('token host link', token, host, link)
 

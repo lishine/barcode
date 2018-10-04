@@ -1,11 +1,10 @@
-export const createQuery = `
+export const create = `
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
-            name TEXT, 
             confirmed BOOLEAN, 
             email VARCHAR(255) NOT NULL UNIQUE, 
-            password TEXT NOT NULL
+            password VARCHAR(255) NOT NULL
         )
     `
 
-export const dropQuery = `DROP TABLE users`
+export const drop = `DROP TABLE users`

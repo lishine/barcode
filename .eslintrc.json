@@ -1,7 +1,6 @@
 {
     "globals": {
         "view": true,
-        "toto": true,
         "navigate": true,
         "when": true,
         "dispatch": true,

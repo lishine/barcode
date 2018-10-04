@@ -18,9 +18,10 @@ import { Map } from 'utils/utils'
 import { profileStore } from 'profile/profileStore'
 import { validate } from 'common/form/validate'
 import { groups } from './groups'
+import { submit } from 'profile/logic/actions'
 
 export default view(props => {
-	const { editGroup, values, submit, error, cancel, edit, setFormikProps } = profileStore
+	const { editGroup, values, error, cancel, edit, setFormikProps } = profileStore
 	console.log('***groups', groups)
 	console.log('***editGroup', editGroup)
 
@@ -31,7 +32,7 @@ export default view(props => {
 				<Formik
 					initialValues={values}
 					validate={editGroup && validate(groups[editGroup].schema)}
-					onSubmit={submit}
+					onSubmit={() => dispatch(submit())}
 					render={formikProps => {
 						setFormikProps(formikProps)
 						const { handleSubmit, isSubmitting } = formikProps

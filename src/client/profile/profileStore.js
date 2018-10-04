@@ -1,5 +1,5 @@
 import { store } from 'react-easy-state'
-import { submit } from './submit'
+// import { submit } from './submit'
 
 const self = store({
 	error: '',
@@ -21,7 +21,7 @@ const self = store({
 	saveValues(apiValues) {
 		Object.assign(self.values, apiValues)
 	},
-	submit,
+	// submit,
 	clearForm() {
 		self.editGroup = ''
 		self.formikProps.resetForm()

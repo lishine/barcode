@@ -3,7 +3,7 @@ import { select, take, call, put } from 'redux-saga/effects'
 import * as errors from 'login/constants/errors'
 import * as f from 'login/constants/forms'
 import { login } from 'auth/logic/login'
-import { post } from 'utils/utils'
+import { post } from 'logic/post'
 import { loginStore } from 'login/store'
 import { SUBMIT } from './actions'
 
@@ -16,7 +16,7 @@ export function* submit(linkToken) {
 
 		let { form } = loginStore
 
-		const apiRoute = form
+		const endpoint = form
 		let apiValues = values
 		const sendLink = loginStore.submitSource === 'link'
 		if (sendLink) {
@@ -28,7 +28,7 @@ export function* submit(linkToken) {
 
 		yield call(sleep, 100)
 
-		const { response, err } = yield call(post, `/auth/${apiRoute}`, apiValues)
+		const { response, err } = yield call(post, `/auth/all`, endpoint, apiValues)
 
 		if (response) {
 			const { data } = response

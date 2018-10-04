@@ -3,12 +3,12 @@ import { call, put, fork } from 'redux-saga/effects'
 import * as forms from 'login/constants/forms'
 import { gotoHome } from 'router/actions'
 import { login } from 'auth/logic/login'
-import { post } from 'utils/utils'
+import { post } from 'logic/post'
 import { loginStore } from 'login/store'
 import { dispatch } from 'store/configureStore'
 
 export function* registerConfirm(token) {
-	const { response, err } = yield call(post, `/auth/registerconfirm`, { token })
+	const { response, err } = yield call(post, '/auth/all', 'registerconfirm', { token })
 	if (response) {
 		const { token: newToken } = response.data
 		console.log('newToken', newToken)

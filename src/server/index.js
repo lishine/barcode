@@ -4,33 +4,77 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import './config'
 
-import { dropQuery, createQuery } from './data/users'
-import * as auth from './lib/auth'
+// import { dropQuery, createQuery } from './data/users'
+import * as auth from '../server/lib/auth/index'
+import * as api from '../server/api'
+import { sendError } from '../server/lib/error'
+import * as users from './data/users'
+import * as profile from './data/profile'
 
-const app = express()
+export const app = express()
+const host = app.get('ip')
+console.log('host', host)
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.post('/auth/signin', auth.signIn)
-app.post('/auth/signup', auth.signUp)
-app.post('/auth/registerconfirm', (req, res, next) => auth.registrationConfirm(req, res, next))
-app.post('/auth/forgotpassword', (req, res, next) => auth.forgotPassword(req, res, next))
-app.post('/auth/newpassword', (req, res, next) => auth.newPassword(req, res, next))
+// app.post('/auth/signin', auth.signIn)
+// app.post('/auth/signup', auth.signUp)
+// app.post('/auth/registerconfirm', auth.registrationConfirm)
+// app.post('/auth/forgotpassword', auth.forgotPassword)
+// app.post('/auth/newpassword', auth.newPassword)
+app.post('/auth/all', (req, res, next) => {
+	const { app, body } = req
+	const { endpoint, data } = body
+	const db = app.get('db')
+	try {
+		const sendData = auth[endpoint](data, db)
+		res.json({ type: 'success', endpoint, data: sendData })
+	} catch (err) {
+		sendError(res)(err)
+	}
+})
+
 app.use('/api/*', auth.validateTokenMid)
+app.post('/api/all', (req, res, next) => {
+	const { app, body } = req
+	const { endpoint, data } = body
+	const db = app.get('db')
+	try {
+		const sendData = api[endpoint](data, db)
+		res.json({ type: 'success', endpoint, data: sendData })
+	} catch (err) {
+		sendError(res)(err)
+	}
+})
 
 // app.get('/api1/check', (req, res) =>
 // 	res.json({ sucess: true, check: true, secret: process.env.JWT_SECRET })
 // )
 
-// app.get('/api1/create', (req, res) => {
-// 	console.log('here')
-// 	const db = req.app.get('db')
-// 	db.query(createQuery)
-// 		.then(() => db.reload(instance => req.app.set('db', instance)))
-// 		.then(() => res.json({ message: 'db created and reloaded', success: true }))
-// 		.catch(err => res.status(500).json({ error: err }))
-// })
+app.get('/api1/recreate-profile', (req, res) => {
+	console.log('here profile')
+	let db = req.app.get('db')
+	db.query(profile.drop)
+		.then(() => db.reload(instance => (db = instance)))
+		.then(() => db.query(profile.create))
+		.then(() => db.reload(instance => (db = instance)))
+		.then(() => db.reload(instance => req.app.set('db', instance)))
+		.then(() => res.json({ message: 'db created and reloaded', success: true }))
+		.catch(err => res.status(500).json({ error: err }))
+})
+
+app.get('/api1/recreate-users', (req, res) => {
+	console.log('here users')
+	let db = req.app.get('db')
+	db.query(users.drop)
+		.then(() => db.reload(instance => (db = instance)))
+		.then(() => db.query(users.create))
+		.then(() => db.reload(instance => (db = instance)))
+		.then(() => db.reload(instance => req.app.set('db', instance)))
+		.then(() => res.json({ message: 'db created and reloaded', success: true }))
+		.catch(err => res.status(500).json({ error: err }))
+})
 
 // app.get('/api1/drop', (req, res) => {
 // 	const db = req.app.get('db')

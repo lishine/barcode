@@ -2,7 +2,6 @@ import { call, cancelled, fork, select, put } from 'redux-saga/effects'
 import { default as lodashSome } from 'lodash/fp/some'
 import { default as fpmap } from 'lodash/fp/map'
 import { default as freduce } from 'lodash/fp/reduce'
-import axios from 'axios'
 
 export const map = fpmap.convert({ cap: false })
 export const reduce = freduce.convert({ cap: false })
@@ -42,6 +41,7 @@ export const when = expr => ({
 export function toto(p, t) {
 	const promise = get('promise')(p) || p
 	const timeOut = get('timeOut')(p) || t
+	console.log('timeOut', timeOut)
 	return timeOutPromise({ promise, timeOut })
 		.then(data => ({ data }))
 		.catch(err => {
@@ -76,14 +76,6 @@ function timeOutPromise({ timeOut, promise }) {
 			throw err
 		}
 	)
-}
-
-export const post = async (route, data) => {
-	const { data: response, err } = await toto(axios.post(route, data), 10000)
-	console.log('response', response)
-	console.log('err', err)
-
-	return { response, err }
 }
 
 export const HALT = async () => new Promise(() => {})
