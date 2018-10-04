@@ -1,6 +1,8 @@
 import { store } from 'react-easy-state'
+import { submit } from './submit'
 
 const self = store({
+	error: '',
 	editGroup: '',
 	formikProps: undefined,
 	values: {
@@ -15,9 +17,18 @@ const self = store({
 		state: 'AM',
 		CEP: '552455',
 	},
-	cancel() {
+
+	saveValues(apiValues) {
+		Object.assign(self.values, apiValues)
+	},
+	submit,
+	clearForm() {
 		self.editGroup = ''
 		self.formikProps.resetForm()
+		self.setError('')
+	},
+	cancel() {
+		self.clearForm()
 	},
 	edit(group) {
 		console.log('group', group)
@@ -27,6 +38,9 @@ const self = store({
 	setFormikProps(formikProps) {
 		console.log('formikProps', formikProps)
 		self.formikProps = formikProps
+	},
+	setError(bool) {
+		self.error = bool
 	},
 })
 

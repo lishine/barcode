@@ -22,6 +22,13 @@ export const Row = styled.div`
 	display: flex;
 	flex-grow: 1;
 `
+export const FieldRow = styled(Row)`
+	padding-bottom: 10px;
+`
+export const SubmitRow = styled(Row)`
+	// padding-top: 20px;
+	// padding-bottom: 20px;
+`
 export const GroupHeaderRow = styled(Row)`
 	min-height: 30px;
 	font-size: 1.2em;
@@ -29,12 +36,14 @@ export const GroupHeaderRow = styled(Row)`
 	padding-top: 20px;
 	padding-bottom: 20px;
 `
-export const FieldRow = styled(Row)`
-	padding-bottom: 10px;
-`
-export const SubmitRow = styled(Row)`
-	// padding-top: 20px;
-	// padding-bottom: 20px;
+
+export const ErrorRow = styled.div`
+	text-align: center;
+	padding-bottom: 20px;
+	margin: auto;
+	font-size: 1.2em;
+	font-weight: 600;
+	color: red;
 `
 
 export const Col = styled.div`

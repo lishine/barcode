@@ -39,9 +39,9 @@ export const when = expr => ({
 
 /// ////////////////
 
-export function toto(p) {
+export function toto(p, t) {
 	const promise = get('promise')(p) || p
-	const timeOut = get('timeOut')(p)
+	const timeOut = get('timeOut')(p) || t
 	return timeOutPromise({ promise, timeOut })
 		.then(data => ({ data }))
 		.catch(err => {
@@ -79,7 +79,7 @@ function timeOutPromise({ timeOut, promise }) {
 }
 
 export const post = async (route, data) => {
-	const { data: response, err } = await toto(axios.post(route, data))
+	const { data: response, err } = await toto(axios.post(route, data), 10000)
 	console.log('response', response)
 	console.log('err', err)
 
