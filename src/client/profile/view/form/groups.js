@@ -29,7 +29,7 @@ const _groups = {
 		link: 'edit',
 		fields: [
 			{ name: 'city', label: 'City' },
-			{ name: 'CPF', label: 'CPF' },
+			{ name: 'CPF', label: 'CPF/CPNJ' },
 			{ name: 'address', label: 'Address' },
 			{ name: 'state', label: 'State' },
 		],

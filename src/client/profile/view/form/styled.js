@@ -41,6 +41,7 @@ export const Col = styled.div`
 	display: flex;
 	flex-grow: 0;
 	width: 100%;
+	margin: auto;
 	justify-content: flex-start;
 `
 
