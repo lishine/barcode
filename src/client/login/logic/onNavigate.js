@@ -3,18 +3,18 @@ import { HALT } from 'utils/utils'
 import * as links from 'login/constants/links'
 import * as forms from 'login/constants/forms'
 import { gotoHome } from 'router/actions'
-import { isAuth } from 'auth/selectors'
 import { submit } from 'login/logic/submit'
 import { registerConfirm } from 'login/logic/registerConfirm'
 import { loginStore } from 'login/store'
-import { dispatch } from 'store/configureStore'
+import { login } from 'auth/logic/login'
 
 export function* loginNavigate(_, query) {
 	loginStore.reset()
-
-	if (yield select(isAuth)) {
-		dispatch(gotoHome())
+	const isLoggedIn = yield call(login)
+	if (isLoggedIn) {
+		yield put(gotoHome())
 	}
+
 	const { link, token } = query || {}
 	console.log('token', token)
 	console.log('link', token)

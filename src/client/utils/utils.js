@@ -11,7 +11,6 @@ export const some = (value, array) => lodashSome(v => v === value)(array)
 
 export const mapToObject = func => array =>
 	reduce((acc, value, key) => {
-		console.log('*acc', acc)
 		return Object.assign(acc, func(value, key))
 	}, {})(array)
 

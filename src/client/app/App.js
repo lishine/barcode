@@ -1,17 +1,24 @@
 import Login from 'login/view/Login'
 import Profile from 'profile/view/Profile'
 import { routes } from 'router/routes'
+import { gotoProfile } from 'router/actions'
 import { getPage } from 'router/selectors'
 import { getToken, getEmail } from 'auth/selectors'
 import { logout } from 'auth/actions'
+
 import './App.scss'
 
 export default connect({ page: getPage, token: getToken, email: getEmail })(props => {
 	const { page, token, email } = props
+	console.log('page', page)
+
 	return (
 		<>
 			<button type="button" onClick={() => dispatch(logout())}>
 				logout
+			</button>
+			<button type="button" onClick={() => dispatch(gotoProfile())}>
+				profile
 			</button>
 			{/* <div>page: {page}</div>
 			<div>token: {token}</div>

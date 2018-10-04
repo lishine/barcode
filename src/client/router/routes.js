@@ -24,6 +24,7 @@ export const history = createHistory()
 function protectedRoute(navigateSaga) {
 	return function*(...args) {
 		const isLoggedIn = yield call(login)
+		console.log('isLoggedIn', isLoggedIn)
 
 		if (isLoggedIn) {
 			if (navigateSaga) {

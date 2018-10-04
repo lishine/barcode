@@ -3,10 +3,12 @@ import Email from 'email-templates'
 import { createToken, decodeToken } from './token'
 
 export function sendRegistrationEmail({ req, userId, name, email }) {
+	console.log('sendRegistrationEmail', '{ req, userId, name, email }', { req, userId, name, email })
 	const token = createToken({ userId })
 
 	const host = req.headers.host
 	const link = `http://${host}/login?link=register-confirmation&token=${token}`
+	console.log('token host link', token, host, link)
 
 	return createEmailTransport().send({
 		template: 'register-confirmation',

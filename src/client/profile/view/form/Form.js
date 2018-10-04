@@ -80,6 +80,7 @@ export default view(props => {
 																<Col>
 																	<Field
 																		{...{
+																			width: '200',
 																			readOnly:
 																				viewOnly ||
 																				!editingThisGroup,

@@ -11,10 +11,8 @@ import * as forms from 'login/constants/forms'
 import { submit } from 'login/logic/actions'
 
 export default view(props => {
-	const { form, error, sendLink } = loginStore
-	console.log('form', form)
+	const { form, error, sendLink, email } = loginStore
 	const { show, schema, title } = formData(form)
-	const { email } = loginStore
 
 	return (
 		<div key={form}>
@@ -58,9 +56,7 @@ export default view(props => {
 								</button>
 							)}
 
-							<ProgressButton
-								type="submit"
-								state={isSubmitting ? 'loading' : ''}>
+							<ProgressButton type="submit" state={isSubmitting ? 'loading' : ''}>
 								Submit
 							</ProgressButton>
 						</Form>
