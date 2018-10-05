@@ -13,7 +13,7 @@ export default view(() => {
 		<Flex column>
 			<Box>
 				<div>message: {message}</div>
-				<div>errorMessage: {errorMessage}</div>
+				{errorMessage && <div>errorMessage: {errorMessage}</div>}
 				{btnContinueToSite && (
 					<button type="button" onClick={() => dispatch(gotoHome())}>
 						HOME

@@ -11,7 +11,7 @@ export async function signIn(data, db, host) {
 
 	const user = await db.users
 		.findOne({ email })
-		.then(throwIf(user => !user, 400, 'User not found')())
+		.then(throwIf(user => !user, 400, 'User not found'))
 		.catch(throwError(400, 'User not found'))
 	console.log('user', user)
 

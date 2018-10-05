@@ -49,7 +49,7 @@ export const alerts = {
 	},
 	RegisterConfirm: {
 		errorConfirming: {
-			message: 'Please check your mail for new password confirmation link',
+			message: 'Error occured while confirming',
 		},
 		emailConfirmed: {
 			message: 'Email confirmed. You are signed in',

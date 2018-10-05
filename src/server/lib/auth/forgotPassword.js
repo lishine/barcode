@@ -8,13 +8,13 @@ export async function forgotPassword(data, db, host) {
 
 	const user = await db.users
 		.findOne({ email })
-		.then(throwIf(user => !user, 400, 'User not found')())
+		.then(throwIf(user => !user, 400, 'User not found'))
 		.catch(throwError(400, 'User not found'))
 	console.log('user', user)
 
 	const profile = await db.profiles
 		.findOne({ user_id: user.id })
-		.then(throwIf(profile => !profile, 400, 'Profile not found')())
+		.then(throwIf(profile => !profile, 400, 'Profile not found'))
 		.catch(throwError(400, 'Prfile not found'))
 	console.log('profile', profile)
 

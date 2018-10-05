@@ -16,7 +16,7 @@ export async function newPassword(data, db) {
 
 	const user = await db.users
 		.findOne({ id: userId })
-		.then(throwIf(user => !user, 400, 'No user')())
+		.then(throwIf(user => !user, 400, 'No user'))
 		.catch(throwError(400, 'No user'))
 	console.log('user', user)
 

@@ -12,7 +12,7 @@ export async function registerConfirm(data, db) {
 
 	const user = await db.users
 		.findOne({ id: userId })
-		.then(throwIf(user => !user, 400, 'No user')())
+		.then(throwIf(user => !user, 400, 'No user'))
 		.catch(throwError(400, 'No user'))
 	console.log('user', user)
 	throwIf(user.confirmed, 400, 'Account already confirmed')()
