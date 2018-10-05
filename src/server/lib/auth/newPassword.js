@@ -7,45 +7,24 @@ const saltRounds = 12
 
 export async function newPassword(data, db) {
 	const { password, passwordConfirmation, token } = data
-	throwIf(!email || !password, 400, 'No password or email')
+	throwIf(!password || !passwordConfirmation || !token, 400, 'No password or email')()
 	console.log('password passwordConfirmation token', password, passwordConfirmation, token)
-
-	if (!password || !passwordConfirmation || !token) {
-		return res.status(400).json({ error: 'No password or token' })
-	}
 
 	const { userId, isNewPassword } = decodeToken(token)
 
-	if (!isNewPassword) {
-		return res.status(400).json({ error: 'Not a new password link' })
-	}
+	throwIf(!isNewPassword, 400, 'Not a new password link')()
 
-	return db.users
+	const user = await db.users
 		.findOne({ id: userId })
-		.then(user => {
-			console.log('validUser', user)
+		.then(throwIf(user => !user, 400, 'No user')())
+		.catch(throwError(400, 'No user'))
+	console.log('user', user)
 
-			bcrypt
-				.hash(password, saltRounds)
-				.then(hash => {
-					return db.users
-						.update({ id: userId }, { password: hash })
-						.then(user => {
-							const newToken = createToken({ userId })
-							res.status(200).json({ token: newToken })
-						})
-						.catch(err => {
-							// const code = get('code')(err)
-							// if (code === '23505') {
-							// res.status(400).json({ err, error: 'User already exists' })
-							// } else {
-							res.status(500).json({ err, error: 'error updating user' })
-							// }
-						})
-				})
-				.catch(err => {
-					next(err)
-				})
-		})
-		.catch(err => res.status(400).json({ err, error: 'No user' }))
+	const hash = await bcrypt.hash(password, saltRounds).catch(throwError(500))
+
+	await db.users
+		.update({ id: userId }, { password: hash })
+		.catch(throwError(500, 'error updating user'))
+
+	return { token: createToken({ userId }) }
 }

@@ -22,10 +22,9 @@ export async function sendRegistrationEmail({ host, userId, name, email }) {
 	})
 }
 
-export function sendNewPasswordEmail({ req, userId, name, email }) {
+export async function sendNewPasswordEmail({ host, userId, name, email }) {
 	const token = createToken({ userId, isNewPassword: true })
 
-	const host = req.headers.host
 	const link = `http://${host}/login?link=new-password&token=${token}`
 
 	console.log('process.env.NODE_ENV', process.env.NODE_ENV)

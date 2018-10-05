@@ -9,7 +9,7 @@ const saltRounds = 12
 export async function signUp(data, db, host) {
 	const { name, email, password } = data
 
-	throwIf(!email || !password || !name, 400, 'No password or email or name')
+	throwIf(!email || !password || !name, 400, 'No password or email or name')()
 
 	const hash = await bcrypt.hash(password, saltRounds).catch(throwError(500))
 
