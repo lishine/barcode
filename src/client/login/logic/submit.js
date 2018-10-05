@@ -48,8 +48,7 @@ export function* submit(linkToken) {
 					loginStore.setAlert('passwordLinkSent')
 				})
 				.is(f.NEW_PASSWORD, function*() {
-					yield call(login, token)
-					loginStore.setAlert('signedIn')
+					loginStore.setAlert('passwordUpdated')
 				})
 				.else(() => {})()
 		} else {

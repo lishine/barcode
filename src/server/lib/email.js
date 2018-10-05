@@ -5,7 +5,7 @@ import { app } from '../../server'
 
 export async function sendRegistrationEmail({ host, userId, name, email }) {
 	console.log('sendRegistrationEmail', '{ host, userId, name, email }', { host, userId, name, email })
-	const token = createToken({ userId })
+	const token = createToken({ userId, isRegister: true })
 
 	const link = `http://${host}/login?link=register-confirmation&token=${token}`
 	console.log('token host link', token, host, link)

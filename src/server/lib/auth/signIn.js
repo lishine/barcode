@@ -28,7 +28,7 @@ export async function signIn(data, db, host) {
 
 	const validPassword = await bcrypt.compare(password, user.password)
 	throwIf(!validPassword, 400, 'Unauthorized Access')()
-	const token = createToken({ userId: user.id })
+	const token = createToken({ userId: user.id, confirmed: true })
 
 	return { token }
 }

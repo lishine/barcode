@@ -26,5 +26,5 @@ export async function newPassword(data, db) {
 		.update({ id: userId }, { password: hash })
 		.catch(throwError(500, 'error updating user'))
 
-	return { token: createToken({ userId }) }
+	return {}
 }

@@ -1,9 +1,9 @@
 import get from 'lodash/fp/get'
 import { encode, decode } from 'jwt-simple'
 
-export function createToken({ userId, expire, isNewPassword }) {
+export function createToken(data) {
 	const timestamp = new Date().getTime()
-	return encode({ userId, iat: timestamp, expire, isNewPassword }, process.env.JWT_SECRET)
+	return encode(Object.assign({}, data, { iat: timestamp }), process.env.JWT_SECRET)
 }
 
 export function decodeToken(token) {

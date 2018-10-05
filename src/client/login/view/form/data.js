@@ -53,5 +53,6 @@ export const alerts = {
 	},
 	NewPassword: {
 		signedIn: { message: 'Password changed. You are signed in', btnContinueToSite: true },
+		passwordUpdated: { message: 'Password changed. Please sign in', btnSignIn: true },
 	},
 }
