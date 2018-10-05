@@ -20,7 +20,14 @@ export default view(() => {
 					</button>
 				)}
 				{btnSignIn && (
-					<button type="button" onClick={() => dispatch(gotoLogin())}>
+					<button
+						type="button"
+						onClick={() => {
+							const c = gotoLogin()
+							console.log('***c', c)
+							console.log('dispatch', dispatch)
+							dispatch(gotoHome())
+						}}>
 						Sign In
 					</button>
 				)}

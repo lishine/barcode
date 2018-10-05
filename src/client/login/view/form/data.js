@@ -50,6 +50,7 @@ export const alerts = {
 	RegisterConfirm: {
 		errorConfirming: {
 			message: 'Error occured while confirming',
+			btnSignIn: true,
 		},
 		emailConfirmed: {
 			message: 'Email confirmed. You are signed in',

@@ -32,8 +32,8 @@ export function* submit(linkToken) {
 		const { response, err } = yield call(post, `/auth/all`, endpoint, apiValues)
 
 		if (response) {
-			const { data } = response
-			const { token } = data
+			const { data = {} } = response
+			const { token } = data.data
 			yield when(form)
 				.is(f.SIGN_UP, function*() {
 					loginStore.setAlert(alerts[f.SIGN_UP].confirmLinkSent)

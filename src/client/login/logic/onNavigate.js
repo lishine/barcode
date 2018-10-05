@@ -9,6 +9,7 @@ import { loginStore } from 'login/store'
 import { login } from 'auth/logic/login'
 
 export function* loginNavigate(_, query) {
+	console.log('loginNavigate')
 	loginStore.reset()
 	const isLoggedIn = yield call(login)
 	if (isLoggedIn) {

@@ -13,8 +13,8 @@ export function* registerConfirm(confirmToken) {
 		token: confirmToken,
 	})
 	if (response) {
-		const { data } = response
-		const { token } = data
+		const { data = {} } = response
+		const { token } = data.data
 
 		yield fork(login, token)
 		loginStore.setAlert(alerts.RegisterConfirm.emailConfirmed)
