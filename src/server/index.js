@@ -1,3 +1,4 @@
+import lowerFirst from 'lodash/fp/lowerFirst'
 import massive from 'massive'
 import express from 'express'
 import path from 'path'
@@ -36,7 +37,7 @@ app.post('/auth/all', async (req, res, next) => {
 
 	const db = app.get('db')
 	try {
-		const sendData = await auth[endpoint](data, db, host)
+		const sendData = await auth[lowerFirst(endpoint)](data, db, host)
 		res.json({ type: 'success', endpoint, data: sendData })
 	} catch (err) {
 		sendError(res)(err)
@@ -60,7 +61,7 @@ app.post('/api/all', async (req, res, next) => {
 	const { endpoint, data } = body
 	const db = app.get('db')
 	try {
-		const sendData = await api[endpoint](data, db)
+		const sendData = await api[lowerFirst(endpoint)](data, db)
 		res.json({ type: 'success', endpoint, data: sendData })
 	} catch (err) {
 		sendError(res)(err)

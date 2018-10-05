@@ -1,11 +1,11 @@
 export const throwIf = (fn, ...args) => result => {
 	if (typeof fn === 'function') {
 		if (fn(result)) {
-			return throwError(status, ...args)()
+			return throwError(...args)()
 		}
 		return result
 	} else if (fn) {
-		throwError(status, ...args)()
+		throwError(...args)()
 	}
 }
 
@@ -23,7 +23,7 @@ export const throwError = (status, message, code, errorType) => error => {
 
 export const sendError = (res, status, message, code) => err => {
 	console.log('ERROR', code || err.code, message || err.message)
-	res.status(status || err.status).json({
+	res.status(status || err.status || 500).json({
 		type: 'error',
 		code: code || err.code,
 		message: message || err.message,

@@ -6,6 +6,7 @@ import { login } from 'auth/logic/login'
 import { post } from 'logic/post'
 import { loginStore } from 'login/store'
 import { SUBMIT } from './actions'
+import { alerts } from 'login/view/form/data'
 
 export function* submit(linkToken) {
 	while (true) {
@@ -35,20 +36,20 @@ export function* submit(linkToken) {
 			const { token } = data
 			yield when(form)
 				.is(f.SIGN_UP, function*() {
-					loginStore.setAlert('confirmLinkSent')
+					loginStore.setAlert(alerts[f.SIGN_UP].confirmLinkSent)
 				})
 				.is(f.SIGN_IN, function*() {
 					yield call(login, token)
-					loginStore.setAlert('signedIn')
+					loginStore.setAlert(alerts[f.SIGN_UP].signedIn)
 				})
 				.is('sendLink', function*() {
-					loginStore.setAlert('confirmLinkSent')
+					loginStore.setAlert(alerts[f.SIGN_UP].confirmLinkSent)
 				})
 				.is(f.FORGOT_PASSWORD, function*() {
-					loginStore.setAlert('passwordLinkSent')
+					loginStore.setAlert(alerts[f.SIGN_UP].passwordLinkSent)
 				})
 				.is(f.NEW_PASSWORD, function*() {
-					loginStore.setAlert('passwordUpdated')
+					loginStore.setAlert(alerts[f.SIGN_UP].passwordUpdated)
 				})
 				.else(() => {})()
 		} else {

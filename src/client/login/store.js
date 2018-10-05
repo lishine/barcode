@@ -5,7 +5,7 @@ const init = {
 	email: '',
 	error: false,
 	sendLink: false,
-	alert: '',
+	alert: undefined,
 	form: forms.SIGN_IN,
 	submitSource: undefined,
 }
@@ -37,8 +37,8 @@ const self = store({
 	setForm(form) {
 		self.form = form
 	},
-	setAlert(alert) {
-		self.alert = alert
+	setAlert(alert, extend) {
+		self.alert = Object.assign({}, alert, extend)
 	},
 	setSendLink(bool) {
 		self.sendLink = bool

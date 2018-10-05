@@ -6,69 +6,27 @@ import { login } from 'auth/logic/login'
 import { post } from 'logic/post'
 import { loginStore } from 'login/store'
 import { dispatch } from 'store/configureStore'
+import { alerts } from 'login/view/form/data'
 
-export function* registerConfirm(token) {
-	const { response, err } = yield call(post, '/auth/all', 'registerconfirm', { token })
+export function* registerConfirm(confirmToken) {
+	const { response, err } = yield call(post, '/auth/all', 'RegisterConfirm', {
+		token: confirmToken,
+	})
 	if (response) {
-		const { token: newToken } = response.data
-		console.log('newToken', newToken)
-		if (newToken) {
-			yield fork(login, newToken)
-			loginStore.setAlert('emailConfirmed')
-			loginStore.gotoForm(forms.SIGN_IN)
-			return
-		}
+		const { data } = response
+		const { token } = data
+
+		yield fork(login, token)
+		loginStore.setAlert(alerts.RegisterConfirm.emailConfirmed)
+	} else {
+		console.dir(err)
+		const { data = {}, status } = err.response
+		const { error, code } = data
+
+		const errorMessage = when(status)
+			.is(504, 'Timeout')
+			.is(400, error)
+			.else('Something went wrong')
+		loginStore.setAlert(alerts.RegisterConfirm.errorConfirming, { errorMessage })
 	}
-	dispatch(gotoHome())
 }
-
-// when(form)
-// .is(c.forms.SIGN_UP, () => {})
-// .is(c.forms.SIGN_IN, () => {})
-// .is(c.forms.NEW_PASSWORD, () => {})
-// .is(c.forms.FORGOT_PASSWORD, () => {})
-// .else(() => {
-//     navigate(r.HOME, {}, { replace: true })
-// })()
-
-// import queryString from 'query-string'
-
-// import { isAuth } from '../auth/auth.selectors'
-// import routesMap from './routesMap'
-// import * as r from './router.constants/routes'
-// import * as roles from './router.constants/roles'
-// import { redirect } from './router.actions'
-
-// export default {
-// 	querySerializer: queryString,
-// 	onBeforeChange: (dispatch, getState, action) => {
-// 		const state = getState()
-// 		console.log('getState().location', getState().location)
-// 		const actionType = action.action.type
-// 		const payload = action.action.payload
-
-// 		const role = routesMap[actionType] && routesMap[actionType].role
-
-// 		let loggedIn = isAuth(state)
-// 		// if (!loggedIn) {
-// 		// 	const token = localStorage.getItem('token')
-// 		// 	console.log('got token', token)
-// 		// 	if (token) {
-// 		// 		dispatch(setToken(token))
-// 		// 		loggedIn = true
-// 		// 	}
-// 		// }
-
-// 		console.log('action.action', action.action)
-// 		console.log('actionType', actionType)
-// 		console.log('role', role)
-// 		console.log('loggedIn', loggedIn)
-// 		console.log('dispatch', dispatch)
-
-// 		if (role === roles.ONLY_OPEN && loggedIn && payload.alert === 'form') {
-// 			dispatch(redirect(r.HOME, { alert: 'form' }))
-// 		} else if (role !== roles.ONLY_OPEN && !loggedIn) {
-// 			dispatch(redirect(r.SIGN_IN, { alert: 'form' }))
-// 		}
-// 	},
-// }

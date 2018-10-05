@@ -1,7 +1,7 @@
 import { createToken, decodeToken } from '../token'
 import { throwError, throwIf } from '../error'
 
-export async function registrationConfirm(data, db) {
+export async function registerConfirm(data, db) {
 	const { token } = data
 	throwIf(!token, 400, 'No token')()
 	console.log('token', token)

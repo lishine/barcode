@@ -41,14 +41,19 @@ export const alerts = {
 	SignIn: {
 		signedIn: { message: 'You are signed in', btnContinueToSite: true },
 		confirmLinkSent: { message: 'Please check your mail for email confirmation link' },
-		emailConfirmed: {
-			message: 'Email confirmed. You are signed in',
-			btnContinueToSite: true,
-		},
 	},
 	ForgotPassword: {
 		passwordLinkSent: {
 			message: 'Please check your mail for new password confirmation link',
+		},
+	},
+	RegisterConfirm: {
+		errorConfirming: {
+			message: 'Please check your mail for new password confirmation link',
+		},
+		emailConfirmed: {
+			message: 'Email confirmed. You are signed in',
+			btnContinueToSite: true,
 		},
 	},
 	NewPassword: {
