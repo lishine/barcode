@@ -10,7 +10,7 @@ export function* post(url, endpoint, data) {
 		axios({
 			method: 'post',
 			url,
-			data: Object.assign({}, data, { endpoint, token }),
+			data: { data, endpoint, token },
 			headers: { token },
 			timeout: 10000,
 		})

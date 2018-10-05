@@ -1,6 +1,6 @@
 import { sendNewPasswordEmail } from '../email'
 
-export function forgotPassword(req, res, next) {
+export async function forgotPassword(data, db, host) {
 	const { app, body } = req
 	const { data } = body
 	const { email } = data

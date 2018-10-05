@@ -23,7 +23,7 @@ export function* submit() {
 		} else {
 			console.dir(err)
 			const { data = {}, status } = err.response
-			const { error, code } = data
+			const { error } = data
 
 			profileStore.setError(
 				when(status)

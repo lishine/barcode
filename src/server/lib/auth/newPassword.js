@@ -1,18 +1,14 @@
 import bcrypt from 'bcrypt'
 
+import { throwError, throwIf } from '../error'
 import { createToken, decodeToken } from '../token'
 
 const saltRounds = 12
 
-export function newPassword(req, res, next) {
-	const { app, body } = req
-	const { data } = body
+export async function newPassword(data, db) {
 	const { password, passwordConfirmation, token } = data
-	const db = app.get('db')
-
-	console.log('password', password)
-	console.log('passwordConfirmation', passwordConfirmation)
-	console.log('token', token)
+	throwIf(!email || !password, 400, 'No password or email')
+	console.log('password passwordConfirmation token', password, passwordConfirmation, token)
 
 	if (!password || !passwordConfirmation || !token) {
 		return res.status(400).json({ error: 'No password or token' })

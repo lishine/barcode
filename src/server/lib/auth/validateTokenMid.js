@@ -1,28 +1,10 @@
 import { decodeToken } from '../token'
+import { throwError, throwIf } from '../error'
 
-export function validateTokenMid(req, res, next) {
-	const { app, headers } = req
-	const { token } = headers
-	const db = app.get('db')
+export async function validateTokenMid(token) {
+	throwIf(!token, 400, 'No token')
 
-	if (!token) {
-		res.status(400).json({ error: 'No token' })
-		return
-	}
-
-	const { userId } = decodeToken(token)
-
-	return db.users
-		.findOne({ id: userId })
-		.then(user => {
-			console.log('validUser', user)
-			const confirmed = user && user.confirmed
-			if (confirmed) {
-				req.user = user
-				next()
-			} else {
-				res.status(400).json({ error: 'User not confirmed' })
-			}
-		})
-		.catch(err => res.status(400).json({ err, error: 'No user' }))
+	const { userId, confirmed } = decodeToken(token)
+	throwIf(!userId, 400, 'No AUTHORIZATION, No user')
+	throwIf(!confirmed, 400, 'No AUTHORIZATION, Not confirmed')
 }

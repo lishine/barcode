@@ -1,59 +1,34 @@
 import bcrypt from 'bcrypt'
+import { throwError, throwIf } from '../error'
 
 import { createToken } from '../token'
 import { sendRegistrationEmail } from '../email'
 
-export function signIn(req, res, next) {
-	const { app, body } = req
-	const { data } = body
+export async function signIn(data, db, host) {
 	const { email, password, sendRegLink } = data
-	const db = app.get('db')
+	throwIf(!email || !password, 400, 'No password or email')
+	console.log('email sendRegLink', email, sendRegLink)
 
-	if (!email || !password) {
-		res.status(400).json({ error: 'No password or email' })
-	}
-	console.log('email', email)
-	console.log('sendRegLink', sendRegLink)
-	return db.users
+	const user = await db.users
 		.findOne({ email })
-		.then(user => {
-			if (!user) {
-				return res.status(400).json({ error: 'User not found' })
-			}
-			console.log('user', user)
-			const confirmed = user && user.confirmed
-			if (!confirmed) {
-				if (sendRegLink) {
-					console.log(1)
-					return sendRegistrationEmail({
-						req,
-						userId: user.id,
-						name: user.name,
-						email,
-					})
-						.then(info => res.status(200).json({ info }))
-						.catch(err => res.status(400).json({ error: 'Email not sent', err }))
-				} else {
-					return res.status(400).json({ code: 100, error: 'User not confirmed' })
-				}
-			}
+		.then(throwIf(user => !user, 400, 'User not found'))
+		.catch(throwError(400, 'User not found'))
+	console.log('user', user)
 
-			bcrypt
-				.compare(password, user.password)
-				.then(validPassword => {
-					console.log(11)
-					if (validPassword) {
-						console.log(12)
-						const token = createToken({ userId: user.id })
+	if (!user.confirmed) {
+		throwIf(!sendRegLink, 400, 'User not confirmed', 100)
+		const info = await sendRegistrationEmail({
+			host,
+			userId: user.id,
+			name: user.name,
+			email,
+		}).catch(throwError(400, 'Email not sent'))
+		return { info }
+	}
 
-						return res.status(200).json({
-							token,
-						})
-					} else {
-						throw new Error('wrong password')
-					}
-				})
-				.catch(err => res.status(400).json({ err, error: 'Unauthorized Access' }))
-		})
-		.catch(err => res.status(400).json({ err, error: 'User not found' }))
+	const validPassword = await bcrypt.compare(password, user.password)
+	throwIf(!validPassword, 400, 'Unauthorized Access')
+	const token = createToken({ userId: user.id })
+
+	return { token }
 }

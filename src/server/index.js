@@ -2,18 +2,22 @@ import massive from 'massive'
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
+// import ip from 'ip'
+// import os from 'os'
 import './config'
 
 // import { dropQuery, createQuery } from './data/users'
-import * as auth from '../server/lib/auth/index'
+import * as auth from '../server/lib/auth'
 import * as api from '../server/api'
 import { sendError } from '../server/lib/error'
 import * as users from './data/users'
 import * as profile from './data/profile'
 
 export const app = express()
-const host = app.get('ip')
-console.log('host', host)
+// const host = app.get('ip')
+// console.log('host', host)
+// console.log('ip', ip.address())
+// console.log('os.hostname()', os.hostname())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -23,25 +27,40 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // app.post('/auth/registerconfirm', auth.registrationConfirm)
 // app.post('/auth/forgotpassword', auth.forgotPassword)
 // app.post('/auth/newpassword', auth.newPassword)
-app.post('/auth/all', (req, res, next) => {
-	const { app, body } = req
+app.post('/auth/all', async (req, res, next) => {
+	const { app, body, headers } = req
+	const { host } = headers
 	const { endpoint, data } = body
+	console.log('endpoint', endpoint)
+	console.log('data', data)
+
 	const db = app.get('db')
 	try {
-		const sendData = auth[endpoint](data, db)
+		const sendData = await auth[endpoint](data, db, host)
 		res.json({ type: 'success', endpoint, data: sendData })
 	} catch (err) {
 		sendError(res)(err)
 	}
 })
 
-app.use('/api/*', auth.validateTokenMid)
-app.post('/api/all', (req, res, next) => {
+app.use('/api/*', async (req, res, next) => {
+	const { headers } = req
+	const { token } = headers
+
+	try {
+		await auth.validateTokenMid(token)
+		next()
+	} catch (err) {
+		sendError(res)(err)
+	}
+})
+
+app.post('/api/all', async (req, res, next) => {
 	const { app, body } = req
 	const { endpoint, data } = body
 	const db = app.get('db')
 	try {
-		const sendData = api[endpoint](data, db)
+		const sendData = await api[endpoint](data, db)
 		res.json({ type: 'success', endpoint, data: sendData })
 	} catch (err) {
 		sendError(res)(err)

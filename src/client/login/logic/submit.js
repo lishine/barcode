@@ -66,14 +66,14 @@ export function* submit(linkToken) {
 				)
 
 			when(form)
-				.is(f.SIGN_UP, () => setError())
-				.is(f.SIGN_IN, () => {
+				.is(f.SIGN_UP, () => {
 					setError()
+				})
+				.is(f.SIGN_IN, () => {
 					if (code === errors.USER_NOT_CONFIRMED) {
 						loginStore.setSendLink(true)
-					} else {
-						setError()
 					}
+					setError()
 				})
 				.is('sendLink', () => setError())
 				.is(f.FORGOT_PASSWORD, () => setError())
