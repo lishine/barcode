@@ -44,14 +44,14 @@ class Link extends React.PureComponent {
 		if (isActive) {
 			active = isActive()
 		}
-		console.log('active', active)
-		console.log('activeClassName', activeClassName)
+		// console.log('active', active)
+		// console.log('activeClassName', activeClassName)
 		const combinedClassName = active
 			? [className, activeClassName].filter(i => i).join(' ')
 			: className
-		console.log('combinedClassName', combinedClassName)
+		// console.log('combinedClassName', combinedClassName)
 		const href = to ? path : '#'
-		console.log('href', href)
+		// console.log('href', href)
 
 		return (
 			<a {...props} href={href} className={combinedClassName} onClick={this._onClick}>
