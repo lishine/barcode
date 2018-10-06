@@ -1,21 +1,38 @@
 import styled from 'styled-components'
 
-import { RouterLink } from 'router/Link'
+import { RouterLink } from 'router/RouterLink'
+import { Submit } from 'common/form/Submit'
+
+const button = { height: '30px', width: '80px', fontSize: 0.8, fontWeight: '100' }
+
+export const SubmitButton = styled(Submit)`
+	&.pb-container {
+		text-align: center;
+		width: ${button.width};
+	}
+	&.pb-container .pb-button {
+		height: ${button.height};
+	}
+	&.pb-container .pb-button span {
+		font-size: ${button.fontSize + 0.6}em;
+		font-weight: ${button.fontWeight};
+	}
+`
+
+export const Button = styled.button`
+	font-size: ${button.fontSize}em;
+	font-weight: ${button.fontWeight};
+	width: ${button.width};
+	height: ${button.height};
+	background-color: #5995ef;
+	color: #fff;
+	border-radius: 3px;
+`
 
 export const Link = styled(RouterLink)`
 	font-size: 1em;
 	font-weight: 100;
 	color: ${({ disabled }) => (disabled ? '#ccc' : '#00f')};
-`
-
-export const Button = styled.button`
-	font-size: 0.8em;
-	font-weight: 100;
-	width: 80px;
-	height: 25px;
-	background-color: #5995ef;
-	color: #fff;
-	border-radius: 3px;
 `
 
 export const Row = styled.div`

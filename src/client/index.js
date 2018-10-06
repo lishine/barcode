@@ -3,7 +3,6 @@ import { Provider } from 'beautiful-react-redux'
 import store from './store/configureStore'
 import App from './app/App'
 import './styled/styledGlobal'
-import 'common/pb.css'
 
 ReactDOM.render(
 	<Provider store={store}>

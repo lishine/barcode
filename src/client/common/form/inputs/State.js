@@ -2,6 +2,7 @@ import Select from 'common/form/formik/Select'
 
 export default props => (
 	<Select {...props}>
+		<option value="">Please select</option>
 		<option value="AC">Acre</option>
 		<option value="AL">Alagoas</option>
 		<option value="AP">Amapá</option>

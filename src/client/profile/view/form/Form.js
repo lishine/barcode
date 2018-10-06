@@ -1,9 +1,9 @@
 import reject from 'lodash/fp/reject'
 import { Formik, Field } from 'formik'
-import ProgressButton from 'react-progress-button'
 
 import {
 	ErrorRow,
+	SubmitButton,
 	Button,
 	Container,
 	GroupHeaderRow,
@@ -64,13 +64,11 @@ export default view(props => {
 																	</Button>
 																</Col>
 																<Col>
-																	<ProgressButton
-																		type="submit"
+																	<SubmitButton
 																		state={
 																			isSubmitting ? 'loading' : ''
-																		}>
-																		Submit
-																	</ProgressButton>
+																		}
+																	 />
 																</Col>
 															</SubmitRow>
 														)}

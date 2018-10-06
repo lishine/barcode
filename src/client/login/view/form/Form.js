@@ -1,8 +1,6 @@
 import { Formik, FastField } from 'formik'
-import ProgressButton from 'react-progress-button'
-import 'react-progress-button/react-progress-button.css'
 
-import { Form, Title } from './styled'
+import { Form, Title, Submit, Link } from './styled'
 import { Map } from 'utils/utils'
 import { loginStore } from 'login/store'
 import { validate } from 'common/form/validate'
@@ -38,27 +36,22 @@ export default view(props => {
 							</Map>
 
 							{form === forms.SIGN_IN && (
-								<button
-									type="button"
-									onClick={() => loginStore.gotoForm(forms.FORGOT_PASSWORD)}>
+								<Link onClick={() => loginStore.gotoForm(forms.FORGOT_PASSWORD)}>
 									forgot password
-								</button>
+								</Link>
 							)}
 							{!!error && <div>{error}</div>}
 							{sendLink && (
-								<button
-									type="button"
+								<Link
 									onClick={() => {
 										loginStore.setSubmitSource('link')
 										submitForm()
 									}}>
 									Resend link
-								</button>
+								</Link>
 							)}
 
-							<ProgressButton type="submit" state={isSubmitting ? 'loading' : ''}>
-								Submit
-							</ProgressButton>
+							<Submit state={isSubmitting ? 'loading' : ''} />
 						</Form>
 					)
 				}}

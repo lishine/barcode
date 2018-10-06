@@ -1,6 +1,6 @@
 import upperFirst from 'lodash/fp/upperFirst'
 import * as yup from 'yup'
-import * as inputs from 'common/form/inputs'
+import * as inputs from './styled'
 import schema from './schema'
 import { mapToObject } from 'utils/utils'
 

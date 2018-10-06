@@ -1,6 +1,6 @@
-import matchPath from 'rudy-match-path'
+// import matchPath from 'rudy-match-path'
 
-import { routesMap } from './routes'
+import { routesMap } from 'router/routes'
 import { actionToPath } from 'redux-saga-first-router'
 import { getLocation } from 'router/selectors'
 
@@ -40,7 +40,10 @@ class Link extends React.PureComponent {
 		// const currentPath = window.pathname
 		// const match = matchPath(currentPath, { path, exact: true, strict })
 		// const active = !!(isActive ? isActive(match, location) : match)
-		const active = isActive()
+		let active
+		if (isActive) {
+			active = isActive()
+		}
 		console.log('active', active)
 		console.log('activeClassName', activeClassName)
 		const combinedClassName = active
