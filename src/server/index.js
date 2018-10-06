@@ -74,24 +74,40 @@ app.post('/api/all', async (req, res, next) => {
 // 	res.json({ sucess: true, check: true, secret: process.env.JWT_SECRET })
 // )
 
-app.get('/api1/recreate-profile', (req, res) => {
+app.get('/api1/drop-profile', (req, res) => {
 	console.log('here profile')
 	let db = req.app.get('db')
 	db.query(profile.drop)
 		.then(() => db.reload(instance => (db = instance)))
-		.then(() => db.query(profile.create))
+		.then(() => db.reload(instance => req.app.set('db', instance)))
+		.then(() => res.json({ message: 'db dropped and reloaded', success: true }))
+		.catch(err => res.status(500).json({ error: err }))
+})
+
+app.get('/api1/create-profile', (req, res) => {
+	console.log('here profile')
+	let db = req.app.get('db')
+	db.query(profile.create)
 		.then(() => db.reload(instance => (db = instance)))
 		.then(() => db.reload(instance => req.app.set('db', instance)))
 		.then(() => res.json({ message: 'db created and reloaded', success: true }))
 		.catch(err => res.status(500).json({ error: err }))
 })
 
-app.get('/api1/recreate-users', (req, res) => {
+app.get('/api1/drop-users', (req, res) => {
 	console.log('here users')
 	let db = req.app.get('db')
 	db.query(users.drop)
 		.then(() => db.reload(instance => (db = instance)))
-		.then(() => db.query(users.create))
+		.then(() => db.reload(instance => req.app.set('db', instance)))
+		.then(() => res.json({ message: 'db dropped and reloaded', success: true }))
+		.catch(err => res.status(500).json({ error: err }))
+})
+
+app.get('/api1/create-users', (req, res) => {
+	console.log('here users')
+	let db = req.app.get('db')
+	db.query(users.create)
 		.then(() => db.reload(instance => (db = instance)))
 		.then(() => db.reload(instance => req.app.set('db', instance)))
 		.then(() => res.json({ message: 'db created and reloaded', success: true }))
