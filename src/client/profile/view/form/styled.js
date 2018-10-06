@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import RouterLink from 'router/Link'
+import { RouterLink } from 'router/Link'
 
 export const Link = styled(RouterLink)`
 	font-size: 1em;

@@ -1,7 +1,10 @@
+import matchPath from 'rudy-match-path'
+
 import { routesMap } from './routes'
 import { actionToPath } from 'redux-saga-first-router'
+import { getLocation } from 'router/selectors'
 
-export default class Link extends React.Component {
+class Link extends React.PureComponent {
 	_onClick = e => {
 		e.preventDefault()
 		if (this.props.onClick) {
@@ -12,13 +15,47 @@ export default class Link extends React.Component {
 		}
 	}
 
+	// componentWillReceiveProps(nextProps) {
+	// 	for (const index in nextProps) {
+	// 		if (nextProps[index] !== this.props[index]) {
+	// 			console.log(index, this.props[index], '-->', nextProps[index])
+	// 		}
+	// 	}
+	// }
+
 	render() {
-		const { disabled, to, onClick, ...props } = this.props
-		const href = to ? actionToPath(routesMap, to) : '#'
+		const {
+			dispatch,
+			disabled,
+			to,
+			onClick,
+			className,
+			activeClassName,
+			isActive,
+			location,
+			...props
+		} = this.props
+
+		const path = actionToPath(routesMap, to)
+		// const currentPath = window.pathname
+		// const match = matchPath(currentPath, { path, exact: true, strict })
+		// const active = !!(isActive ? isActive(match, location) : match)
+		const active = isActive()
+		console.log('active', active)
+		console.log('activeClassName', activeClassName)
+		const combinedClassName = active
+			? [className, activeClassName].filter(i => i).join(' ')
+			: className
+		console.log('combinedClassName', combinedClassName)
+		const href = to ? path : '#'
+		console.log('href', href)
+
 		return (
-			<a {...props} href={href} onClick={this._onClick}>
+			<a {...props} href={href} className={combinedClassName} onClick={this._onClick}>
 				{this.props.children}
 			</a>
 		)
 	}
 }
+
+export const RouterLink = connect({ location: getLocation })(Link)
