@@ -1,6 +1,11 @@
 import get from 'lodash/fp/get'
 import { encode, decode } from 'jwt-simple'
 
+export function createSignInToken(data) {
+	const timestamp = new Date().getTime()
+	return encode(Object.assign({}, data, { confirmed: true, iat: timestamp }), process.env.JWT_SECRET)
+}
+
 export function createToken(data) {
 	const timestamp = new Date().getTime()
 	return encode(Object.assign({}, data, { iat: timestamp }), process.env.JWT_SECRET)

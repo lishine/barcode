@@ -18,5 +18,5 @@ export function* post(url, endpoint, data) {
 	console.log('response', response)
 	console.log('err', err)
 
-	return { response, err }
+	return { body: response && response.data, err }
 }

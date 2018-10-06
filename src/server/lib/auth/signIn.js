@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { throwError, throwIf } from '../error'
 
-import { createToken } from '../token'
+import { createSignInToken } from './utils/token'
 import { sendRegistrationEmail } from '../email'
 
 export async function signIn(data, db, host) {
@@ -28,7 +28,7 @@ export async function signIn(data, db, host) {
 
 	const validPassword = await bcrypt.compare(password, user.password)
 	throwIf(!validPassword, 400, 'Unauthorized Access')()
-	const token = createToken({ userId: user.id, confirmed: true })
+	const token = createSignInToken({ userId: user.id })
 
 	return { token }
 }

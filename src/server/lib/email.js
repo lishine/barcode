@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 import Email from 'email-templates'
-import { createToken, decodeToken } from './token'
+import { createToken } from './auth/utils/token'
 import { app } from '../../server'
 
 export async function sendRegistrationEmail({ host, userId, name, email }) {

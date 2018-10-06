@@ -1,4 +1,4 @@
-import { createToken, decodeToken } from '../token'
+import { createSignInToken, decodeToken } from './utils/token'
 import { throwError, throwIf } from '../error'
 
 export async function registerConfirm(data, db) {
@@ -20,5 +20,5 @@ export async function registerConfirm(data, db) {
 	await db.users
 		.update({ id: userId }, { confirmed: true })
 		.catch(throwError(500, 'error updating user'))
-	return { token: createToken({ userId }) }
+	return { token: createSignInToken({ userId }) }
 }

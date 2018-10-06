@@ -1,4 +1,4 @@
-import { decodeToken } from '../token'
+import { decodeToken } from './utils/token'
 import { throwError, throwIf } from '../error'
 
 export async function validateTokenMid(token) {
@@ -7,4 +7,5 @@ export async function validateTokenMid(token) {
 	const { userId, confirmed } = decodeToken(token)
 	throwIf(!userId, 400, 'No AUTHORIZATION, No user')()
 	throwIf(!confirmed, 400, 'No AUTHORIZATION, Not confirmed')()
+	return { user: { id: userId } }
 }

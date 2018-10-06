@@ -1,5 +1,5 @@
 export const throwIf = (fn, ...args) => result => {
-	console.log('result', result)
+	// console.log('result', result)
 	if (typeof fn === 'function') {
 		if (fn(result)) {
 			console.log('throwing because of result')

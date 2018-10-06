@@ -1,3 +1,4 @@
+import humps from 'humps'
 import lowerFirst from 'lodash/fp/lowerFirst'
 import massive from 'massive'
 import express from 'express'
@@ -49,7 +50,7 @@ app.use('/api/*', async (req, res, next) => {
 	const { token } = headers
 
 	try {
-		await auth.validateTokenMid(token)
+		Object.assign(req, await auth.validateTokenMid(token))
 		next()
 	} catch (err) {
 		sendError(res)(err)
@@ -60,8 +61,9 @@ app.post('/api/all', async (req, res, next) => {
 	const { app, body } = req
 	const { endpoint, data } = body
 	const db = app.get('db')
+	const { user } = req
 	try {
-		const sendData = await api[lowerFirst(endpoint)](data, db)
+		const sendData = await api[lowerFirst(endpoint)]({ data, db, user })
 		res.json({ type: 'success', endpoint, data: sendData })
 	} catch (err) {
 		sendError(res)(err)
@@ -144,10 +146,48 @@ const config = process.env.DATABASE_URL || {
 	poolSize: 10,
 }
 
-massive(config)
+// const camelizeColumns = data => {
+// 	const template = data[0]
+// 	for (let prop in template) {
+// 		const camel = pgPromise.utils.camelize(prop)
+// 		if (!(camel in template)) {
+// 			for (let i = 0; i < data.length; i++) {
+// 				let d = data[i]
+// 				d[camel] = d[prop]
+// 				delete d[prop]
+// 			}
+// 		}
+// 	}
+// }
+
+// function camelizeColumns(data) {
+// 	var template = data[0]
+// 	for (var prop in template) {
+// 		var camel = humps.camelize(prop)
+// 		if (!(camel in template)) {
+// 			for (var i = 0; i < data.length; i++) {
+// 				var d = data[i]
+// 				d[camel] = d[prop]
+// 				delete d[prop]
+// 			}
+// 		}
+// 	}
+// }
+
+const pgConfig = {
+	receive: (data, result, e) => {
+		// console.log('*data', data)
+		// console.log('result', result)
+		// console.log('e', e)
+		// camelizeColumns(data)
+		// console.log('**data', data)
+	},
+}
+
+massive(config, {}, pgConfig)
 	.then(instance => {
 		app.set('db', instance)
-		const c = app.get('db').listTables()
+		// const c = app.get('db').listTables()
 	})
 	.catch(err => console.log('err', err))
 

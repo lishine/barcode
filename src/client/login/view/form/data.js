@@ -40,6 +40,8 @@ export const alerts = {
 	},
 	SignIn: {
 		signedIn: { message: 'You are signed in', btnContinueToSite: true },
+	},
+	SendLink: {
 		confirmLinkSent: { message: 'Please check your mail for email confirmation link' },
 	},
 	ForgotPassword: {

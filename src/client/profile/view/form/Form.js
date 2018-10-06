@@ -21,14 +21,12 @@ import { groups } from './groups'
 import { submit } from 'profile/logic/actions'
 
 export default view(props => {
-	const { editGroup, values, error, cancel, edit, setFormikProps } = profileStore
-	console.log('***groups', groups)
-	console.log('***editGroup', editGroup)
+	const { editGroup, values, error, cancel, edit, setFormikProps, loading } = profileStore
 
 	return (
 		<Container>
 			<Title>Profile</Title>
-			{values ? (
+			{!loading ? (
 				<Formik
 					initialValues={values}
 					validate={editGroup && validate(groups[editGroup].schema)}

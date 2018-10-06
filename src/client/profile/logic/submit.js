@@ -13,12 +13,15 @@ export function* submit() {
 		const { setSubmitting, values } = formikProps
 		const { fields } = groups[editGroup]
 		const names = map('name')(fields)
-		const apiValues = mapToObject(name => ({ name: values[name] }))(names)
+		console.log('values', values)
+		console.log('names', names)
+		const apiValues = mapToObject(name => ({ [name]: values[name] }))(names)
+		console.log('apiValues', apiValues)
+		const { body, err } = yield call(post, '/api/all', 'updateProfile', apiValues)
 
-		const { response, err } = yield call(post, '/api/all', 'loadProfile', apiValues)
-
-		if (response) {
-			saveValues(apiValues)
+		if (body) {
+			console.log('body.data', body.data)
+			saveValues(body.data)
 			clearForm()
 		} else {
 			console.dir(err)

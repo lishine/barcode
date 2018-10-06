@@ -9,12 +9,12 @@ import { dispatch } from 'store/configureStore'
 import { alerts } from 'login/view/form/data'
 
 export function* registerConfirm(confirmToken) {
-	const { response, err } = yield call(post, '/auth/all', 'RegisterConfirm', {
+	const { body, err } = yield call(post, '/auth/all', 'RegisterConfirm', {
 		token: confirmToken,
 	})
-	if (response) {
-		const { data = {} } = response
-		const { token } = data.data
+	if (body) {
+		const { data = {} } = body
+		const { token } = data
 
 		yield fork(login, token)
 		loginStore.setAlert(alerts.RegisterConfirm.emailConfirmed)

@@ -20,7 +20,7 @@ const _groups = {
 		fields: [
 			{ name: 'email', label: 'Email', viewOnly: true },
 			{ name: 'name', label: 'Full Name' },
-			{ name: 'CEP', label: 'CEP' },
+			{ name: 'cep', label: 'CEP' },
 			{ name: 'phone', label: 'Phone' },
 		],
 	},
@@ -29,7 +29,7 @@ const _groups = {
 		link: 'edit',
 		fields: [
 			{ name: 'city', label: 'City' },
-			{ name: 'CPF', label: 'CPF/CPNJ' },
+			{ name: 'cpf', label: 'CPF/CPNJ' },
 			{ name: 'address', label: 'Address' },
 			{ name: 'state', label: 'State' },
 		],

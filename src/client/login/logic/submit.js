@@ -21,7 +21,7 @@ export function* submit(linkToken) {
 		let apiValues = values
 		const sendLink = loginStore.submitSource === 'link'
 		if (sendLink) {
-			form = 'sendLink'
+			form = 'SendLink'
 			apiValues = Object.assign({}, apiValues, { sendRegLink: true })
 		}
 		apiValues = Object.assign({}, apiValues, { token: linkToken })
@@ -29,27 +29,27 @@ export function* submit(linkToken) {
 
 		yield call(sleep, 100)
 
-		const { response, err } = yield call(post, `/auth/all`, endpoint, apiValues)
+		const { body, err } = yield call(post, `/auth/all`, endpoint, apiValues)
 
-		if (response) {
-			const { data = {} } = response
-			const { token } = data.data
+		if (body) {
+			const { data = {} } = body
+			const { token } = data
 			yield when(form)
 				.is(f.SIGN_UP, function*() {
 					loginStore.setAlert(alerts[f.SIGN_UP].confirmLinkSent)
 				})
 				.is(f.SIGN_IN, function*() {
 					yield call(login, token)
-					loginStore.setAlert(alerts[f.SIGN_UP].signedIn)
+					loginStore.setAlert(alerts[f.SIGN_IN].signedIn)
 				})
-				.is('sendLink', function*() {
-					loginStore.setAlert(alerts[f.SIGN_UP].confirmLinkSent)
+				.is('SendLink', function*() {
+					loginStore.setAlert(alerts['SendLink'].confirmLinkSent)
 				})
 				.is(f.FORGOT_PASSWORD, function*() {
-					loginStore.setAlert(alerts[f.SIGN_UP].passwordLinkSent)
+					loginStore.setAlert(alerts[f.FORGOT_PASSWORD].passwordLinkSent)
 				})
 				.is(f.NEW_PASSWORD, function*() {
-					loginStore.setAlert(alerts[f.SIGN_UP].passwordUpdated)
+					loginStore.setAlert(alerts[f.NEW_PASSWORD].passwordUpdated)
 				})
 				.else(() => {})()
 		} else {
@@ -75,7 +75,7 @@ export function* submit(linkToken) {
 					}
 					setError()
 				})
-				.is('sendLink', () => setError())
+				.is('SendLink', () => setError())
 				.is(f.FORGOT_PASSWORD, () => setError())
 				.is(f.NEW_PASSWORD, () => setError())
 				.else(() => {})()
