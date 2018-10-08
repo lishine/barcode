@@ -5,4 +5,4 @@ export const signIn = require('./signIn').signIn
 // export const signUp = require('./signUp').signUp
 // export const validateTokenMid = require('./validateTokenMid').validateTokenMid
 export * from './validateTokenMid'
-export { signUp } from './signUp'
+export { signUp } from 'lib/signUp'

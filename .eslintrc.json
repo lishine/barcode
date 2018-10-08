@@ -31,7 +31,8 @@
         "import/resolver": {
             "node": {
                 "paths": [
-                    "./src/client"
+                    "./src/client",
+                    "./src/server"
                 ]
             }
         }

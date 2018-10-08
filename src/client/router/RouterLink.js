@@ -2,7 +2,7 @@
 
 import { routesMap } from 'router/routes'
 import { actionToPath } from 'redux-saga-first-router'
-import { getLocation } from 'router/selectors'
+import { getPage } from 'router/selectors'
 
 class Link extends React.PureComponent {
 	_onClick = e => {
@@ -32,7 +32,7 @@ class Link extends React.PureComponent {
 			className,
 			activeClassName,
 			isActive,
-			location,
+			page,
 			...props
 		} = this.props
 
@@ -61,4 +61,4 @@ class Link extends React.PureComponent {
 	}
 }
 
-export const RouterLink = connect({ location: getLocation })(Link)
+export const RouterLink = connect({ page: getPage })(Link)

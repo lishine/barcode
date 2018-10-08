@@ -1,8 +1,8 @@
 import get from 'lodash/fp/get'
 import bcrypt from 'bcrypt'
 
-import { throwError, throwIf } from '../error'
-import { sendRegistrationEmail } from '../email'
+import { throwError, throwIf } from 'lib/error'
+import { sendRegistrationEmail } from 'lib/email'
 
 const saltRounds = 12
 
