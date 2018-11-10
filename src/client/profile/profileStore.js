@@ -1,14 +1,11 @@
 import { store } from 'react-easy-state'
 
 const self = store({
-	error: '',
-	editGroup: '',
-	formikProps: undefined,
 	values: {},
 	loading: true,
 
-	async saveValues(apiValues) {
-		Object.assign(self.values, apiValues)
+	async saveValues(values) {
+		Object.assign(self.values, values)
 		self.clearForm()
 	},
 	clearForm() {

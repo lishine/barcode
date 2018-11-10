@@ -2,6 +2,7 @@ import { call, cancelled, fork, select, put } from 'redux-saga/effects'
 import { default as lodashSome } from 'lodash/fp/some'
 import { default as fpmap } from 'lodash/fp/map'
 import { default as freduce } from 'lodash/fp/reduce'
+import { store as reStore } from 'react-easy-state'
 
 export const map = fpmap.convert({ cap: false })
 export const reduce = freduce.convert({ cap: false })
@@ -86,4 +87,39 @@ export function* waitForCancel() {
 	} finally {
 		return yield cancelled()
 	}
+}
+
+export function store(init, actions) {
+	let Private = reStore(Object.assign({}, init))
+	let Public = Private
+	Private.aa = 1
+	console.log('Private', Private)
+	// Object.entries(init).forEach(([property, initValue]) => {
+	// 	const setProperty = `set${_.upperFirst(property)}`
+	// 	if (!actions.hasOwnProperty(setProperty)) {
+	// 		const ss = function(s) {
+	// 			Private[property] = s
+	// 		}
+	// 		Private[setProperty] = Public[setProperty] = ss.bind(Private)
+	// 	}
+
+	// const getProperty = `get${_.upperFirst(property)}`
+	// if (!actions.hasOwnProperty(getProperty)) {
+	// 	const gg = function() {
+	// 		return Private[property]
+	// 	}
+	// 	Private[getProperty] = Public[getProperty] = gg.bind(Private)
+	// }
+	// })
+
+	Object.entries(actions).forEach(([actionName, actionValue]) => {
+		Private[actionName] = Public[actionName] = actionValue.bind(Private)
+	})
+	if (!actions['reset']) {
+		const resetAction = 'reset'
+		Private[resetAction] = Public[resetAction] = function() {
+			Object.assign(Public, init)
+		}
+	}
+	return Public
 }

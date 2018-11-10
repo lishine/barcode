@@ -46,7 +46,7 @@ export default view(props => {
 											<div key={group}>
 												<GroupHeaderRow>
 													<Col>
-														<label>{label}</label>
+														<div>{label}</div>
 													</Col>
 													<Col>
 														{!editing && (
@@ -68,7 +68,7 @@ export default view(props => {
 																		state={
 																			isSubmitting ? 'loading' : ''
 																		}
-																	 />
+																	/>
 																</Col>
 															</SubmitRow>
 														)}
@@ -85,7 +85,7 @@ export default view(props => {
 														<div key={field}>
 															<FieldRow>
 																<Col>
-																	<label htmlFor={name}>{label}</label>
+																	<div htmlFor={name}>{label}</div>
 																</Col>
 																<Col>
 																	<Field
