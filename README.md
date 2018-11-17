@@ -42,6 +42,7 @@ Complete login project, ready to be deployed to Heroku, using heroku PostgreSQL
 
 ### Thanks for simple-react-full-stack with getting running
 
-### Starting
+### Using
 
 - PostgreSQL pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+- Command line db access: massive -d barcode

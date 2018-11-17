@@ -35,7 +35,7 @@ module.exports = env => {
 			test: /\.s?[c|a]ss$/,
 			use: [
 				'style-loader',
-				MiniCssExtractPlugin.loader,
+				// MiniCssExtractPlugin.loader,
 				// 'clean-css-loader',
 				'css-loader',
 				'postcss-loader',
@@ -68,10 +68,10 @@ module.exports = env => {
 			// },
 		},
 		plugins: [
-			new MiniCssExtractPlugin({
-				// filename: 'style.[contenthash].css',
-				filename: 'style.css',
-			}),
+			// new MiniCssExtractPlugin({
+			// 	// filename: 'style.[contenthash].css',
+			// 	filename: 'style.css',
+			// }),
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(TARGET),
 			}),

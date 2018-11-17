@@ -1,34 +1,6 @@
-import humps from 'humps'
 import { throwError, throwIf } from '../../server/lib/error'
 import { changePassword } from '../lib/auth/utils/changePassword'
-
-function camelizeColumns(data) {
-	var template = data[0] || data
-	for (var prop in template) {
-		var camel = humps.camelize(prop)
-		if (!(camel in template)) {
-			for (var i = 0; i < data.length; i++) {
-				var d = data[i]
-				d[camel] = d[prop]
-				delete d[prop]
-			}
-		}
-	}
-}
-
-function decamelizeColumns(data) {
-	var template = data[0] || data
-	for (var prop in template) {
-		var camel = humps.decamelize(prop)
-		if (!(camel in template)) {
-			for (var i = 0; i < data.length; i++) {
-				var d = data[i]
-				d[camel] = d[prop]
-				delete d[prop]
-			}
-		}
-	}
-}
+import { camelizeColumns, decamelizeColumns } from '../utils'
 
 export async function loadProfile({ data, db, user: { id: user_id } }) {
 	console.log('should load data')

@@ -1,0 +1,39 @@
+@import '../../common/common';
+
+.invoice-btn {
+	width: 2.5em;
+	margin-left: auto;
+}
+
+.package-btn {
+	width: 1.7em;
+	margin-right: 0.7em;
+	margin-left: auto;
+}
+
+.svg-btn {
+	padding: 0.2em;
+	background: transparent;
+	transition: all 0.3s ease;
+	fill: #64c3f7;
+	$active: brown;
+
+	&:hover,
+	&:focus {
+		transform: scale(1.1);
+		stroke: $active;
+		stroke-width: 2px;
+	}
+
+	&:focus {
+		outline: 1px solid #ffffff;
+		outline-offset: -4px;
+		fill: $active;
+	}
+
+	&:active {
+		fill: $active;
+	}
+
+	@extend %common-btn;
+}

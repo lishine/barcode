@@ -10,11 +10,12 @@ export function* ordersNavigate(_, query) {
 		const { body, err } = yield call(post, '/api/all', 'loadOrders')
 
 		if (body) {
-			const { data = {} } = body
+			const { data = [] } = body
+			console.log('data', data)
 			ordersStore.data = data
 		} else {
 			console.dir(err)
-			ordersStore.data = {}
+			ordersStore.data = []
 		}
 	}
 	ordersStore.loading = false
