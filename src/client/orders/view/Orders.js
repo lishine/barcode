@@ -5,8 +5,15 @@ import Table from 'rc-table'
 // import 'rc-tooltip/assets/bootstrap.css'
 import ReactTooltip from 'react-tooltip'
 import { ordersStore } from 'orders/ordersStore'
-import Checkmark from 'common/svg/Checkmark'
-import Cross from 'common/svg/Cross'
+import { Barcode } from 'common/svg/Barcode'
+import { Invoice } from 'common/svg/Invoice'
+// import { StatusCircleIcon } from 'orders/view/styled/StatusCircleIcon'
+import { StatusIcon } from './styled/StatusIcon'
+import { StatusText } from './styled/StatusText'
+import { Status } from './styled/Status'
+import { StatusTab } from './styled/StatusTab'
+import { CircleSvg } from './styled/CircleSvg'
+
 import './Orders.scss'
 
 const columns = [
@@ -34,6 +41,25 @@ const columns = [
 		title: 'Status',
 		dataIndex: 'status',
 		width: 200,
+		render: (value, row, index) => {
+			const { text, fill } = when(value)
+				.is('canceled', { text: 'cancel.', fill: 'red' })
+				.is('processed', { text: 'process.', fill: 'yellow' })
+				.is('completed', { text: 'compl.', fill: 'green' })
+				.else(() => {
+					'error'
+				})
+			return (
+				<Status>
+					<StatusTab>
+						<StatusIcon>
+							<CircleSvg {...{ fill }} />
+						</StatusIcon>
+						<StatusText>{text}</StatusText>
+					</StatusTab>
+				</Status>
+			)
+		},
 	},
 	{
 		title: 'Download',
@@ -42,17 +68,20 @@ const columns = [
 		render: (value, row, index) => (
 			<span>
 				<button
+					data-tip="download invoice"
 					type="button"
 					className="svg-btn invoice-btn"
 					onClick={() => ordersStore.onInvoiceDownload(index)}>
-					<Cross />
+					<Barcode />
 				</button>
 				<button
+					data-tip="download pdf"
 					type="button"
 					className="svg-btn package-btn"
 					onClick={() => ordersStore.onPackageDownload(index)}>
-					<Checkmark />
+					<Invoice />
 				</button>
+				<ReactTooltip type="warning" />
 			</span>
 		),
 	},
@@ -60,6 +89,12 @@ const columns = [
 		title: 'Barcodes',
 		dataIndex: 'barcodes',
 		width: 200,
+		render: (value, row, index) => (
+			<span>
+				<span>{value[0]} </span>
+				<span>{value[1]}</span>
+			</span>
+		),
 	},
 ]
 
@@ -74,9 +109,6 @@ export default view(() => {
 			<button data-tip data-for="downloadOrder" type="button" onClick={onClick}>
 				save
 			</button>
-			<ReactTooltip id="downloadOrder" type="warning">
-				<span>Download order</span>
-			</ReactTooltip>
 			<Table rowKey="number" columns={columns} data={ordersStore.data} />
 		</>
 	)

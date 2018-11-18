@@ -6,7 +6,7 @@
 }
 
 .package-btn {
-	width: 1.7em;
+	width: 2.5em;
 	margin-right: 0.7em;
 	margin-left: auto;
 }
@@ -20,9 +20,9 @@
 
 	&:hover,
 	&:focus {
-		transform: scale(1.1);
+		transform: scale(1.2);
 		stroke: $active;
-		stroke-width: 2px;
+		stroke-width: 1px;
 	}
 
 	&:focus {

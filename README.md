@@ -46,3 +46,15 @@ Complete login project, ready to be deployed to Heroku, using heroku PostgreSQL
 
 - PostgreSQL pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
 - Command line db access: massive -d barcode
+
+### SVGR config - purifying raw svg
+
+- Find svg that you like, pass it through https://svgr.now.sh/ with config set to the bellow and put in a separate file
+
+{ "plugins": [{ "removeTitle": true }, {"removeViewBox": false},{"removeDimensions":true},
+{"addClassesToSVGElement": {"className": "svg"}} ] }
+
+### SVGs resources
+
+https://www.zondicons.com/icons.html
+http://glyph.smarticons.co/
