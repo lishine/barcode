@@ -1,5 +1,11 @@
 // import { throwError, throwIf } from '../../server/lib/error'
 
+export async function downloadOrder({ data, db, user: { id: user_id } }) {
+	const { what, number } = data
+	console.log('downloading what number', what, number)
+	return `${what} ${number}`
+}
+
 export async function loadOrders({ data, db, user: { id: user_id } }) {
 	console.log('loading orders')
 
@@ -20,7 +26,7 @@ export async function loadOrders({ data, db, user: { id: user_id } }) {
 			price: '2',
 			status: 'completed',
 			download: 'icons',
-			barcodes: [11112, 222222],
+			barcodes: [11112],
 		},
 		{
 			number: 3,

@@ -1,5 +1,6 @@
-export const SUBMIT = '[profile] submit'
+export const DOWNLOAD_ORDER = '[orders] download'
 
-export const submit = () => {
-	return { type: SUBMIT }
-}
+export const downloadOrder = (what, index) => ({
+	type: DOWNLOAD_ORDER,
+	payload: { what, index },
+})

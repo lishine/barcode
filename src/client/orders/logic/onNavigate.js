@@ -1,7 +1,8 @@
 import { cancelled, call, fork } from 'redux-saga/effects'
 import { HALT } from 'utils/utils'
-import { ordersStore } from 'orders/ordersStore'
+import { ordersStore } from 'orders/logic/ordersStore'
 import { post } from 'logic/post'
+import { downloadOrder } from 'orders/logic/downloadOrder'
 
 export function* ordersNavigate(_, query) {
 	console.log('orders navigate')
@@ -13,6 +14,7 @@ export function* ordersNavigate(_, query) {
 			const { data = [] } = body
 			console.log('data', data)
 			ordersStore.data = data
+			yield fork(downloadOrder)
 		} else {
 			console.dir(err)
 			ordersStore.data = []

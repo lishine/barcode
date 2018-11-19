@@ -4,7 +4,8 @@ import Table from 'rc-table'
 // import Tooltip from 'rc-tooltip'
 // import 'rc-tooltip/assets/bootstrap.css'
 import ReactTooltip from 'react-tooltip'
-import { ordersStore } from 'orders/ordersStore'
+import { ordersStore } from 'orders/logic/ordersStore'
+import { LoadingPulse } from 'common/svg/LoadingPulse'
 import { Barcode } from 'common/svg/Barcode'
 import { Invoice } from 'common/svg/Invoice'
 // import { StatusCircleIcon } from 'orders/view/styled/StatusCircleIcon'
@@ -15,6 +16,7 @@ import { StatusTab } from './styled/StatusTab'
 import { CircleSvg } from './styled/CircleSvg'
 
 import './Orders.scss'
+import { downloadOrder } from 'orders/logic/actions'
 
 const columns = [
 	{
@@ -71,15 +73,15 @@ const columns = [
 					data-tip="download invoice"
 					type="button"
 					className="svg-btn invoice-btn"
-					onClick={() => ordersStore.onInvoiceDownload(index)}>
-					<Barcode />
+					onClick={() => dispatch(downloadOrder('invoice', index))}>
+					{ordersStore.loading === `invoiceDownload${index}` ? <LoadingPulse /> : <Invoice />}
 				</button>
 				<button
 					data-tip="download pdf"
 					type="button"
 					className="svg-btn package-btn"
-					onClick={() => ordersStore.onPackageDownload(index)}>
-					<Invoice />
+					onClick={() => dispatch(downloadOrder('package', index))}>
+					{ordersStore.loading === `packageDownload${index}` ? <LoadingPulse /> : <Barcode />}
 				</button>
 				<ReactTooltip type="warning" />
 			</span>
@@ -89,29 +91,22 @@ const columns = [
 		title: 'Barcodes',
 		dataIndex: 'barcodes',
 		width: 200,
-		render: (value, row, index) => (
-			<span>
-				<span>{value[0]} </span>
-				<span>{value[1]}</span>
-			</span>
-		),
+		render: (value, row, index) => {
+			const firstBarcode = get('0')(value)
+			const secondBarcode = get('1')(value)
+			return (
+				<span>
+					{firstBarcode && <span>{firstBarcode}</span>}
+					{secondBarcode && <span> ... {secondBarcode}</span>}
+				</span>
+			)
+		},
 	},
 ]
 
-function onClick() {
-	console.log('saving')
-	// var blob = new Blob(['Hello, world!', 'aaa'], { type: 'text/plain;charset=utf-8' })
-	// saveAs(blob, 'hello world.txt')
-}
 export default view(() => {
-	return (
-		<>
-			<button data-tip data-for="downloadOrder" type="button" onClick={onClick}>
-				save
-			</button>
-			<Table rowKey="number" columns={columns} data={ordersStore.data} />
-		</>
-	)
+	const dummy = ordersStore.loading
+	return <Table rowKey="number" columns={columns} data={ordersStore.data} />
 })
 
 // <Tooltip
