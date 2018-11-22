@@ -3,6 +3,7 @@ import { ordersStore } from 'orders/logic/ordersStore'
 import { DOWNLOAD_ORDER } from './actions'
 import { post } from 'logic/post'
 import saveAs from 'file-saver'
+import set from 'lodash/set'
 
 export function* downloadOrder() {
 	while (true) {
@@ -14,7 +15,9 @@ export function* downloadOrder() {
 			continue
 		}
 
-		ordersStore.data[index][`${what}Loading`] = true
+		set(ordersStore.data[index], `download.${what}Loading`, true)
+		ordersStore.data = ordersStore.data.slice(0)
+		console.log('ordersStore.data[index]', ordersStore.data[index])
 		console.log('ordersStore.data', ordersStore.data)
 		const number = ordersStore.data[index].number
 		console.log('self.loading', ordersStore.loading)
@@ -37,6 +40,7 @@ export function* downloadOrder() {
 			console.dir(err)
 		}
 
-		ordersStore.data[index][`${what}Loading`] = false
+		set(ordersStore.data[index], `download.${what}Loading`, false)
+		ordersStore.data = ordersStore.data.slice(0)
 	}
 }

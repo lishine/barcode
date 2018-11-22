@@ -14,7 +14,8 @@ import { StatusText } from './styled/StatusText'
 import { Status } from './styled/Status'
 import { StatusTab } from './styled/StatusTab'
 import { CircleSvg } from './styled/CircleSvg'
-
+import { Title } from './styled/Title'
+import { Container } from './styled/Container'
 import './Orders.scss'
 import { downloadOrder } from 'orders/logic/actions'
 
@@ -22,27 +23,32 @@ const columns = [
 	{
 		title: 'Number',
 		dataIndex: 'number',
-		width: 100,
+		width: 150,
+		align: 'center',
 	},
 	{
 		title: 'Date',
 		dataIndex: 'date',
 		width: 100,
+		align: 'center',
 	},
 	{
 		title: 'Quantity',
 		dataIndex: 'quantity',
-		width: 200,
+		width: 100,
+		align: 'center',
 	},
 	{
 		title: 'Price',
 		dataIndex: 'price',
-		width: 200,
+		width: 130,
+		align: 'center',
 	},
 	{
 		title: 'Status',
 		dataIndex: 'status',
-		width: 200,
+		width: 130,
+		align: 'center',
 		render: (value, row, index) => {
 			const { text, fill } = when(value)
 				.is('canceled', { text: 'cancel.', fill: 'red' })
@@ -66,7 +72,8 @@ const columns = [
 	{
 		title: 'Download',
 		dataIndex: 'download',
-		width: 200,
+		width: 130,
+		align: 'center',
 		render: (value = {}, row, index) => (
 			<span>
 				<button
@@ -83,39 +90,36 @@ const columns = [
 					onClick={() => dispatch(downloadOrder('package', index))}>
 					{value.packageLoading ? <LoadingPulse /> : <Barcode />}
 				</button>
-				<ReactTooltip type="warning" />
+				<ReactTooltip effect="solid" type="warning" />
 			</span>
 		),
 	},
 	{
 		title: 'Barcodes',
 		dataIndex: 'barcodes',
-		width: 200,
+		width: 230,
+		align: 'center',
 		render: (value, row, index) => {
 			const firstBarcode = get(0)(value)
 			const lastBarcode = value.length <= 1 ? '' : get(value.length - 1)(value)
 			return (
 				<span>
 					{firstBarcode && <span>{firstBarcode}</span>}
-					{lastBarcode && <span> ... {lastBarcode}</span>}
+					{lastBarcode && (
+						<span>
+							{' '}
+							... <span style={{ marginLeft: '2px' }}>{lastBarcode}</span>
+						</span>
+					)}
 				</span>
 			)
 		},
 	},
 ]
 
-export default view(() => {
-	const dummy = ordersStore.loading
-	return <Table rowKey="number" columns={columns} data={ordersStore.data} />
-})
-
-// <Tooltip
-// destroyTooltipOnHide={false}
-// placement="top"
-// trigger={['click']}
-// align={{
-// 	offset: [0, 0],
-// }}
-// overlayStyle={{ minHeight: 20 }}
-// overlay={<span style={{ height: 20, width: 80 }}>i am a tooltip</span>}>
-// </Tooltip>
+export default view(() => (
+	<Container>
+		<Title>Profile</Title>
+		<Table rowKey="number" columns={columns} data={ordersStore.data} />
+	</Container>
+))

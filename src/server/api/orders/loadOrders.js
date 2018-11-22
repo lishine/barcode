@@ -29,8 +29,6 @@ export async function loadOrders({ data, db, user: { id: user_id } }) {
 			price: order[':order/amount'],
 			barcodes: order[':order/barcodes'],
 			quantity: order[':order/quantity'],
-			invoice_download: order[':order/invoice-download'],
-			package_download: order[':order/package-download'],
 		}
 	})(jsOrders)
 	console.log('mappedOrders', mappedOrders)
