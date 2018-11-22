@@ -1,5 +1,9 @@
 import humps from 'humps'
 
+export function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export function camelizeColumns(data) {
 	var template = data[0] || data
 	for (var prop in template) {

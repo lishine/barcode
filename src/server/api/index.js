@@ -1,2 +1,3 @@
 export * from './profile'
-export * from './orders'
+export { loadOrders } from './orders/loadOrders'
+export { downloadOrder } from './orders/downloadOrder'

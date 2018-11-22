@@ -2,6 +2,7 @@ import { select, take, call, put } from 'redux-saga/effects'
 import { ordersStore } from 'orders/logic/ordersStore'
 import { DOWNLOAD_ORDER } from './actions'
 import { post } from 'logic/post'
+import saveAs from 'file-saver'
 
 export function* downloadOrder() {
 	while (true) {
@@ -13,23 +14,29 @@ export function* downloadOrder() {
 			continue
 		}
 
-		ordersStore.loading = `${what}Download${index}`
+		ordersStore.data[index][`${what}Loading`] = true
+		console.log('ordersStore.data', ordersStore.data)
 		const number = ordersStore.data[index].number
 		console.log('self.loading', ordersStore.loading)
 		console.log(`${what} download this.data[index].number`, number)
 
-		const { body, err } = yield call(post, '/api/all', 'downloadOrder', { what, number })
+		const { body, err } = yield call(
+			post,
+			'/api/all',
+			'downloadOrder',
+			{ what, number },
+			{ download: true }
+		)
 
 		if (body) {
-			const { data } = body
-			console.log('data', data)
+			console.log('body blob', body)
 			console.log('saving')
-			let blob = new Blob([data], { type: 'text/plain;charset=utf-8' })
-			saveAs(blob, `${what}.txt`)
+			// let blob = new Blob([data], { type: '' })
+			saveAs(body, `${what}-${number}${what === 'invoice' ? '.pdf' : '.zip'}`)
 		} else {
 			console.dir(err)
 		}
 
-		ordersStore.loading = false
+		ordersStore.data[index][`${what}Loading`] = false
 	}
 }

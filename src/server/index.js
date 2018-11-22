@@ -59,12 +59,18 @@ app.use('/api/*', async (req, res, next) => {
 
 app.post('/api/all', async (req, res, next) => {
 	const { app, body } = req
-	const { endpoint, data } = body
+	const { endpoint, data, download } = body
+	console.log('endpoint', endpoint)
 	const db = app.get('db')
 	const { user } = req
 	try {
 		const sendData = await api[lowerFirst(endpoint)]({ data, db, user })
-		res.json({ type: 'success', endpoint, data: sendData })
+		if (download) {
+			console.log('sendData', sendData)
+			res.sendFile(sendData)
+		} else {
+			res.json({ type: 'success', endpoint, data: sendData })
+		}
 	} catch (err) {
 		sendError(res)(err)
 	}

@@ -67,21 +67,21 @@ const columns = [
 		title: 'Download',
 		dataIndex: 'download',
 		width: 200,
-		render: (value, row, index) => (
+		render: (value = {}, row, index) => (
 			<span>
 				<button
 					data-tip="download invoice"
 					type="button"
 					className="svg-btn invoice-btn"
 					onClick={() => dispatch(downloadOrder('invoice', index))}>
-					{ordersStore.loading === `invoiceDownload${index}` ? <LoadingPulse /> : <Invoice />}
+					{value.invoiceLoading ? <LoadingPulse /> : <Invoice />}
 				</button>
 				<button
-					data-tip="download pdf"
+					data-tip="download barcode"
 					type="button"
 					className="svg-btn package-btn"
 					onClick={() => dispatch(downloadOrder('package', index))}>
-					{ordersStore.loading === `packageDownload${index}` ? <LoadingPulse /> : <Barcode />}
+					{value.packageLoading ? <LoadingPulse /> : <Barcode />}
 				</button>
 				<ReactTooltip type="warning" />
 			</span>
@@ -92,12 +92,12 @@ const columns = [
 		dataIndex: 'barcodes',
 		width: 200,
 		render: (value, row, index) => {
-			const firstBarcode = get('0')(value)
-			const secondBarcode = get('1')(value)
+			const firstBarcode = get(0)(value)
+			const lastBarcode = value.length <= 1 ? '' : get(value.length - 1)(value)
 			return (
 				<span>
 					{firstBarcode && <span>{firstBarcode}</span>}
-					{secondBarcode && <span> ... {secondBarcode}</span>}
+					{lastBarcode && <span> ... {lastBarcode}</span>}
 				</span>
 			)
 		},
