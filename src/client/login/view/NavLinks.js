@@ -10,12 +10,12 @@ export default view(props => {
 		<Flex w={1}>
 			<Box w={1 / 2}>
 				<Link isActive={() => form === forms.SIGN_UP} onClick={() => gotoForm(forms.SIGN_UP)}>
-					sign up
+					Sign Up
 				</Link>
 			</Box>
 			<Box w={1 / 2}>
 				<Link isActive={() => form === forms.SIGN_IN} onClick={() => gotoForm(forms.SIGN_IN)}>
-					sign in
+					Sign In
 				</Link>
 			</Box>
 		</Flex>

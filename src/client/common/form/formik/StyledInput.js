@@ -12,7 +12,9 @@ export default styled.input.attrs({
 	height: 35px;
 	background: rgba(0, 0, 0, 0);
 	text-align: left;
-	color: yellow;
+	text-indent: 5px;
+	font-size: 1.1em;
+	color: darkgreen;
 	border: ${props => props.border || '1px solid #ccc'};
 	${({ readOnly }) =>
 		readOnly &&

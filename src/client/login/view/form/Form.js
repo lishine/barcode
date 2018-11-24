@@ -1,6 +1,6 @@
 import { Formik, FastField } from 'formik'
 
-import { Form, Title, Submit, Link } from './styled'
+import { Container, Form, Title, Submit, Link, FieldRow } from './styled'
 import { Map } from 'utils/utils'
 import { loginStore } from 'login/store'
 import { validate } from 'common/form/validate'
@@ -13,7 +13,7 @@ export default view(props => {
 	const { show, schema, title } = formData(form)
 
 	return (
-		<div key={form}>
+		<Container key={form}>
 			<Title>{title}</Title>
 			<Formik
 				initialValues={{ email }}
@@ -31,7 +31,9 @@ export default view(props => {
 							}}>
 							<Map collection={show}>
 								{({ name, component }) => (
-									<FastField {...{ key: name, name, component }} />
+									<FieldRow>
+										<FastField {...{ key: name, name, component }} />
+									</FieldRow>
 								)}
 							</Map>
 
@@ -56,6 +58,6 @@ export default view(props => {
 					)
 				}}
 			/>
-		</div>
+		</Container>
 	)
 })

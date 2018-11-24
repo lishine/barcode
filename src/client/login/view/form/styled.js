@@ -19,7 +19,21 @@ export const Name = styled(inputs.Name)`
 export const Link = styled(RouterLink)`
 	margin-top: -5px;
 	color: blue;
+	font-size: 1.1em;
 `
+export const Container = styled.div`
+	width: 320px;
+	height: 100%;
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-bottom: 20px;
+`
+export const FieldRow = styled.div`
+	margin-bottom: 15px;
+	display: flex;
+	flex-direction: column;
+`
+
 export const Form = styled.form`
 	display: flex;
 	width: 100%;
@@ -51,7 +65,8 @@ export const Submit = styled(BaseSubmit)`
 		height: 60;
 	}
 	&.pb-container .pb-button span {
-		font-size: 1.4em;
-		font-weight: 200;
+		color: #ffffff;
+		font-size: 1.7em;
+		font-weight: 400;
 	}
 `

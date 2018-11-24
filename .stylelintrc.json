@@ -1,7 +1,9 @@
 {
+	"processors": ["stylelint-processor-styled-components"],
     "extends": [
         "stylelint-config-idiomatic-sass",
-        "./node_modules/prettier-stylelint/config.js"
+		"./node_modules/prettier-stylelint/config.js",
+		"stylelint-config-styled-components"
     ],
     "plugins": [
         "stylelint-scss"

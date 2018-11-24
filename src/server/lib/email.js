@@ -52,7 +52,7 @@ const createTransport = () =>
 const createEmailTransport = () =>
 	new Email({
 		message: {
-			from: 'qflyit@gmail.com',
+			from: 'barbrazilcode@gmail.com',
 		},
 		send: process.env.NODE_ENV === 'production',
 		preview: process.env.NODE_ENV === 'development',

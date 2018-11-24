@@ -18,6 +18,7 @@ export async function loadOrders({ data, db, user: { id: user_id } }) {
 	const parsed = edn.parse(ednOrders)
 	console.log('edn.toJS(parsed)', JSON.stringify(edn.toJS(parsed), null, 2))
 	const jsOrders = edn.toJS(parsed)[1][':query/rows']
+
 	const mappedOrders = map(order => {
 		const number = order[':order/reference']
 		downloadFile(order[':order/invoice-download'], `invoice-${number}.pdf`)

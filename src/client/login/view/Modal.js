@@ -4,25 +4,25 @@ import styled from 'styled-components'
 
 const style = {
 	overlay: {
-		backgroundColor: 'rgba(0, 0, 0, 0)',
+		backgroundColor: 'gba(0, 0, 0, 0)',
 	},
 	content: {
 		marginRight: '-50%',
-		transform: 'translate(-50%, -50%)',
+		transform: 'translate(-50%, -180px)',
 		top: '50%',
 		left: '50%',
 		right: 'auto',
 		bottom: 'auto',
 		border: '1px solid #ccc',
 		color: 'yellow',
-		background: '#222',
+		background: '#f4f6f8',
 		overflow: 'auto',
 		WebkitOverflowScrolling: 'touch',
 		borderRadius: '4px',
 		outline: 'none',
 		padding: '0px',
-		width: 320,
-		height: 420,
+		// width: 320,
+		// height: 420,
 	},
 }
 

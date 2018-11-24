@@ -4,18 +4,29 @@ import { RouterLink } from 'router/RouterLink'
 export const Link = styled(RouterLink).attrs({
 	activeClassName: 'active',
 })`
-	height: 30px;
-	background-color: #444;
-	color: yellow;
+	height: 35px;
+	background-color: #d4d6d8;
+	color: #115555;
 	display: flex;
 	text-align: center;
 	justify-content: center;
 	align-items: center;
 	text-decoration: none;
+	font-size: 1.1em;
+	font-weight: 600;
 
 	&.active {
-		background-color: #222;
+		background-color: #f4f6f8;
 	}
+`
+
+export const ButtonRow = styled.div`
+	font-size: 1.2em;
+	font-weight: 600;
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 `
 
 // > (

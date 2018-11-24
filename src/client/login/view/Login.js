@@ -7,6 +7,7 @@ import NavLinks from './NavLinks'
 import Alert from './Alert'
 
 import { loginStore } from 'login/store'
+import './login.scss'
 
 export default view(() => {
 	const { alert } = loginStore

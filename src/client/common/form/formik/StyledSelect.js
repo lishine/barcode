@@ -5,7 +5,7 @@ export default styled.select`
 	height: 35px;
 	background: transparent;
 	text-align: left;
-	color: yellow;
+	color: darkgreen;
 	border: ${props => props.border || '1px solid #ccc'};
 	${({ readOnly }) =>
 		readOnly &&

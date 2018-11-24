@@ -4,7 +4,7 @@ import { routes } from 'router/routes'
 // import * as domains from './router.constants/domains'
 
 export const goto = (to, payload) => {
-	console.log('HERE')
+	console.log('Navigating to', to)
 
 	return navigate(to)
 }

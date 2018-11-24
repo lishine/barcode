@@ -119,7 +119,7 @@ const columns = [
 
 export default view(() => (
 	<Container>
-		<Title>Profile</Title>
+		<Title>Orders</Title>
 		<Table rowKey="number" columns={columns} data={ordersStore.data} />
 	</Container>
 ))
