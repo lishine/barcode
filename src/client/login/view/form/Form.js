@@ -42,7 +42,7 @@ export default view(props => {
 									forgot password
 								</Link>
 							)}
-							{!!error && <div>{error}</div>}
+							{!!error && <div style={{ color: 'black' }}>{error}</div>}
 							{sendLink && (
 								<Link
 									onClick={() => {

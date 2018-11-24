@@ -6,6 +6,7 @@ export default injectGlobal`
 	}    
 	
 	body {
+		color: black;
 		background-color: #b9c3d3;
 	}
 `
