@@ -1,16 +1,18 @@
 {
-	"processors": ["stylelint-processor-styled-components"],
-    "extends": [
-        "stylelint-config-idiomatic-sass",
+	"processors": [
+		"stylelint-processor-styled-components"
+	],
+	"extends": [
+		"stylelint-config-idiomatic-sass",
 		"./node_modules/prettier-stylelint/config.js",
 		"stylelint-config-styled-components"
-    ],
-    "plugins": [
-        "stylelint-scss"
-    ],
-    "rules": {
-        "selector-max-compound-selectors": 4,
-        "color-named": null,
-        "indentation": "tab"
+	],
+	"plugins": [
+		"stylelint-scss"
+	],
+	"rules": {
+		"selector-max-compound-selectors": 4,
+		"color-named": null,
+		"indentation": "tab"
 	}
 }
